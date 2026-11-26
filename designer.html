@@ -50,18 +50,22 @@
       .stage-tools{position:absolute; top:.7rem; inset-inline-start:.7rem; display:flex; flex-direction:column; gap:.5rem; z-index:3}
       .stage-tools .icon-btn{background:var(--panel); box-shadow:var(--shadow)}
       .stage-tools .icon-btn.active{background:var(--sage); color:#fff; border-color:var(--sage)}
-.deco-palette{position:absolute; top:.7rem; inset-inline-end:.7rem; display:flex; flex-direction:column; gap:.4rem; z-index:5}
-.deco-palette[hidden]{display:none}
-.deco-pal-btn{background:rgba(24,20,16,.85); color:#fff; border:1px solid rgba(255,255,255,.4); border-radius:10px; padding:.42rem .6rem; font:inherit; font-size:.8rem; font-weight:700; cursor:pointer; text-align:center; backdrop-filter:blur(4px)}
-.deco-pal-btn[aria-pressed="true"]{background:var(--sage); border-color:#fff}
+      .tier-sliders{position:absolute; top:50%; inset-inline-end:.7rem; transform:translateY(-50%); display:flex; gap:.5rem; z-index:4}
+      .tier-sliders[hidden]{display:none}
+      .tslider{width:44px; height:190px; position:relative; display:flex; flex-direction:column; align-items:center}
+      .tslider input[type="range"]{position:absolute; left:50%; top:50%; width:160px; transform:translate(-50%,-50%) rotate(-90deg)}
+      .ts-val{font-size:.72rem; font-weight:800; color:#fff; background:rgba(30,26,20,.55); border-radius:99px; padding:.15rem .5rem; white-space:nowrap; z-index:1}
+      .ts-lbl{position:absolute; bottom:0; font-size:.72rem; font-weight:800; color:#fff; background:rgba(30,26,20,.55); border-radius:99px; padding:.15rem .5rem; z-index:1}
+      .drag-ghost{position:fixed; z-index:50; pointer-events:none; background:rgba(24,20,16,.92); color:#fff; padding:.4rem .7rem; border-radius:99px; font-weight:800; font-size:.85rem; transform:translate(12px,-14px); white-space:nowrap}
+      .seg button.deco-item{touch-action:none}
       .fallback{position:absolute; inset:0; display:none; place-items:center; text-align:center; padding:2rem; color:var(--ink-soft); font-weight:700; pointer-events:none; z-index:1}
-      .panel{width:384px; flex:none; background:var(--panel); border-inline-start:1px solid var(--line); display:flex; flex-direction:column; min-height:0}
-      .tabs{display:flex; gap:.25rem; padding:.6rem .5rem .4rem; overflow-x:auto; scrollbar-width:none}
+      .panel{width:420px; flex:none; background:var(--panel); border-inline-start:1px solid var(--line); display:grid; grid-template-columns:96px minmax(0,1fr); grid-template-rows:minmax(0,1fr) auto; min-height:0}
+      .tabs{grid-column:1; grid-row:1; display:flex; flex-direction:column; gap:.35rem; padding:.6rem .4rem; overflow-y:auto; overflow-x:hidden; min-height:0; border-inline-end:1px solid var(--line); scrollbar-width:none}
       .tabs::-webkit-scrollbar{display:none}
-      .tab{flex:1 1 0; min-width:41px; border:1px solid transparent; background:transparent; color:var(--ink-soft); border-radius:12px; padding:.45rem .1rem; font-weight:800; font-size:.71rem; display:flex; flex-direction:column; align-items:center; gap:.2rem}
+      .tab{flex:none; width:100%; min-width:0; border:1px solid transparent; background:transparent; color:var(--ink-soft); border-radius:12px; padding:.5rem .1rem; font-weight:800; font-size:.71rem; display:flex; flex-direction:column; align-items:center; gap:.2rem}
       .tab svg{width:21px; height:21px}
       .tab[aria-selected="true"]{background:var(--sage-soft); color:var(--sage-deep); border-color:var(--line)}
-      .tab-body{flex:1; overflow-y:auto; padding:.6rem .9rem 2.4rem; min-height:0; scroll-padding-bottom:2.4rem; position:relative; z-index:0}
+      .tab-body{grid-column:2; grid-row:1; flex:1; overflow-y:auto; padding:.6rem .8rem 2.4rem; min-height:0; min-width:0; scroll-padding-bottom:2.4rem; position:relative; z-index:0}
       .pane{display:none}
       .pane.on{display:block}
       .pane h3{margin:.7rem 0 .55rem; font-size:.92rem; font-weight:800}
@@ -109,7 +113,7 @@
       .preset b{display:block; font-size:.92rem; margin-bottom:.15rem}
       .preset span{font-size:.76rem; color:var(--ink-soft); line-height:1.5; display:block}
       .preset:active{transform:scale(.98)}
-      .panel-foot{display:flex; gap:.5rem; padding:.7rem .9rem calc(.7rem + env(safe-area-inset-bottom)); border-top:1px solid var(--line); background:var(--panel)}
+      .panel-foot{grid-column:1 / -1; grid-row:2; display:flex; gap:.5rem; padding:.7rem .9rem calc(.7rem + env(safe-area-inset-bottom)); border-top:1px solid var(--line); background:var(--panel)}
       .panel-foot .btn{flex:1; min-width:0; display:flex; align-items:center; justify-content:center; gap:.4rem}
       .panel-foot svg{width:19px; height:19px}
       .toast{position:fixed; bottom:1.1rem; inset-inline-start:50%; transform:translate(-50%,20px); background:#2e2a24; color:#fff; padding:.6rem 1.1rem; border-radius:999px; font-weight:800; font-size:.88rem; opacity:0; pointer-events:none; transition:.25s; z-index:20}
@@ -176,7 +180,10 @@
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V5a2 2 0 0 1 2-2h4M15 3h4a2 2 0 0 1 2 2v4M21 15v4a2 2 0 0 1-2 2h-4M9 21H5a2 2 0 0 1-2-2v-4"/><circle cx="12" cy="12" r="3.2"/></svg>
           </button>
         </div>
-        <div class="deco-palette" id="decoPalette" hidden aria-label="اختيارات الزواق"></div>
+        <div class="tier-sliders" id="tierSliders" hidden>
+          <div class="tslider"><span class="ts-val" id="tsDiaVal">Ø 26 سم</span><input type="range" id="tsDia" min="12" max="40" step="1" value="26" aria-label="قطر الطبقة" /><span class="ts-lbl">القطر</span></div>
+          <div class="tslider"><span class="ts-val" id="tsHVal">10 سم</span><input type="range" id="tsH" min="6" max="16" step="1" value="10" aria-label="ارتفاع الطبقة" /><span class="ts-lbl">الارتفاع</span></div>
+        </div>
         <div class="fallback" id="fallback">تعذّر تحميل عارض ثلاثي الأبعاد.<br/>تحقق من الاتصال ثم أعد فتح الصفحة.</div>
         <div class="stage-hint" id="stageHint">اسحب بيدك لتدوير الكيكة · قرّب بإصبعين للتكبير</div>
       </section>
@@ -337,7 +344,8 @@
               <button data-piping="none" aria-pressed="false">بلا حواف</button>
             </div>
             <h3>زواق حر — حطّه وين تحب</h3>
-            <p class="note">اختار شكل من القنت، ومن بعد اضغط على سطح الكيكة باش يتحط تما وين تحب. اسحب أي زواق بإصبعك باش تبدل بلاصتو، واضغط عليه باش تختارو وتكبّرو ولا تبدل لونو ولا تمسحو.</p>
+            <p class="note">اختار شكل من القايمة، ومن بعد اضغط على سطح الكيكة باش يتحط تما وين تحب — ولا اسحبو من القايمة وحطو ديركت فوق الكيكة. اسحب أي زواق بإصبعك باش تبدل بلاصتو، واضغط عليه باش تختارو وتكبّرو ولا تبدل لونو ولا تمسحو.</p>
+            <div id="decoCats"></div>
             <h3>لون الزواق</h3>
             <div class="row">
               <input type="color" id="freeColor" value="#e88ca0" aria-label="لون الزواق" />
@@ -477,7 +485,7 @@
         selTier:0, piping:"shell", roseColor:"#e88ca0", dripColor:"#4a2c1c", ribbonColor:"#e88ca0",
         finishes:{ powder:false, gloss:false },
         deco:{ roses:false, babbreath:false, pearls:false, bows:false, ribbon:false, cherries:false, strawberries:false, blueberries:false, macarons:false, chocolate:false, goldleaf:false, candles:false, crown:false, drip:false, sprinkles:false },
-        stand:"silver", sceneName:"studio", text:"", textStyle:"pearl", free:[]
+        stand:"gold", sceneName:"studio", text:"", textStyle:"pearl", free:[]
       };
       var state = JSON.parse(JSON.stringify(DEFAULTS));
       var recents = [];
@@ -1642,7 +1650,7 @@
         $$(".pane").forEach(function(p){ p.classList.toggle("on", p.id === "pane-" + name); });
         if (name !== "draw" && drawMode) setDrawMode(false);
         if (name !== "deco" && placeMode) setPlaceMode(false);
-        var pal = $("#decoPalette"); if (pal) pal.hidden = (name !== "deco");
+        var ts = $("#tierSliders"); if (ts) ts.hidden = (name !== "layers");
       }
       $$(".tab").forEach(function(tab){ tab.addEventListener("click", function(){ activateTab(tab.dataset.tab); }); });
 
@@ -1659,9 +1667,23 @@
         var names = ["", "طبقة وحدة", "طبقتان", "3 طبقات", "4 طبقات", "5 طبقات", "6 طبقات"];
         $("#tierCountLbl").textContent = names[state.tiers.length] || state.tiers.length + " طبقات";
       }
+      function setTierDia(v){
+        state.tiers[state.selTier].diaCm = +v;
+        $("#diaRange").value = v; $("#diaVal").textContent = "Ø " + v + " سم";
+        $("#tsDia").value = v; $("#tsDiaVal").textContent = "Ø " + v + " سم";
+        rebuildSoon();
+      }
+      function setTierH(v){
+        state.tiers[state.selTier].hCm = +v;
+        $("#hRange").value = v; $("#hVal").textContent = v + " سم";
+        $("#tsH").value = v; $("#tsHVal").textContent = v + " سم";
+        rebuildSoon();
+      }
       function syncTierEditor(){
         renderTierPick();
         var t = state.tiers[state.selTier];
+        $("#tsDia").value = t.diaCm; $("#tsDiaVal").textContent = "Ø " + t.diaCm + " سم";
+        $("#tsH").value = t.hCm; $("#tsHVal").textContent = t.hCm + " سم";
         syncSeg($("#shapeSeg"), t.shape, "shape");
         syncSeg($("#textureSeg"), t.texture, "texture");
         $("#marbleRow").style.display = t.texture === "marble" ? "block" : "none";
@@ -1701,16 +1723,10 @@
         $("#marbleHex").textContent = e.target.value;
         rebuildSoon();
       });
-      $("#diaRange").addEventListener("input", function(e){
-        state.tiers[state.selTier].diaCm = +e.target.value;
-        $("#diaVal").textContent = "Ø " + e.target.value + " سم";
-        rebuildSoon();
-      });
-      $("#hRange").addEventListener("input", function(e){
-        state.tiers[state.selTier].hCm = +e.target.value;
-        $("#hVal").textContent = e.target.value + " سم";
-        rebuildSoon();
-      });
+      $("#diaRange").addEventListener("input", function(e){ setTierDia(e.target.value); });
+      $("#hRange").addEventListener("input", function(e){ setTierH(e.target.value); });
+      $("#tsDia").addEventListener("input", function(e){ setTierDia(e.target.value); });
+      $("#tsH").addEventListener("input", function(e){ setTierH(e.target.value); });
 
       /* ============ Colors & finishes ============ */
       $("#creamPicker").addEventListener("input", function(e){
@@ -1741,18 +1757,58 @@
 
       /* ============ Decorations UI ============ */
       segWire("pipingSeg", "piping", function(v){ state.piping = v; buildCake(); });
-      var palEl = $("#decoPalette");
-      Object.keys(FREE_TYPES).forEach(function(k){
-        var b = document.createElement("button");
-        b.className = "deco-pal-btn"; b.dataset.ftype = k; b.textContent = FREE_TYPES[k];
-        b.setAttribute("aria-pressed", k === freeType ? "true" : "false");
-        b.addEventListener("click", function(){
-          freeType = k;
-          $$("#decoPalette .deco-pal-btn").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
-          setPlaceMode(true);
+      var DECO_CATS = [
+        { n:"نباتات", items:["rose", "flower"] },
+        { n:"مأكولات", items:["strawberry", "blueberry", "macaron", "cherry"] },
+        { n:"أخرى", items:["ball", "bow"] }
+      ];
+      var catsEl = $("#decoCats");
+      DECO_CATS.forEach(function(cat){
+        var h = document.createElement("h3"); h.textContent = cat.n; catsEl.appendChild(h);
+        var row = document.createElement("div"); row.className = "seg"; catsEl.appendChild(row);
+        cat.items.forEach(function(k){
+          var b = document.createElement("button");
+          b.className = "deco-item"; b.dataset.ftype = k; b.textContent = FREE_TYPES[k];
+          b.setAttribute("aria-pressed", k === freeType ? "true" : "false");
+          b.addEventListener("click", function(){
+            freeType = k;
+            $$("#decoCats .deco-item").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+            setPlaceMode(true);
+          });
+          b.addEventListener("pointerdown", function(e){ startItemDrag(e, k); });
+          row.appendChild(b);
         });
-        palEl.appendChild(b);
       });
+      /* drag an item from the list straight onto the cake (like the app) */
+      function startItemDrag(e, type){
+        var sx = e.clientX, sy = e.clientY, ghost = null;
+        function onMove(ev){
+          if (!ghost && Math.hypot(ev.clientX - sx, ev.clientY - sy) > 8){
+            ghost = document.createElement("div");
+            ghost.className = "drag-ghost"; ghost.textContent = FREE_TYPES[type];
+            document.body.appendChild(ghost);
+          }
+          if (ghost){ ghost.style.left = ev.clientX + "px"; ghost.style.top = ev.clientY + "px"; }
+        }
+        function onUp(ev){
+          window.removeEventListener("pointermove", onMove);
+          window.removeEventListener("pointerup", onUp);
+          if (ghost){
+            ghost.remove();
+            var r = renderer.domElement.getBoundingClientRect();
+            if (ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom && drawMesh){
+              setRay(ev);
+              var hit = ray.intersectObject(drawMesh);
+              if (hit.length){
+                var ix = addFree(type, hit[0].point.x, hit[0].point.z, freeSizeCm);
+                if (ix >= 0){ selectedFree = ix; buildCake(); freeInfoUpdate(); }
+              }
+            }
+          }
+        }
+        window.addEventListener("pointermove", onMove);
+        window.addEventListener("pointerup", onUp);
+      }
       $("#freeColor").addEventListener("input", function(e){
         freeColor = e.target.value;
         $("#freeColorHex").textContent = freeColor;
