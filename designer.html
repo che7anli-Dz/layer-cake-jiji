@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="fr" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" href="data:," />
-    <title>Layer Cake by Jiji — صمّم كيكتك</title>
+    <title data-fr="Layer Cake by Jiji — Crée ton gâteau" data-ar="Layer Cake by Jiji — صمّم كيكتك">Layer Cake by Jiji — Crée ton gâteau</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
@@ -159,6 +159,14 @@
       }
       .back-menu{color:var(--ink);text-decoration:none;font-weight:700;font-size:14px;padding:8px 14px;border:1px solid var(--line);border-radius:99px;white-space:nowrap;background:var(--panel-2)}
       .back-menu:hover{background:var(--sage-soft)}
+      .lang-toggle{color:var(--ink); background:var(--panel-2); border:1px solid var(--line); border-radius:99px; padding:8px 14px; font-weight:800; font-size:14px; cursor:pointer; white-space:nowrap}
+      .lang-toggle:hover{background:var(--sage-soft)}
+      .seg .add-custom{border:1.5px dashed var(--line); background:transparent; color:var(--ink-soft); border-radius:14px; padding:.6rem .5rem; font-weight:900; font-size:1.05rem; cursor:pointer}
+      .seg .add-custom:hover{border-color:var(--ink-soft); color:var(--ink)}
+      .custom-row{display:flex; gap:.5rem; margin-top:.6rem}
+      .custom-row[hidden]{display:none}
+      .custom-row input{flex:1; min-width:0; border:1px solid var(--line); border-radius:12px; padding:.6rem .7rem; font:inherit; font-weight:700; background:var(--panel-2); color:var(--ink)}
+      .custom-row .mini{padding:.6rem .85rem; border-radius:12px}
       .designer-intro{background:linear-gradient(135deg,#fdf3e3,#fbe9f0); color:#5a3d2b; text-align:center; font-weight:800; font-size:.95rem; line-height:1.7; padding:.65rem 1rem; border-bottom:1px solid #f0e2c8}
     </style>
   </head>
@@ -171,146 +179,155 @@
             <path d="M27.5 5.4 19.9 3.6c-1.2-.3-2.4.5-2.7 1.7l-1.9 8c-.2 1 .3 2 1.2 2.4l4.6 2 6.4-12.3Z" fill="#ffffff" opacity=".92"/>
           </svg>
         </span>
-        <span class="name">Layer Cake by Jiji<small>صمّم كيكتك — مصمم ثلاثي الأبعاد</small></span>
+        <span class="name">Layer Cake by Jiji<small data-fr="Crée ton gâteau — designer 3D" data-ar="صمّم كيكتك — مصمم ثلاثي الأبعاد">Crée ton gâteau — designer 3D</small></span>
       </div>
-      <a class="back-menu" href="index.html">← المنيو</a>
-      <button class="icon-btn" id="btnShare" aria-label="مشاركة التصميم" title="مشاركة">
+      <a class="back-menu" href="index.html" data-fr="← Menu" data-ar="← المنيو">← Menu</a>
+      <button class="lang-toggle" id="langBtn" type="button"><span data-fr="عربي" data-ar="Français">عربي</span></button>
+      <button class="icon-btn" id="btnShare" aria-label="Partager le design" data-fr-label="Partager le design" data-ar-label="مشاركة التصميم" title="Partager" data-fr-title="Partager" data-ar-title="مشاركة">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>
       </button>
-      <button class="icon-btn primary" id="btnDownload" aria-label="تحميل التصميم" title="تحميل التصميم">
+      <button class="icon-btn primary" id="btnDownload" aria-label="Télécharger le design" data-fr-label="Télécharger le design" data-ar-label="تحميل التصميم" title="Télécharger le design" data-fr-title="Télécharger le design" data-ar-title="تحميل التصميم">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4.5-4.5M12 15 7.5 10.5"/><path d="M4 19h16"/></svg>
       </button>
     </header>
 
-    <div class="designer-intro" id="designerIntro">صممي كيكتك بنكهتك و الحجم واللون بأسلوبك ، و التزيين علينا 💞🎀 و نقدموها لك بأحلى شكل ✨️🎁</div>
+    <div class="designer-intro" id="designerIntro" data-fr="Compose ton gâteau avec ta saveur, ta taille et ta couleur, à ton style, et la décoration c'est pour nous 💞🎀 on te le présente sous sa plus belle forme ✨🎁" data-ar="صممي كيكتك بنكهتك و الحجم واللون بأسلوبك ، و التزيين علينا 💞🎀 و نقدموها لك بأحلى شكل ✨️🎁">Compose ton gâteau avec ta saveur, ta taille et ta couleur, à ton style, et la décoration c'est pour nous 💞🎀 on te le présente sous sa plus belle forme ✨🎁</div>
 
     <div class="work">
-      <section id="stage" aria-label="معاينة الكيكة ثلاثية الأبعاد">
+      <section id="stage" aria-label="Aperçu du gâteau en 3D" data-fr-label="Aperçu du gâteau en 3D" data-ar-label="معاينة الكيكة ثلاثية الأبعاد">
         <div class="stage-tools">
-          <button class="icon-btn active" id="btnSpin" aria-label="تدوير تلقائي" title="تدوير تلقائي" aria-pressed="true">
+          <button class="icon-btn active" id="btnSpin" aria-label="Rotation automatique" data-fr-label="Rotation automatique" data-ar-label="تدوير تلقائي" title="Rotation automatique" data-fr-title="Rotation automatique" data-ar-title="تدوير تلقائي" aria-pressed="true">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3"/><path d="M21 3v6h-6"/></svg>
           </button>
-          <button class="icon-btn" id="btnCam" aria-label="إعادة ضبط الكاميرا" title="إعادة ضبط الكاميرا">
+          <button class="icon-btn" id="btnCam" aria-label="Réinitialiser la caméra" data-fr-label="Réinitialiser la caméra" data-ar-label="إعادة ضبط الكاميرا" title="Réinitialiser la caméra" data-fr-title="Réinitialiser la caméra" data-ar-title="إعادة ضبط الكاميرا">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V5a2 2 0 0 1 2-2h4M15 3h4a2 2 0 0 1 2 2v4M21 15v4a2 2 0 0 1-2 2h-4M9 21H5a2 2 0 0 1-2-2v-4"/><circle cx="12" cy="12" r="3.2"/></svg>
           </button>
         </div>
         <div class="tier-sliders" id="tierSliders" hidden>
           <div class="ts-row">
-            <div class="tslider"><span class="ts-val" id="tsDiaVal">Ø 26 سم</span><input type="range" id="tsDia" min="12" max="40" step="1" value="26" aria-label="قطر الطبقة" /><span class="ts-lbl">القطر</span></div>
-            <div class="tslider"><span class="ts-val" id="tsHVal">10 سم</span><input type="range" id="tsH" min="6" max="16" step="1" value="10" aria-label="ارتفاع الطبقة" /><span class="ts-lbl">الارتفاع</span></div>
+            <div class="tslider"><span class="ts-val" id="tsDiaVal" data-fr="Ø 26 cm" data-ar="Ø 26 سم">Ø 26 cm</span><input type="range" id="tsDia" min="12" max="40" step="1" value="26" aria-label="Diamètre de l’étage" data-fr-label="Diamètre de l’étage" data-ar-label="قطر الطبقة" /><span class="ts-lbl" data-fr="Diamètre" data-ar="القطر">Diamètre</span></div>
+            <div class="tslider"><span class="ts-val" id="tsHVal" data-fr="10 cm" data-ar="10 سم">10 cm</span><input type="range" id="tsH" min="6" max="16" step="1" value="10" aria-label="Hauteur de l’étage" data-fr-label="Hauteur de l’étage" data-ar-label="ارتفاع الطبقة" /><span class="ts-lbl" data-fr="Hauteur" data-ar="الارتفاع">Hauteur</span></div>
           </div>
           <div class="ts-shapes" id="tierShapes">
-            <button data-ts-shape="round" aria-pressed="true" aria-label="دائرية"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg></button>
-            <button data-ts-shape="square" aria-pressed="false" aria-label="مربعة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4.5" y="4.5" width="15" height="15" rx="3"/></svg></button>
-            <button data-ts-shape="heart" aria-pressed="false" aria-label="قلب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20.5C6 16 3.5 12.6 3.5 9.3 3.5 6.4 5.7 4.5 8.2 4.5c1.6 0 3 .8 3.8 2 .8-1.2 2.2-2 3.8-2 2.5 0 4.7 1.9 4.7 4.8 0 3.3-2.5 6.7-8.5 11.2Z"/></svg></button>
-            <button data-ts-shape="star" aria-pressed="false" aria-label="نجمة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m12 3 2.7 5.8 6.3.7-4.7 4.3 1.3 6.2L12 16.9 6.4 20l1.3-6.2L3 9.5l6.3-.7L12 3Z"/></svg></button>
-            <button data-ts-shape="hex" aria-pressed="false" aria-label="سداسية"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l7.8 4.5v9L12 21l-7.8-4.5v-9L12 3Z"/></svg></button>
-            <button data-ts-shape="oval" aria-pressed="false" aria-label="بيضاوية"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="12" rx="9" ry="6"/></svg></button>
+            <button data-ts-shape="round" aria-pressed="true" aria-label="Ronde" data-fr-label="Ronde" data-ar-label="دائرية"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg></button>
+            <button data-ts-shape="square" aria-pressed="false" aria-label="Carrée" data-fr-label="Carrée" data-ar-label="مربعة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4.5" y="4.5" width="15" height="15" rx="3"/></svg></button>
+            <button data-ts-shape="heart" aria-pressed="false" aria-label="Cœur" data-fr-label="Cœur" data-ar-label="قلب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20.5C6 16 3.5 12.6 3.5 9.3 3.5 6.4 5.7 4.5 8.2 4.5c1.6 0 3 .8 3.8 2 .8-1.2 2.2-2 3.8-2 2.5 0 4.7 1.9 4.7 4.8 0 3.3-2.5 6.7-8.5 11.2Z"/></svg></button>
+            <button data-ts-shape="star" aria-pressed="false" aria-label="Étoile" data-fr-label="Étoile" data-ar-label="نجمة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m12 3 2.7 5.8 6.3.7-4.7 4.3 1.3 6.2L12 16.9 6.4 20l1.3-6.2L3 9.5l6.3-.7L12 3Z"/></svg></button>
+            <button data-ts-shape="hex" aria-pressed="false" aria-label="Hexagonale" data-fr-label="Hexagonale" data-ar-label="سداسية"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l7.8 4.5v9L12 21l-7.8-4.5v-9L12 3Z"/></svg></button>
+            <button data-ts-shape="oval" aria-pressed="false" aria-label="Ovale" data-fr-label="Ovale" data-ar-label="بيضاوية"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="12" rx="9" ry="6"/></svg></button>
           </div>
           <div class="ts-color">
-            <input type="color" id="tierColorMini" value="#fdfbf6" aria-label="لون الطبقة" />
+            <input type="color" id="tierColorMini" value="#fdfbf6" aria-label="Couleur de l’étage" data-fr-label="Couleur de l’étage" data-ar-label="لون الطبقة" />
             <div class="ts-swatches" id="tierSwatches"></div>
           </div>
         </div>
-        <div class="fallback" id="fallback">تعذّر تحميل عارض ثلاثي الأبعاد.<br/>تحقق من الاتصال ثم أعد فتح الصفحة.</div>
+        <div class="fallback" id="fallback"><span data-fr="Impossible de charger la visionneuse 3D." data-ar="تعذّر تحميل عارض ثلاثي الأبعاد.">Impossible de charger la visionneuse 3D.</span><br/><span data-fr="Vérifiez la connexion puis rouvrez la page." data-ar="تحقق من الاتصال ثم أعد فتح الصفحة.">Vérifiez la connexion puis rouvrez la page.</span></div>
       </section>
 
-      <aside class="panel" aria-label="أدوات تصميم الكيكة">
-        <nav class="tabs" role="tablist" aria-label="أقسام التصميم">
+      <aside class="panel" aria-label="Outils de création du gâteau" data-fr-label="Outils de création du gâteau" data-ar-label="أدوات تصميم الكيكة">
+        <nav class="tabs" role="tablist" aria-label="Sections de création" data-fr-label="Sections de création" data-ar-label="أقسام التصميم">
           <button class="tab" role="tab" data-tab="bake" aria-selected="false">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h16v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19v-9Z"/><path d="M8 10V7a4 4 0 0 1 8 0v3M2 10h20"/></svg>
-            الخبز
+            <span data-fr="Base" data-ar="الخبز">Base</span>
           </button>
           <button class="tab" role="tab" data-tab="layers" aria-selected="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg>
-            الطبقات
+            <span data-fr="Étages" data-ar="الطبقات">Étages</span>
           </button>
         </nav>
 
         <div class="tab-body">
           <!-- BAKE MODE -->
           <section class="pane" id="pane-bake" role="tabpanel">
-            <h3>نكهة العجينة</h3>
+            <h3 data-fr="Saveur de la pâte" data-ar="نكهة العجينة">Saveur de la pâte</h3>
             <div class="seg" id="flavorSeg">
-              <button data-flavor="vanilla" aria-pressed="true">فانيليا</button>
-              <button data-flavor="choc" aria-pressed="false">شوكولاتة</button>
-              <button data-flavor="strawberry" aria-pressed="false">فراولة</button>
-              <button data-flavor="lemon" aria-pressed="false">ليمون</button>
-              <button data-flavor="caramel" aria-pressed="false">كراميل</button>
-              <button data-flavor="red" aria-pressed="false">ريد فيلفت</button>
-              <button data-flavor="pistachio" aria-pressed="false">بيسطاش</button>
-              <button data-flavor="coffee" aria-pressed="false">قهوة</button>
+              <button data-flavor="vanilla" aria-pressed="true" data-fr="Vanille" data-ar="فانيليا">Vanille</button>
+              <button data-flavor="choc" aria-pressed="false" data-fr="Chocolat" data-ar="شوكولاتة">Chocolat</button>
+              <button data-flavor="strawberry" aria-pressed="false" data-fr="Fraise" data-ar="فراولة">Fraise</button>
+              <button data-flavor="lemon" aria-pressed="false" data-fr="Citron" data-ar="ليمون">Citron</button>
+              <button data-flavor="caramel" aria-pressed="false" data-fr="Caramel" data-ar="كراميل">Caramel</button>
+              <button data-flavor="red" aria-pressed="false" data-fr="Red Velvet" data-ar="ريد فيلفت">Red Velvet</button>
+              <button data-flavor="pistachio" aria-pressed="false" data-fr="Pistache" data-ar="بيسطاش">Pistache</button>
+              <button data-flavor="coffee" aria-pressed="false" data-fr="Café" data-ar="قهوة">Café</button>
+              <button type="button" class="add-custom" data-group="flavor" aria-label="Ajouter une option" data-fr-label="Ajouter une option" data-ar-label="زيد اختيار">+</button>
             </div>
-            <h3>الحشوة</h3>
+            <h3 data-fr="Garniture" data-ar="الحشوة">Garniture</h3>
             <div class="seg" id="fillingSeg">
-              <button data-filling="butter" aria-pressed="true">كريمة زبدة</button>
-              <button data-filling="ganache" aria-pressed="false">غاناش شوكولاتة</button>
-              <button data-filling="caramel" aria-pressed="false">كراميل</button>
-              <button data-filling="fruits" aria-pressed="false">فواكه</button>
-              <button data-filling="jam" aria-pressed="false">مربى</button>
-              <button data-filling="nutella" aria-pressed="false">نوتيلا</button>
+              <button data-filling="butter" aria-pressed="true" data-fr="Crème au beurre" data-ar="كريمة زبدة">Crème au beurre</button>
+              <button data-filling="ganache" aria-pressed="false" data-fr="Ganache chocolat" data-ar="غاناش شوكولاتة">Ganache chocolat</button>
+              <button data-filling="caramel" aria-pressed="false" data-fr="Caramel" data-ar="كراميل">Caramel</button>
+              <button data-filling="fruits" aria-pressed="false" data-fr="Fruits" data-ar="فواكه">Fruits</button>
+              <button data-filling="jam" aria-pressed="false" data-fr="Confiture" data-ar="مربى">Confiture</button>
+              <button data-filling="nutella" aria-pressed="false" data-fr="Nutella" data-ar="نوتيلا">Nutella</button>
+              <button type="button" class="add-custom" data-group="filling" aria-label="Ajouter une option" data-fr-label="Ajouter une option" data-ar-label="زيد اختيار">+</button>
             </div>
-            <h3>حجم الكيكة — عدد الأشخاص</h3>
+            <h3 data-fr="Taille du gâteau — nombre de personnes" data-ar="حجم الكيكة — عدد الأشخاص">Taille du gâteau — nombre de personnes</h3>
             <div class="seg" id="servingsSeg">
-              <button data-servings="6-8" aria-pressed="false">6–8 أشخاص</button>
-              <button data-servings="10-12" aria-pressed="true">10–12 شخص</button>
-              <button data-servings="15-20" aria-pressed="false">15–20 شخص</button>
-              <button data-servings="25-30" aria-pressed="false">25–30 شخص</button>
-              <button data-servings="40+" aria-pressed="false">أكثر من 40</button>
+              <button data-servings="6-8" aria-pressed="false" data-fr="6–8 personnes" data-ar="6–8 أشخاص">6–8 personnes</button>
+              <button data-servings="10-12" aria-pressed="true" data-fr="10–12 personnes" data-ar="10–12 شخص">10–12 personnes</button>
+              <button data-servings="15-20" aria-pressed="false" data-fr="15–20 personnes" data-ar="15–20 شخص">15–20 personnes</button>
+              <button data-servings="25-30" aria-pressed="false" data-fr="25–30 personnes" data-ar="25–30 شخص">25–30 personnes</button>
+              <button data-servings="40+" aria-pressed="false" data-fr="Plus de 40" data-ar="أكثر من 40">Plus de 40</button>
             </div>
-            <h3>مقاس الطبقة المختارة</h3>
+            <h3 data-fr="Taille de l’étage sélectionné" data-ar="مقاس الطبقة المختارة">Taille de l’étage sélectionné</h3>
             <div class="row">
-              <span class="lbl">القطر</span>
-              <input type="range" id="diaRange" min="12" max="40" value="26" aria-label="قطر الطبقة بالسنتيمتر" />
-              <span class="val" id="diaVal">Ø 26 سم</span>
+              <span class="lbl" data-fr="Diamètre" data-ar="القطر">Diamètre</span>
+              <input type="range" id="diaRange" min="12" max="40" value="26" aria-label="Diamètre de l’étage en centimètres" data-fr-label="Diamètre de l’étage en centimètres" data-ar-label="قطر الطبقة بالسنتيمتر" />
+              <span class="val" id="diaVal" data-fr="Ø 26 cm" data-ar="Ø 26 سم">Ø 26 cm</span>
             </div>
             <div class="row">
-              <span class="lbl">الارتفاع</span>
-              <input type="range" id="hRange" min="6" max="16" value="10" aria-label="ارتفاع الطبقة بالسنتيمتر" />
-              <span class="val" id="hVal">10 سم</span>
+              <span class="lbl" data-fr="Hauteur" data-ar="الارتفاع">Hauteur</span>
+              <input type="range" id="hRange" min="6" max="16" value="10" aria-label="Hauteur de l’étage en centimètres" data-fr-label="Hauteur de l’étage en centimètres" data-ar-label="ارتفاع الطبقة بالسنتيمتر" />
+              <span class="val" id="hVal" data-fr="10 cm" data-ar="10 سم">10 cm</span>
             </div>
-            <h3>مستوى الحلاوة</h3>
+            <h3 data-fr="Niveau de sucre" data-ar="مستوى الحلاوة">Niveau de sucre</h3>
             <div class="seg" id="sweetnessSeg">
-              <button data-sweetness="normal" aria-pressed="true">عادي</button>
-              <button data-sweetness="less" aria-pressed="false">أقل سكر</button>
-              <button data-sweetness="none" aria-pressed="false">بدون سكر</button>
+              <button data-sweetness="normal" aria-pressed="true" data-fr="Normal" data-ar="عادي">Normal</button>
+              <button data-sweetness="less" aria-pressed="false" data-fr="Moins sucré" data-ar="أقل سكر">Moins sucré</button>
+              <button data-sweetness="none" aria-pressed="false" data-fr="Sans sucre" data-ar="بدون سكر">Sans sucre</button>
             </div>
-            <h3>الحساسية</h3>
+            <h3 data-fr="Allergies" data-ar="الحساسية">Allergies</h3>
             <div class="chips" id="allergyChips">
-              <button class="chip" data-allergy="gluten" aria-pressed="false">بدون غلوتين<span class="tick">✓</span></button>
-              <button class="chip" data-allergy="nuts" aria-pressed="false">بدون مكسرات<span class="tick">✓</span></button>
-              <button class="chip" data-allergy="lactose" aria-pressed="false">بدون لاكتوز<span class="tick">✓</span></button>
+              <button class="chip" data-allergy="gluten" aria-pressed="false"><span data-fr="Sans gluten" data-ar="بدون غلوتين">Sans gluten</span><span class="tick">✓</span></button>
+              <button class="chip" data-allergy="nuts" aria-pressed="false"><span data-fr="Sans noix" data-ar="بدون مكسرات">Sans noix</span><span class="tick">✓</span></button>
+              <button class="chip" data-allergy="lactose" aria-pressed="false"><span data-fr="Sans lactose" data-ar="بدون لاكتوز">Sans lactose</span><span class="tick">✓</span></button>
+              <button type="button" class="add-custom" data-group="allergy" aria-label="Ajouter une option" data-fr-label="Ajouter une option" data-ar-label="زيد اختيار">+</button>
             </div>
-            <h3>ملاحظات الزبون</h3>
-            <textarea id="orderNotes" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+            <h3 data-fr="Remarques" data-ar="ملاحظات الزبون">Remarques</h3>
+            <textarea id="orderNotes" placeholder="Écris tes remarques ici..." data-fr-ph="Écris tes remarques ici..." data-ar-ph="اكتب ملاحظاتك هنا..."></textarea>
+            <div class="custom-row" id="customRow" hidden>
+              <input type="text" id="customInput" data-fr-ph="Écris ton choix ici..." data-ar-ph="اكتب اختيارك هنا..." placeholder="Écris ton choix ici..." data-fr-label="Choix personnalisé" data-ar-label="اختيار مخصص" aria-label="Choix personnalisé" />
+              <button type="button" class="btn mini" id="customOk" data-fr-label="Confirmer" data-ar-label="تأكيد" aria-label="Confirmer">✓</button>
+              <button type="button" class="btn mini" id="customCancel" data-fr-label="Annuler" data-ar-label="إلغاء" aria-label="Annuler">✕</button>
+            </div>
           </section>
 
           <!-- LAYERS -->
           <section class="pane on" id="pane-layers" role="tabpanel">
             <div class="stepper">
-              <button id="btnTierMinus" aria-label="نقص طبقة">−</button>
-              <span class="count" id="tierCountLbl">3 طبقات</span>
-              <button id="btnTierPlus" aria-label="زيد طبقة">+</button>
+              <button id="btnTierMinus" aria-label="Retirer un étage" data-fr-label="Retirer un étage" data-ar-label="نقص طبقة">−</button>
+              <span class="count" id="tierCountLbl" data-fr="3 étages" data-ar="3 طبقات">3 étages</span>
+              <button id="btnTierPlus" aria-label="Ajouter un étage" data-fr-label="Ajouter un étage" data-ar-label="زيد طبقة">+</button>
             </div>
             <div class="tier-pick" id="tierPick"></div>
             <div class="seg" id="shapeSeg">
-              <button data-shape="round" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg>دائرية</button>
-              <button data-shape="square" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4.5" y="4.5" width="15" height="15" rx="3"/></svg>مربعة</button>
-              <button data-shape="heart" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20.5C6 16 3.5 12.6 3.5 9.3 3.5 6.4 5.7 4.5 8.2 4.5c1.6 0 3 .8 3.8 2 .8-1.2 2.2-2 3.8-2 2.5 0 4.7 1.9 4.7 4.8 0 3.3-2.5 6.7-8.5 11.2Z"/></svg>قلب</button>
-              <button data-shape="star" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m12 3 2.7 5.8 6.3.7-4.7 4.3 1.3 6.2L12 16.9 6.4 20l1.3-6.2L3 9.5l6.3-.7L12 3Z"/></svg>نجمة</button>
-              <button data-shape="hex" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l7.8 4.5v9L12 21l-7.8-4.5v-9L12 3Z"/></svg>سداسية</button>
-              <button data-shape="oval" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="12" rx="9" ry="6"/></svg>بيضاوية</button>
+              <button data-shape="round" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg><span data-fr="Ronde" data-ar="دائرية">Ronde</span></button>
+              <button data-shape="square" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4.5" y="4.5" width="15" height="15" rx="3"/></svg><span data-fr="Carrée" data-ar="مربعة">Carrée</span></button>
+              <button data-shape="heart" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20.5C6 16 3.5 12.6 3.5 9.3 3.5 6.4 5.7 4.5 8.2 4.5c1.6 0 3 .8 3.8 2 .8-1.2 2.2-2 3.8-2 2.5 0 4.7 1.9 4.7 4.8 0 3.3-2.5 6.7-8.5 11.2Z"/></svg><span data-fr="Cœur" data-ar="قلب">Cœur</span></button>
+              <button data-shape="star" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m12 3 2.7 5.8 6.3.7-4.7 4.3 1.3 6.2L12 16.9 6.4 20l1.3-6.2L3 9.5l6.3-.7L12 3Z"/></svg><span data-fr="Étoile" data-ar="نجمة">Étoile</span></button>
+              <button data-shape="hex" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l7.8 4.5v9L12 21l-7.8-4.5v-9L12 3Z"/></svg><span data-fr="Hexagonale" data-ar="سداسية">Hexagonale</span></button>
+              <button data-shape="oval" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="12" rx="9" ry="6"/></svg><span data-fr="Ovale" data-ar="بيضاوية">Ovale</span></button>
             </div>
             <div class="seg" id="textureSeg">
-              <button data-texture="butter" aria-pressed="true">كريمة زبدة</button>
-              <button data-texture="fondant" aria-pressed="false">فوندان ناعم</button>
-              <button data-texture="combed" aria-pressed="false">مخططة بالمشط</button>
-              <button data-texture="rustic" aria-pressed="false">ريفية بالملعقة</button>
-              <button data-texture="marble" aria-pressed="false">رخامي</button>
+              <button data-texture="butter" aria-pressed="true" data-fr="Crème au beurre" data-ar="كريمة زبدة">Crème au beurre</button>
+              <button data-texture="fondant" aria-pressed="false" data-fr="Fondant lisse" data-ar="فوندان ناعم">Fondant lisse</button>
+              <button data-texture="combed" aria-pressed="false" data-fr="Rayée au peigne" data-ar="مخططة بالمشط">Rayée au peigne</button>
+              <button data-texture="rustic" aria-pressed="false" data-fr="Rustique à la cuillère" data-ar="ريفية بالملعقة">Rustique à la cuillère</button>
+              <button data-texture="marble" aria-pressed="false" data-fr="Marbré" data-ar="رخامي">Marbré</button>
             </div>
             <div id="marbleRow" style="display:none">
                 <div class="row">
-                <input type="color" id="marbleColor" value="#d8b7c3" aria-label="لون عروق الرخام" />
+                <input type="color" id="marbleColor" value="#d8b7c3" aria-label="Couleur des veines du marbre" data-fr-label="Couleur des veines du marbre" data-ar-label="لون عروق الرخام" />
                 <span class="hexval" id="marbleHex">#d8b7c3</span>
               </div>
             </div>
@@ -321,15 +338,15 @@
         <div class="panel-foot">
           <button class="btn" id="btnReset">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.3"/><path d="M3 4v5h5"/></svg>
-            من الأول
+            <span data-fr="Recommencer" data-ar="من الأول">Recommencer</span>
           </button>
           <button class="btn primary" id="btnDownload2">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4.5-4.5M12 15 7.5 10.5"/><path d="M4 19h16"/></svg>
-            حمّل التصميم
+            <span data-fr="Télécharger le design" data-ar="حمّل التصميم">Télécharger le design</span>
           </button>
           <button class="btn primary" id="btnOrder">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-            ابعث الطلب
+            <span data-fr="Envoyer la commande" data-ar="ابعث الطلب">Envoyer la commande</span>
           </button>
         </div>
       </aside>
@@ -338,13 +355,13 @@
     <div class="toast" id="toast" role="status"></div>
     <div class="app-modal" id="appModal" hidden>
       <div class="app-modal-card">
-        <button class="app-modal-x" id="appModalX" aria-label="إغلاق">✕</button>
+        <button class="app-modal-x" id="appModalX" aria-label="Fermer" data-fr-label="Fermer" data-ar-label="إغلاق">✕</button>
         <h3 id="appModalTitle"></h3>
         <p id="appModalText"></p>
         <div class="app-modal-msg" id="appModalMsg" hidden></div>
         <div class="app-modal-actions">
-          <button class="btn gold" id="appModalPrimary">حسنا</button>
-          <button class="btn" id="appModalSecondary" hidden>إغلاق</button>
+          <button class="btn gold" id="appModalPrimary" data-fr="OK" data-ar="حسنا">OK</button>
+          <button class="btn" id="appModalSecondary" hidden data-fr="Fermer" data-ar="إغلاق">Fermer</button>
         </div>
       </div>
     </div>
@@ -360,6 +377,19 @@
         var t = $("#toast"); t.textContent = msg; t.classList.add("show");
         clearTimeout(t._h); t._h = setTimeout(function(){ t.classList.remove("show"); }, 2300);
       }
+      /* ============ Language (same pattern as the menu: FR default, AR toggle, shared lcj_lang) ============ */
+      function isAr(){ return document.documentElement.lang === "ar"; }
+      function setLang(l){
+        document.querySelectorAll("[data-fr]").forEach(function(el){ el.textContent = (l === "ar") ? el.getAttribute("data-ar") : el.getAttribute("data-fr"); });
+        document.querySelectorAll("[data-fr-label]").forEach(function(el){ el.setAttribute("aria-label", (l === "ar") ? el.getAttribute("data-ar-label") : el.getAttribute("data-fr-label")); });
+        document.querySelectorAll("[data-fr-title]").forEach(function(el){ el.setAttribute("title", (l === "ar") ? el.getAttribute("data-ar-title") : el.getAttribute("data-fr-title")); });
+        document.querySelectorAll("[data-fr-ph]").forEach(function(el){ el.setAttribute("placeholder", (l === "ar") ? el.getAttribute("data-ar-ph") : el.getAttribute("data-fr-ph")); });
+        document.documentElement.lang = l;
+        document.documentElement.dir = (l === "ar") ? "rtl" : "ltr";
+        try{ localStorage.setItem("lcj_lang", l); }catch(e){}
+        renderTierPick(); syncTierEditor();
+      }
+      document.getElementById("langBtn").addEventListener("click", function(){ setLang(isAr() ? "fr" : "ar"); });
       /* app-style modal (white card, gold primary button) */
       function showModal(title, text, opts){
         opts = opts || {};
@@ -367,7 +397,7 @@
         $("#appModalText").textContent = text || "";
         var msg = $("#appModalMsg");
         if (opts.message){ msg.hidden = false; msg.textContent = opts.message; } else { msg.hidden = true; }
-        var p = $("#appModalPrimary"); p.textContent = opts.primary || "حسنا";
+        var p = $("#appModalPrimary"); p.textContent = opts.primary || (isAr() ? "حسنا" : "OK");
         p.onclick = function(){ hideModal(); if (opts.onPrimary) opts.onPrimary(); };
         var sc = $("#appModalSecondary");
         if (opts.secondary){ sc.hidden = false; sc.textContent = opts.secondary; sc.onclick = function(){ hideModal(); if (opts.onSecondary) opts.onSecondary(); }; }
@@ -383,11 +413,11 @@
 
       /* ============ Data ============ */
       var CREAMS = [
-        {n:"أبيض", c:"#fdfbf6"}, {n:"عاجي", c:"#f5e9d4"}, {n:"وردي فاتح", c:"#f9dee4"},
-        {n:"وردي", c:"#f0a3ba"}, {n:"خوخي", c:"#f9c69b"}, {n:"ليموني", c:"#f6e49c"},
-        {n:"مريمية", c:"#b3c2a4"}, {n:"سماوي", c:"#bcd7ea"}, {n:"لافندر", c:"#d3c4e6"},
-        {n:"كراميل", c:"#c68b4e"}, {n:"شوكولاتة", c:"#6b4232"}, {n:"عنابي", c:"#a63a4a"},
-        {n:"أسود", c:"#3b3633"}, {n:"أحمر", c:"#c23b4e"}, {n:"فيروزي", c:"#7fc4bd"}, {n:"بيج وردي", c:"#e8cdbb"}
+        {n:"أبيض", f:"Blanc", c:"#fdfbf6"}, {n:"عاجي", f:"Ivoire", c:"#f5e9d4"}, {n:"وردي فاتح", f:"Rose clair", c:"#f9dee4"},
+        {n:"وردي", f:"Rose", c:"#f0a3ba"}, {n:"خوخي", f:"Pêche", c:"#f9c69b"}, {n:"ليموني", f:"Citron", c:"#f6e49c"},
+        {n:"مريمية", f:"Sauge", c:"#b3c2a4"}, {n:"سماوي", f:"Ciel", c:"#bcd7ea"}, {n:"لافندر", f:"Lavande", c:"#d3c4e6"},
+        {n:"كراميل", f:"Caramel", c:"#c68b4e"}, {n:"شوكولاتة", f:"Chocolat", c:"#6b4232"}, {n:"عنابي", f:"Bordeaux", c:"#a63a4a"},
+        {n:"أسود", f:"Noir", c:"#3b3633"}, {n:"أحمر", f:"Rouge", c:"#c23b4e"}, {n:"فيروزي", f:"Turquoise", c:"#7fc4bd"}, {n:"بيج وردي", f:"Beige rosé", c:"#e8cdbb"}
       ];
       var ROSES = [
         {n:"وردي", c:"#e88ca0"}, {n:"أحمر", c:"#c23b4e"}, {n:"أبيض", c:"#f7f2ea"},
@@ -1778,7 +1808,7 @@
         selRing.scale.set(s, s, s);
       }
       function addFree(type, x, z, sizeCm){
-        if (state.free.length >= 120){ showModal("وصلت للحد الأقصى", "ما تقدرش تزيد أكثر من 120 زواق في الكيكة. مسح واحد باش تزيد واحد جديد."); return -1; }
+        if (state.free.length >= 120){ showModal(isAr() ? "وصلت للحد الأقصى" : "Limite atteinte", isAr() ? "ما تقدرش تزيد أكثر من 120 زواق في الكيكة. مسح واحد باش تزيد واحد جديد." : "Tu ne peux pas ajouter plus de 120 décorations au gâteau. Supprimes-en une pour en ajouter une nouvelle."); return -1; }
         state.free.push({ type:type, x:x, z:z, sizeCm:sizeCm || freeSizeCm, rot: Math.random()*Math.PI*2, color: freeColor, ch: type === "letter" ? letterChar : null });
         return state.free.length - 1;
       }
@@ -1915,7 +1945,7 @@
         list.forEach(function(item){
           var b = document.createElement("button");
           b.className = "sw"; b.style.background = item.c;
-          b.setAttribute("aria-label", item.n);
+          b.setAttribute("aria-label", isAr() ? item.n : (item.f || item.n));
           b.setAttribute("aria-pressed", item.c.toLowerCase() === (curHex || "").toLowerCase() ? "true" : "false");
           b.addEventListener("click", function(){ cb(item); });
           el.appendChild(b);
@@ -1923,7 +1953,7 @@
         if (nameEl){
           var found = null;
           list.forEach(function(it){ if (it.c.toLowerCase() === (curHex || "").toLowerCase()) found = it; });
-          nameEl.textContent = found ? found.n : "لون حر";
+          nameEl.textContent = found ? (isAr() ? found.n : (found.f || found.n)) : (isAr() ? "لون حر" : "Couleur libre");
         }
       }
       var rebuildTimer = null;
@@ -1950,24 +1980,24 @@
         var el = $("#tierPick"); el.innerHTML = "";
         state.tiers.forEach(function(t, ix){
           var b = document.createElement("button");
-          b.textContent = ix === 0 ? "القاعدة (1)" : "طبقة " + (ix + 1) + (ix === state.tiers.length - 1 ? " — الفوق" : "");
+          b.textContent = ix === 0 ? (isAr() ? "القاعدة (1)" : "Base (1)") : (isAr() ? "طبقة " : "Étage ") + (ix + 1) + (ix === state.tiers.length - 1 ? (isAr() ? " — الفوق" : " — le dessus") : "");
           b.setAttribute("aria-pressed", ix === state.selTier ? "true" : "false");
           b.addEventListener("click", function(){ state.selTier = ix; syncTierEditor(); });
           el.appendChild(b);
         });
-        var names = ["", "طبقة وحدة", "طبقتان", "3 طبقات", "4 طبقات", "5 طبقات", "6 طبقات"];
-        $("#tierCountLbl").textContent = names[state.tiers.length] || state.tiers.length + " طبقات";
+        var names = isAr() ? ["", "طبقة وحدة", "طبقتان", "3 طبقات", "4 طبقات", "5 طبقات", "6 طبقات"] : ["", "1 étage", "2 étages", "3 étages", "4 étages", "5 étages", "6 étages"];
+        $("#tierCountLbl").textContent = names[state.tiers.length] || state.tiers.length + (isAr() ? " طبقات" : " étages");
       }
       function setTierDia(v){
         state.tiers[state.selTier].diaCm = +v;
-        $("#diaRange").value = v; $("#diaVal").textContent = "Ø " + v + " سم";
-        $("#tsDia").value = v; $("#tsDiaVal").textContent = "Ø " + v + " سم";
+        $("#diaRange").value = v; $("#diaVal").textContent = "Ø " + v + (isAr() ? " سم" : " cm");
+        $("#tsDia").value = v; $("#tsDiaVal").textContent = "Ø " + v + (isAr() ? " سم" : " cm");
         rebuildSoon();
       }
       function setTierH(v){
         state.tiers[state.selTier].hCm = +v;
-        $("#hRange").value = v; $("#hVal").textContent = v + " سم";
-        $("#tsH").value = v; $("#tsHVal").textContent = v + " سم";
+        $("#hRange").value = v; $("#hVal").textContent = v + (isAr() ? " سم" : " cm");
+        $("#tsH").value = v; $("#tsHVal").textContent = v + (isAr() ? " سم" : " cm");
         rebuildSoon();
       }
       function syncTsShape(v){
@@ -1982,15 +2012,15 @@
       function syncTierEditor(){
         renderTierPick();
         var t = state.tiers[state.selTier];
-        $("#tsDia").value = t.diaCm; $("#tsDiaVal").textContent = "Ø " + t.diaCm + " سم";
-        $("#tsH").value = t.hCm; $("#tsHVal").textContent = t.hCm + " سم";
+        $("#tsDia").value = t.diaCm; $("#tsDiaVal").textContent = "Ø " + t.diaCm + (isAr() ? " سم" : " cm");
+        $("#tsH").value = t.hCm; $("#tsHVal").textContent = t.hCm + (isAr() ? " سم" : " cm");
         syncSeg($("#shapeSeg"), t.shape, "shape");
         syncTsShape(t.shape);
         syncSeg($("#textureSeg"), t.texture, "texture");
         $("#marbleRow").style.display = t.texture === "marble" ? "block" : "none";
         $("#marbleColor").value = t.marble2; $("#marbleHex").textContent = t.marble2;
-        $("#diaRange").value = t.diaCm; $("#diaVal").textContent = "Ø " + t.diaCm + " سم";
-        $("#hRange").value = t.hCm; $("#hVal").textContent = t.hCm + " سم";
+        $("#diaRange").value = t.diaCm; $("#diaVal").textContent = "Ø " + t.diaCm + (isAr() ? " سم" : " cm");
+        $("#hRange").value = t.hCm; $("#hVal").textContent = t.hCm + (isAr() ? " سم" : " cm");
         $("#tierColorMini").value = t.color;
         buildSwatches($("#tierSwatches"), CREAMS.slice(0, 6), t.color, null, function(it){ setTierColor(it.c); });
       }
@@ -2001,14 +2031,14 @@
         buildCake();
       }
       $("#btnTierPlus").addEventListener("click", function(){
-        if (state.tiers.length >= 6){ showModal("وصلت للحد الأقصى", "ما تقدرش تزيد أكثر من 6 طبقات في الكيكة."); return; }
+        if (state.tiers.length >= 6){ showModal(isAr() ? "وصلت للحد الأقصى" : "Limite atteinte", isAr() ? "ما تقدرش تزيد أكثر من 6 طبقات في الكيكة." : "Tu ne peux pas ajouter plus de 6 étages au gâteau."); return; }
         var top = state.tiers[state.tiers.length - 1];
         state.tiers.push(mkTier(top.shape, Math.max(12, top.diaCm - 4), top.hCm, top.color, top.texture));
         state.selTier = state.tiers.length - 1;
         syncTierEditor(); buildCake();
       });
       $("#btnTierMinus").addEventListener("click", function(){
-        if (state.tiers.length <= 1){ showModal("مستحيل", "لازم تبقى طبقة وحدة على الأقل في الكيكة."); return; }
+        if (state.tiers.length <= 1){ showModal(isAr() ? "مستحيل" : "Impossible", isAr() ? "لازم تبقى طبقة وحدة على الأقل في الكيكة." : "Il doit rester au moins un étage dans le gâteau."); return; }
         state.tiers.splice(state.selTier, 1);
         state.selTier = Math.min(state.selTier, state.tiers.length - 1);
         syncTierEditor(); buildCake();
@@ -2048,6 +2078,47 @@
           ch.setAttribute("aria-pressed", ix >= 0 ? "false" : "true");
         });
       });
+      /* ============ Custom "+" option — flavor / filling / allergy ============ */
+      var customFlavor = "", customFilling = "", customAllergy = "";
+      var customGroup = null;
+      function openCustom(group){
+        customGroup = group;
+        var row = $("#customRow");
+        var anchor = group === "flavor" ? $("#flavorSeg") : group === "filling" ? $("#fillingSeg") : $("#allergyChips");
+        anchor.parentNode.insertBefore(row, anchor.nextSibling);
+        row.hidden = false;
+        var inp = $("#customInput");
+        inp.value = group === "flavor" ? customFlavor : group === "filling" ? customFilling : customAllergy;
+        inp.focus();
+      }
+      function closeCustom(){ $("#customRow").hidden = true; customGroup = null; }
+      function upsertCustomBtn(seg, attr, text){
+        var b = seg.querySelector('[data-' + attr + '="custom"]');
+        if (!b){ b = document.createElement("button"); b.setAttribute("data-" + attr, "custom"); b.setAttribute("aria-pressed", "false"); seg.insertBefore(b, seg.querySelector(".add-custom")); }
+        b.textContent = text;
+      }
+      function upsertCustomChip(text){
+        var c = document.querySelector('#allergyChips [data-allergy="custom"]');
+        if (!c){
+          c = document.createElement("button"); c.className = "chip"; c.setAttribute("data-allergy", "custom"); c.setAttribute("aria-pressed", "false");
+          c.appendChild(document.createTextNode(text));
+          var tick = document.createElement("span"); tick.className = "tick"; tick.textContent = "✓"; c.appendChild(tick);
+          c.addEventListener("click", function(){ var ix = allergies.indexOf("custom"); if (ix >= 0) allergies.splice(ix, 1); else allergies.push("custom"); c.setAttribute("aria-pressed", ix >= 0 ? "false" : "true"); });
+          document.getElementById("allergyChips").insertBefore(c, document.querySelector("#allergyChips .add-custom"));
+        } else { c.childNodes[0].textContent = text; }
+      }
+      function confirmCustom(){
+        var v = $("#customInput").value.trim();
+        if (!v || !customGroup){ closeCustom(); return; }
+        if (customGroup === "flavor"){ customFlavor = v; upsertCustomBtn($("#flavorSeg"), "flavor", v); flavor = "custom"; syncSeg($("#flavorSeg"), "custom", "flavor"); }
+        else if (customGroup === "filling"){ customFilling = v; upsertCustomBtn($("#fillingSeg"), "filling", v); filling = "custom"; syncSeg($("#fillingSeg"), "custom", "filling"); }
+        else { customAllergy = v; upsertCustomChip(v); if (allergies.indexOf("custom") < 0) allergies.push("custom"); var ch = document.querySelector('#allergyChips [data-allergy="custom"]'); if (ch) ch.setAttribute("aria-pressed", "true"); }
+        closeCustom();
+      }
+      $$(".add-custom").forEach(function(b){ b.addEventListener("click", function(){ openCustom(b.dataset.group); }); });
+      $("#customOk").addEventListener("click", confirmCustom);
+      $("#customCancel").addEventListener("click", closeCustom);
+      $("#customInput").addEventListener("keydown", function(e){ if (e.key === "Enter"){ e.preventDefault(); confirmCustom(); } });
       $("#orderNotes").addEventListener("input", function(e){ customerNotes = e.target.value; });
 
       function syncAllUI(){
@@ -2061,7 +2132,7 @@
         selectedFree = -1;
         drawCanvas.getContext("2d").clearRect(0, 0, 1024, 1024);
         syncAllUI(); buildEnvironment(); buildCake();
-        toast("رجعنا للتصميم الأول");
+        toast(isAr() ? "رجعنا للتصميم الأول" : "Design réinitialisé");
       });
       $("#btnSpin").addEventListener("click", function(){
         controls.autoRotate = !controls.autoRotate;
@@ -2077,7 +2148,7 @@
         a.href = renderer.domElement.toDataURL("image/png");
         a.download = "layer-cake-jiji.png";
         document.body.appendChild(a); a.click(); a.remove();
-        toast("تحمّلات تصويرة الكيكة");
+        toast(isAr() ? "تحمّلات تصويرة الكيكة" : "Photo du gâteau téléchargée");
       }
       $("#btnDownload").addEventListener("click", downloadPNG);
       $("#btnDownload2").addEventListener("click", downloadPNG);
@@ -2092,11 +2163,11 @@
         var DE = {roses:"Roses", babbreath:"Gypsophile", pearls:"Perles", bows:"Nœuds", ribbon:"Ruban", cherries:"Cerises", strawberries:"Fraises", blueberries:"Myrtilles", macarons:"Macarons", chocolate:"Morceaux de chocolat", goldleaf:"Feuille d'or", candles:"Bougies", crown:"Couronne", drip:"Chocolat fondu", sprinkles:"Vermicelles colorés"};
         var lines = [];
         lines.push("Bonjour Layer Cake by Jiji, je veux commander un layer cake personnalisé :");
-        lines.push("— Saveur : " + (FL[flavor] || flavor));
-        lines.push("— Garniture : " + (FI[filling] || filling));
+        lines.push("— Saveur : " + (flavor === "custom" ? customFlavor : (FL[flavor] || flavor)));
+        lines.push("— Garniture : " + (filling === "custom" ? customFilling : (FI[filling] || filling)));
         lines.push("— Parts : " + servings + " personnes");
         lines.push("— Sucré : " + (SW[sweetness] || sweetness));
-        if (allergies.length) lines.push("— Allergies : " + allergies.map(function(a){ return AL[a] || a; }).join(", "));
+        if (allergies.length) lines.push("— Allergies : " + allergies.map(function(a){ return a === "custom" ? customAllergy : (AL[a] || a); }).join(", "));
         var tiersTxt = state.tiers.map(function(t, i){
           return "étage " + (i+1) + " : " + (SH[t.shape] || t.shape) + " Ø " + t.diaCm + " cm x " + t.hCm + " cm, " + t.color;
         }).join(" ; ");
@@ -2117,10 +2188,10 @@
       function sendOrder(){
         var m = orderText();
         function show(){
-          showModal("طلبك جاهز", "نسخنا الطلب — اضغط على الزر الذهبي باش تفتح إنستغرام والصقو في رسالة جيجي.", {
+          showModal(isAr() ? "طلبك جاهز" : "Ta commande est prête", isAr() ? "نسخنا الطلب — اضغط على الزر الذهبي باش تفتح إنستغرام والصقو في رسالة جيجي." : "Ta commande est copiée — appuie sur le bouton doré pour ouvrir Instagram et colle-la dans le message à Jiji.", {
             message: m,
-            primary: "افتح إنستغرام",
-            secondary: "إغلاق",
+            primary: isAr() ? "افتح إنستغرام" : "Ouvrir Instagram",
+            secondary: isAr() ? "إغلاق" : "Fermer",
             onPrimary: function(){ window.open("https://ig.me/m/layercake_by_jiji_", "_blank"); }
           });
         }
@@ -2137,9 +2208,9 @@
           fetch(url).then(function(r){ return r.blob(); }).then(function(blob){
             var file = new File([blob], "layer-cake-jiji.png", {type:"image/png"});
             if (navigator.canShare && navigator.canShare({files:[file]})){
-              navigator.share({files:[file], title:"Layer Cake by Jiji — تصميم كيكتي"}).catch(function(){});
+              navigator.share({files:[file], title:(isAr() ? "Layer Cake by Jiji — تصميم كيكتي" : "Layer Cake by Jiji — mon gâteau")}).catch(function(){});
             } else {
-              navigator.share({title:"Layer Cake by Jiji — تصميم كيكتي"}).catch(function(){});
+              navigator.share({title:(isAr() ? "Layer Cake by Jiji — تصميم كيكتي" : "Layer Cake by Jiji — mon gâteau")}).catch(function(){});
             }
           }).catch(downloadPNG);
         } else downloadPNG();
@@ -2170,6 +2241,7 @@
       resize();
       animate();
       setTimeout(resize, 60);
+      try{ var savedLang = localStorage.getItem("lcj_lang"); if (savedLang === "ar" || savedLang === "fr"){ setLang(savedLang); } }catch(e){}
     })();
     </script>
   </body>
