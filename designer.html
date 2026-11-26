@@ -400,11 +400,11 @@
 
       /* ============ Data ============ */
       var CREAMS = [
-        {n:"أبيض", f:"Blanc", c:"#fdfbf6"}, {n:"عاجي", f:"Ivoire", c:"#f5e9d4"}, {n:"وردي فاتح", f:"Rose clair", c:"#f9dee4"},
-        {n:"وردي", f:"Rose", c:"#f0a3ba"}, {n:"خوخي", f:"Pêche", c:"#f9c69b"}, {n:"ليموني", f:"Citron", c:"#f6e49c"},
-        {n:"مريمية", f:"Sauge", c:"#b3c2a4"}, {n:"سماوي", f:"Ciel", c:"#bcd7ea"}, {n:"لافندر", f:"Lavande", c:"#d3c4e6"},
-        {n:"كراميل", f:"Caramel", c:"#c68b4e"}, {n:"شوكولاتة", f:"Chocolat", c:"#6b4232"}, {n:"عنابي", f:"Bordeaux", c:"#a63a4a"},
-        {n:"أسود", f:"Noir", c:"#3b3633"}, {n:"أحمر", f:"Rouge", c:"#c23b4e"}, {n:"فيروزي", f:"Turquoise", c:"#7fc4bd"}, {n:"بيج وردي", f:"Beige rosé", c:"#e8cdbb"}
+        {n:"أبيض", f:"Blanc", c:"#fdfbf6", e:"⬜"}, {n:"عاجي", f:"Ivoire", c:"#f5e9d4", e:"⬜"}, {n:"وردي فاتح", f:"Rose clair", c:"#f9dee4", e:"🌸"},
+        {n:"وردي", f:"Rose", c:"#f0a3ba", e:"🌸"}, {n:"خوخي", f:"Pêche", c:"#f9c69b", e:"🟧"}, {n:"ليموني", f:"Citron", c:"#f6e49c", e:"🟨"},
+        {n:"مريمية", f:"Sauge", c:"#b3c2a4", e:"🟩"}, {n:"سماوي", f:"Ciel", c:"#bcd7ea", e:"🟦"}, {n:"لافندر", f:"Lavande", c:"#d3c4e6", e:"🟪"},
+        {n:"كراميل", f:"Caramel", c:"#c68b4e", e:"🟫"}, {n:"شوكولاتة", f:"Chocolat", c:"#6b4232", e:"🟫"}, {n:"عنابي", f:"Bordeaux", c:"#a63a4a", e:"🟥"},
+        {n:"أسود", f:"Noir", c:"#3b3633", e:"⬛"}, {n:"أحمر", f:"Rouge", c:"#c23b4e", e:"🟥"}, {n:"فيروزي", f:"Turquoise", c:"#7fc4bd", e:"🟦"}, {n:"بيج وردي", f:"Beige rosé", c:"#e8cdbb", e:"🌸"}
       ];
       var ROSES = [
         {n:"وردي", c:"#e88ca0"}, {n:"أحمر", c:"#c23b4e"}, {n:"أبيض", c:"#f7f2ea"},
@@ -2128,6 +2128,16 @@
       $("#btnDownload2").addEventListener("click", downloadPNG);
 
       /* ============ Send the order to Jiji on Instagram ============ */
+      function colorLabel(hex){ /* v12.5: nearest swatch -> "<emoji> <French name>" */
+        function rgb(h){ h = h.replace("#", ""); return [parseInt(h.substr(0, 2), 16), parseInt(h.substr(2, 2), 16), parseInt(h.substr(4, 2), 16)]; }
+        var target = rgb(hex), best = null, bestD = 1e9, i, c, dd;
+        for (i = 0; i < CREAMS.length; i++){
+          c = rgb(CREAMS[i].c);
+          dd = (c[0]-target[0])*(c[0]-target[0]) + (c[1]-target[1])*(c[1]-target[1]) + (c[2]-target[2])*(c[2]-target[2]);
+          if (dd < bestD){ bestD = dd; best = CREAMS[i]; }
+        }
+        return best ? (best.e + " " + best.f) : hex;
+      }
       function orderText(){
         var FL = {vanilla:"Vanille", choc:"Chocolat", strawberry:"Fraise", lemon:"Citron", caramel:"Caramel", red:"Red Velvet", pistachio:"Pistache", coffee:"Café"};
         var FI = {butter:"Crème au beurre", ganache:"Ganache chocolat", caramel:"Caramel", fruits:"Fruits", jam:"Confiture", nutella:"Nutella"};
@@ -2143,7 +2153,7 @@
         lines.push("— Sucré : " + (SW[sweetness] || sweetness));
         if (allergies.length) lines.push("— Allergies : " + allergies.map(function(a){ return a === "custom" ? customAllergy : (AL[a] || a); }).join(", "));
         var tiersTxt = state.tiers.map(function(t, i){
-          return "étage " + (i+1) + " : " + (SH[t.shape] || t.shape) + " Ø " + t.diaCm + " cm x " + t.hCm + " cm, " + t.color;
+          return "étage " + (i+1) + " : " + (SH[t.shape] || t.shape) + " Ø " + t.diaCm + " cm x " + t.hCm + " cm, " + colorLabel(t.color);
         }).join(" ; ");
         lines.push("— Design : " + state.tiers.length + " étage(s) — " + tiersTxt);
         var decoOn = DECOS.filter(function(x){ return state.deco[x.id]; }).map(function(x){ return DE[x.id] || x.id; });
