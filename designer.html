@@ -376,12 +376,14 @@
               <button data-dgroup="1" aria-pressed="false">مأكولات</button>
               <button data-dgroup="2" aria-pressed="false">فواكه وخضار</button>
               <button data-dgroup="3" aria-pressed="false">أخرى</button>
+              <button data-dgroup="4" aria-pressed="false">تماثيل</button>
+              <button data-dgroup="5" aria-pressed="false">رموز</button>
             </div>
             <h3>لون الزواق</h3>
             <div class="row">
               <input type="color" id="freeColor" value="#e88ca0" aria-label="لون الزواق" />
               <span class="hexval" id="freeColorHex">#e88ca0</span>
-              <span class="lbl">للوردة والزهرة والفيونكة واللؤلؤ والماكرون — الفواكه بلونها الطبيعي</span>
+              <span class="lbl">للوردة والزهرة والفيونكة واللؤلؤ والماكرون والفراشة والبالون — الفواكه والتماثيل والرموز بلونها الطبيعي</span>
             </div>
             <div class="row" style="margin-top:.6rem">
               <button class="btn primary" id="btnPlaceMode" aria-pressed="false">تفعيل وضع الحط</button>
@@ -394,6 +396,11 @@
               <span class="val" id="freeSizeVal">4 سم</span>
             </div>
             <p class="note" id="freeInfo">ما كاش زواق حر محطوط دوقا.</p>
+            <h3>مناسبات جاهزة</h3>
+            <div class="row">
+              <button class="btn" id="btnThemeWedding">عرس</button>
+              <button class="btn" id="btnThemeBirthday">عيد ميلاد</button>
+            </div>
           </section>
 
           <!-- DRAW -->
@@ -535,7 +542,7 @@
         {id:"goldleaf", n:"أوراق ذهبية"}, {id:"candles", n:"شموع مضيئة"},
         {id:"crown", n:"تاج ذهبي"}, {id:"drip", n:"شوكولاتة ذايبة"}, {id:"sprinkles", n:"رشّات ملونة"}
       ];
-      var FREE_TYPES = { rose:"وردة", flower:"زهرة", ball:"كرة لؤلؤ", bow:"فيونكة", strawberry:"فراولة", blueberry:"توت", macaron:"ماكرون", cherry:"كرزة" };
+      var FREE_TYPES = { rose:"وردة", flower:"زهرة", babys:"جيبسوفيلا", ball:"كرة لؤلؤ", bow:"فيونكة", strawberry:"فراولة", blueberry:"توت", macaron:"ماكرون", cherry:"كرزة", candle:"شمعة", balloon:"بالون", bride:"عروسان", teddy:"دبدوب", bunny:"أرنب", butterfly:"فراشة", heart:"قلب", star:"نجمة", crown:"تاج" };
       var CM_R = 0.125, CM_H = 0.09, BASE_Y = 0.66;
       function mkTier(shape, dia, h, color, tex){
         return { shape:shape, diaCm:dia, hCm:h, color:color, texture:tex || "butter", marble2:"#d8b7c3" };
@@ -1057,15 +1064,219 @@
         }
         return g;
       }
+
+      /* ---- v9: figurines / symbols / candle / balloon (ported from the Cake Designer space, normalised to the rose's scale) ---- */
+      function makeCouple(){
+        var g = new THREE.Group();
+        var skin = new THREE.MeshStandardMaterial({ color:0xe8b98f, roughness:0.55, metalness:0 });
+        var hairM = new THREE.MeshStandardMaterial({ color:0x4a3220, roughness:0.7, metalness:0 });
+        var groom = new THREE.Group();
+        var suit = new THREE.MeshStandardMaterial({ color:0x26232a, roughness:0.55, metalness:0 });
+        var gBody = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.92, 1.08, 4.4, 18), suit));
+        gBody.position.y = 2.2; groom.add(gBody);
+        var shirt = new THREE.Mesh(new THREE.BoxGeometry(1.05, 2.1, 0.28), new THREE.MeshStandardMaterial({ color:0xf7f2e9, roughness:0.5, metalness:0 }));
+        shirt.position.set(0, 3, 0.88); groom.add(shirt);
+        var bowtie = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.22, 0.12), new THREE.MeshStandardMaterial({ color:0x141216, roughness:0.5, metalness:0 }));
+        bowtie.position.set(0, 4.05, 1.02); groom.add(bowtie);
+        var gHead = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.92, 18, 14), skin));
+        gHead.position.y = 5.35; groom.add(gHead);
+        var gHair = new THREE.Mesh(new THREE.SphereGeometry(0.95, 18, 12), hairM);
+        gHair.scale.set(1, 0.55, 1); gHair.position.set(0, 5.85, -0.08); groom.add(gHair);
+        groom.position.x = 1.55; g.add(groom);
+        var bride = new THREE.Group();
+        var dressM = new THREE.MeshPhysicalMaterial({ color:0xf7f2e9, roughness:0.35, clearcoat:0.8, clearcoatRoughness:0.25 });
+        var dPts = [[0,0],[2.0,0.08],[1.85,0.7],[1.3,2],[0.78,3.4],[0.72,4.3],[0,4.3]].map(function(p){ return new THREE.Vector2(p[0], p[1]); });
+        bride.add(shadowed(new THREE.Mesh(new THREE.LatheGeometry(dPts, 26), dressM)));
+        var bHead = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.84, 18, 14), skin));
+        bHead.position.y = 5.2; bride.add(bHead);
+        var bun = new THREE.Mesh(new THREE.SphereGeometry(0.42, 12, 10), hairM);
+        bun.position.set(0, 5.95, -0.35); bride.add(bun);
+        var veil = new THREE.Mesh(new THREE.ConeGeometry(1.45, 2.9, 20, 1, true), new THREE.MeshPhysicalMaterial({ color:0xffffff, transparent:true, opacity:0.32, roughness:0.4, side:THREE.DoubleSide, depthWrite:false }));
+        veil.position.set(0, 4.6, -0.45); bride.add(veil);
+        var bouquet = new THREE.Mesh(new THREE.SphereGeometry(0.5, 10, 8), new THREE.MeshPhysicalMaterial({ color:0xc12744, roughness:0.3, clearcoat:0.8, clearcoatRoughness:0.25 }));
+        bouquet.position.set(0, 3.3, 1.05); bride.add(bouquet);
+        bride.position.x = -1.7; g.add(bride);
+        g.scale.setScalar(0.10);
+        return g;
+      }
+      function makeBear(){
+        var g = new THREE.Group();
+        var fur = new THREE.MeshStandardMaterial({ color:0xb08968, roughness:0.75, metalness:0 });
+        var cream = new THREE.MeshStandardMaterial({ color:0xefe3cc, roughness:0.8, metalness:0 });
+        var body = shadowed(new THREE.Mesh(new THREE.SphereGeometry(1.45, 20, 16), fur));
+        body.scale.set(1, 1.1, 0.92); body.position.y = 1.55; g.add(body);
+        var belly = new THREE.Mesh(new THREE.SphereGeometry(0.95, 16, 12), cream);
+        belly.scale.set(1, 1.15, 0.5); belly.position.set(0, 1.5, 0.78); g.add(belly);
+        var head = shadowed(new THREE.Mesh(new THREE.SphereGeometry(1.1, 20, 16), fur));
+        head.position.y = 3.6; g.add(head);
+        var s, ear, arm, foot;
+        for (s = -1; s <= 1; s += 2){
+          ear = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.42, 12, 10), fur));
+          ear.position.set(s*0.78, 4.5, 0); g.add(ear);
+          arm = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.5, 12, 10), fur));
+          arm.position.set(s*1.45, 1.9, 0.25); g.add(arm);
+          foot = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.55, 12, 10), fur));
+          foot.scale.set(1, 0.7, 1.25); foot.position.set(s*0.72, 0.35, 1.05); g.add(foot);
+        }
+        var snout = new THREE.Mesh(new THREE.SphereGeometry(0.52, 14, 10), cream);
+        snout.scale.set(1, 0.72, 0.75); snout.position.set(0, 3.4, 0.95); g.add(snout);
+        var nose = new THREE.Mesh(new THREE.SphereGeometry(0.17, 10, 8), new THREE.MeshStandardMaterial({ color:0x33302a, roughness:0.5, metalness:0 }));
+        nose.position.set(0, 3.55, 1.42); g.add(nose);
+        g.scale.setScalar(0.13);
+        return g;
+      }
+      function makeRabbit(){
+        var g = new THREE.Group();
+        var fur = new THREE.MeshStandardMaterial({ color:0xf5f0e8, roughness:0.75, metalness:0 });
+        var pink = new THREE.MeshStandardMaterial({ color:0xf2b8c6, roughness:0.7, metalness:0 });
+        var body = shadowed(new THREE.Mesh(new THREE.SphereGeometry(1.3, 20, 16), fur));
+        body.scale.set(1, 1.05, 0.95); body.position.y = 1.35; g.add(body);
+        var head = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.95, 20, 16), fur));
+        head.position.y = 3.15; g.add(head);
+        var s, ear, inner, foot;
+        for (s = -1; s <= 1; s += 2){
+          ear = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.3, 12, 10), fur));
+          ear.scale.set(1, 3.2, 0.75); ear.position.set(s*0.42, 4.75, 0); ear.rotation.z = -s*0.14; g.add(ear);
+          inner = new THREE.Mesh(new THREE.SphereGeometry(0.16, 12, 10), pink);
+          inner.scale.set(1, 3.2, 0.7); inner.position.set(s*0.42, 4.75, 0.24); inner.rotation.z = -s*0.14; g.add(inner);
+          foot = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.5, 12, 10), fur));
+          foot.scale.set(1, 0.65, 1.3); foot.position.set(s*0.65, 0.3, 0.95); g.add(foot);
+        }
+        var nose = new THREE.Mesh(new THREE.SphereGeometry(0.13, 8, 8), pink);
+        nose.position.set(0, 3.1, 0.93); g.add(nose);
+        var tail = new THREE.Mesh(new THREE.SphereGeometry(0.45, 12, 10), fur);
+        tail.position.set(0, 1.1, -1.15); g.add(tail);
+        g.scale.setScalar(0.11);
+        return g;
+      }
+      function makeButterfly(colorHex){
+        var g = new THREE.Group();
+        var wingM = new THREE.MeshPhysicalMaterial({ color: colorHex, roughness:0.4, clearcoat:0.4, side:THREE.DoubleSide });
+        var sh2 = new THREE.Shape();
+        sh2.moveTo(0, 0);
+        sh2.bezierCurveTo(0.9, 0.9, 2.3, 1.5, 2.6, 0.6);
+        sh2.bezierCurveTo(2.8, -0.1, 1.6, -0.5, 1.1, -0.7);
+        sh2.bezierCurveTo(1.9, -1.2, 1.7, -2.2, 0.8, -2.1);
+        sh2.bezierCurveTo(0.1, -2, 0, -1, 0, 0);
+        var wGeo = new THREE.ShapeGeometry(sh2, 12);
+        var wr = new THREE.Mesh(wGeo, wingM);
+        wr.position.x = 0.12; wr.rotation.y = 0.35; g.add(wr);
+        var wl = new THREE.Mesh(wGeo, wingM);
+        wl.scale.x = -1; wl.position.x = -0.12; wl.rotation.y = -0.35; g.add(wl);
+        var bodyM = new THREE.MeshStandardMaterial({ color:0x3a2e28, roughness:0.6, metalness:0 });
+        var bbody = new THREE.Mesh(new THREE.SphereGeometry(0.27, 12, 10), bodyM);
+        bbody.scale.set(1, 3.6, 1); bbody.position.y = -0.2; g.add(bbody);
+        var bhead = new THREE.Mesh(new THREE.SphereGeometry(0.33, 10, 8), bodyM);
+        bhead.position.y = 1.05; g.add(bhead);
+        var sg, ant;
+        for (sg = -1; sg <= 1; sg += 2){
+          ant = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 1, 5), bodyM);
+          ant.position.set(sg*0.3, 1.55, 0); ant.rotation.z = -sg*0.5; g.add(ant);
+        }
+        var inner = new THREE.Group(); inner.position.y = 2.15; inner.add(g);
+        var outer = new THREE.Group(); outer.add(inner);
+        outer.scale.setScalar(0.15);
+        return outer;
+      }
+      function makeHeartTopper(){
+        var g = new THREE.Group();
+        var s = new THREE.Shape();
+        s.moveTo(0, 2.6);
+        s.bezierCurveTo(0, 3.1, -0.5, 3.5, -1.1, 3.5);
+        s.bezierCurveTo(-2.3, 3.5, -2.6, 2.2, -2.6, 1.4);
+        s.bezierCurveTo(-2.6, 0.4, -1.4, -0.6, 0, -1.8);
+        s.bezierCurveTo(1.4, -0.6, 2.6, 0.4, 2.6, 1.4);
+        s.bezierCurveTo(2.6, 2.2, 2.3, 3.5, 1.1, 3.5);
+        s.bezierCurveTo(0.5, 3.5, 0, 3.1, 0, 2.6);
+        var geo = new THREE.ExtrudeGeometry(s, { depth:0.55, bevelEnabled:true, bevelThickness:0.12, bevelSize:0.12, bevelSegments:2, steps:1 });
+        geo.translate(0, 0, -0.27);
+        var mat = new THREE.MeshPhysicalMaterial({ color:0xd42b4d, roughness:0.2, clearcoat:0.8, clearcoatRoughness:0.25 });
+        var heart = shadowed(new THREE.Mesh(geo, mat));
+        heart.position.y = 3.4; g.add(heart);
+        var stick = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 3.6, 8), new THREE.MeshStandardMaterial({ color:0xc9973f, roughness:0.3, metalness:1 }));
+        stick.position.y = 1.7; g.add(stick);
+        g.scale.setScalar(0.093);
+        return g;
+      }
+      function makeStarTopper(){
+        var g = new THREE.Group();
+        var s = new THREE.Shape();
+        var k, a, rr, x, y;
+        for (k = 0; k < 10; k++){
+          a = k/10*Math.PI*2 - Math.PI/2;
+          rr = k % 2 === 0 ? 2.2 : 1.02;
+          x = Math.cos(a)*rr; y = Math.sin(a)*rr;
+          if (k === 0) s.moveTo(x, y); else s.lineTo(x, y);
+        }
+        s.closePath();
+        var geo = new THREE.ExtrudeGeometry(s, { depth:0.5, bevelEnabled:true, bevelThickness:0.1, bevelSize:0.1, bevelSegments:2, steps:1 });
+        geo.translate(0, 0, -0.25);
+        var mat = new THREE.MeshStandardMaterial({ color:0xe8a317, roughness:0.3, metalness:1 });
+        var star = shadowed(new THREE.Mesh(geo, mat));
+        star.position.y = 5.6; g.add(star);
+        var stick = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 3.8, 8), new THREE.MeshStandardMaterial({ color:0xc9973f, roughness:0.3, metalness:1 }));
+        stick.position.y = 1.85; g.add(stick);
+        g.scale.setScalar(0.083);
+        return g;
+      }
+      function makeCandleTopper(){
+        var g = new THREE.Group();
+        var gold = new THREE.MeshStandardMaterial({ color:0xc9973f, roughness:0.3, metalness:1 });
+        var base = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.95, 1.05, 0.28, 20), gold));
+        base.position.y = 0.14; g.add(base);
+        var bodyM = new THREE.MeshPhysicalMaterial({ color:0xe88ca0, roughness:0.25, clearcoat:0.8, clearcoatRoughness:0.25 });
+        var body = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 4.1, 20), bodyM));
+        body.position.y = 2.3; g.add(body);
+        var wick = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.35, 6), new THREE.MeshStandardMaterial({ color:0x33302a, roughness:0.9, metalness:0 }));
+        wick.position.y = 4.5; g.add(wick);
+        var flameM = new THREE.MeshStandardMaterial({ color:0xffca7a, emissive:0xff9d2e, emissiveIntensity:2.2, roughness:0.4 });
+        var flame = new THREE.Mesh(new THREE.SphereGeometry(0.34, 12, 10), flameM);
+        flame.scale.set(1, 1.8, 1); flame.position.y = 5.05; g.add(flame);
+        var cv = document.createElement("canvas"); cv.width = cv.height = 128;
+        var c2 = cv.getContext("2d");
+        var grad = c2.createRadialGradient(64, 64, 2, 64, 64, 62);
+        grad.addColorStop(0, "rgba(255,190,90,0.55)"); grad.addColorStop(1, "rgba(255,190,90,0)");
+        c2.fillStyle = grad; c2.fillRect(0, 0, 128, 128);
+        var stex = new THREE.CanvasTexture(cv);
+        var spr = new THREE.Sprite(new THREE.SpriteMaterial({ map: stex, transparent:true, depthWrite:false, blending:THREE.AdditiveBlending }));
+        spr.scale.setScalar(3.4); spr.position.y = 5.05; g.add(spr);
+        g.scale.setScalar(0.11);
+        return g;
+      }
+      function makeBalloon(colorHex){
+        var g = new THREE.Group();
+        var m = new THREE.MeshPhysicalMaterial({ color: colorHex, roughness:0.1, clearcoat:0.8, clearcoatRoughness:0.25 });
+        var b = shadowed(new THREE.Mesh(new THREE.SphereGeometry(2.1, 24, 18), m));
+        b.scale.y = 1.18; b.position.y = 8.3; g.add(b);
+        var knot = new THREE.Mesh(new THREE.ConeGeometry(0.34, 0.6, 10), m);
+        knot.position.y = 5.75; knot.rotation.x = Math.PI; g.add(knot);
+        var curve = new THREE.CatmullRomCurve3([
+          new THREE.Vector3(0, 5.5, 0), new THREE.Vector3(0.35, 3.8, 0.1),
+          new THREE.Vector3(-0.3, 2, -0.05), new THREE.Vector3(0, 0, 0)
+        ]);
+        g.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 20, 0.035, 5), new THREE.MeshStandardMaterial({ color:0x8a8578, roughness:0.8, metalness:0 })));
+        g.scale.setScalar(0.06);
+        return g;
+      }
       function makeFreeItem(type, idx, colorHex){
         var g;
         if (type === "rose") g = makeRose(colorHex);
         else if (type === "flower") g = makeFlower(colorHex);
+        else if (type === "babys") g = makeBabBreath();
         else if (type === "ball") g = makeBall(colorHex);
         else if (type === "bow") g = makeBow(colorHex);
         else if (type === "strawberry") g = makeStrawberry();
         else if (type === "blueberry") g = makeBlueberry();
         else if (type === "macaron") g = makeMacaron(idx, colorHex);
+        else if (type === "candle") g = makeCandleTopper();
+        else if (type === "balloon") g = makeBalloon(colorHex);
+        else if (type === "bride") g = makeCouple();
+        else if (type === "teddy") g = makeBear();
+        else if (type === "bunny") g = makeRabbit();
+        else if (type === "butterfly") g = makeButterfly(colorHex);
+        else if (type === "heart") g = makeHeartTopper();
+        else if (type === "star") g = makeStarTopper();
+        else if (type === "crown") g = makeCrown();
         else g = makeCherry();
         return g;
       }
@@ -1834,12 +2045,14 @@
       /* ============ Decorations UI ============ */
       segWire("pipingSeg", "piping", function(v){ state.piping = v; buildCake(); });
       var DECO_CATS = [
-        { n:"نباتات", items:["rose", "flower"] },
+        { n:"نباتات", items:["rose", "flower", "babys"] },
         { n:"مأكولات", items:["macaron"] },
         { n:"فواكه وخضار", items:["strawberry", "blueberry", "cherry"] },
-        { n:"أخرى", items:["ball", "bow"] }
+        { n:"أخرى", items:["ball", "bow", "candle", "balloon"] },
+        { n:"تماثيل", items:["bride", "teddy", "bunny", "butterfly"] },
+        { n:"رموز", items:["heart", "star", "crown"] }
       ];
-      var FREE_COLORS = { rose:"#d42b4d", flower:"#e88ca0", strawberry:"#d42b2b", blueberry:"#5a4a8a", macaron:"#e88ca0", cherry:"#a4133c", ball:"#f2ead8", bow:"#e88ca0" };
+      var FREE_COLORS = { rose:"#d42b4d", flower:"#e88ca0", babys:"#ffffff", strawberry:"#d42b2b", blueberry:"#5a4a8a", macaron:"#e88ca0", cherry:"#a4133c", ball:"#f2ead8", bow:"#e88ca0", candle:"#e88ca0", balloon:"#d42b4d", bride:"#ffffff", teddy:"#b08968", bunny:"#f5f0e8", butterfly:"#e88ca0", heart:"#d42b4d", star:"#e8a317", crown:"#e8a317" };
 
       /* app-style: the group's items float beside the cake on the stage */
       var curDecoCat = 0;
@@ -1906,7 +2119,7 @@
       $("#freeColor").addEventListener("input", function(e){
         freeColor = e.target.value;
         $("#freeColorHex").textContent = freeColor;
-        if (selectedFree >= 0 && state.free[selectedFree] && {rose:1, flower:1, ball:1, bow:1, macaron:1}[state.free[selectedFree].type]){
+        if (selectedFree >= 0 && state.free[selectedFree] && {rose:1, flower:1, ball:1, bow:1, macaron:1, butterfly:1, balloon:1}[state.free[selectedFree].type]){
           state.free[selectedFree].color = freeColor;
           buildCake(); freeInfoUpdate();
         }
@@ -1952,6 +2165,35 @@
           buildCake(); freeInfoUpdate();
         }
       });
+
+      /* ============ Themes (مناسبات جاهزة) ============ */
+      function applyTheme(kind){
+        state.free = []; selectedFree = -1;
+        var ti = state.tiers.length - 1, r = tierR(ti);
+        function put(type, fx, fz, sizeCm){
+          var x = fx * r, z = fz * r;
+          if (inTop(ti, x, z)) addFree(type, x, z, sizeCm);
+        }
+        if (kind === "wedding"){
+          put("bride", 0, 0, 7);
+          put("rose", -0.5, 0.25, 4); put("rose", 0.5, 0.25, 4);
+          put("ball", -0.45, -0.3, 3); put("ball", 0.45, -0.3, 3);
+          state.text = ""; $("#cakeText").value = ""; renderTextTexture();
+          toast("تحطت مناسبة العرس");
+        } else {
+          put("candle", 0, -0.15, 6);
+          put("balloon", -0.5, 0.3, 6); put("balloon", 0.5, 0.3, 6);
+          put("star", 0, 0.45, 4);
+          state.text = "Happy Birthday"; state.textStyle = "gold";
+          $("#cakeText").value = "Happy Birthday";
+          syncSeg($("#textStyleSeg"), "gold", "tstyle");
+          renderTextTexture();
+          toast("تحطت مناسبة عيد الميلاد");
+        }
+        buildCake(); freeInfoUpdate();
+      }
+      $("#btnThemeWedding").addEventListener("click", function(){ applyTheme("wedding"); });
+      $("#btnThemeBirthday").addEventListener("click", function(){ applyTheme("birthday"); });
 
       /* ============ Draw UI ============ */
       var BRUSHES = ["#6b4232", "#c23b4e", "#e88ca0", "#2e2a24", "#ffffff", "#c9973f", "#5f7d4c", "#4f9dd8"];
@@ -2095,8 +2337,8 @@
         var decoOn = DECOS.filter(function(x){ return state.deco[x.id]; }).map(function(x){ return DE[x.id] || x.id; });
         if (decoOn.length) lines.push("— Décor : " + decoOn.join(", "));
         if (state.free && state.free.length){
-          var FT = {rose:"Rose", flower:"Fleur", ball:"Perle", bow:"Nœud", strawberry:"Fraise", blueberry:"Myrtille", macaron:"Macaron", cherry:"Cerise"};
-          var TINT = {rose:1, flower:1, ball:1, bow:1, macaron:1};
+          var FT = {rose:"Rose", flower:"Fleur", babys:"Gypsophile", ball:"Perle", bow:"Nœud", strawberry:"Fraise", blueberry:"Myrtille", macaron:"Macaron", cherry:"Cerise", candle:"Bougie", balloon:"Ballon", bride:"Mariés", teddy:"Ourson", bunny:"Lapin", butterfly:"Papillon", heart:"Cœur", star:"Étoile", crown:"Couronne"};
+          var TINT = {rose:1, flower:1, ball:1, bow:1, macaron:1, butterfly:1, balloon:1};
           var freeTxt = state.free.map(function(it){ return (FT[it.type] || it.type) + (TINT[it.type] && it.color ? " " + it.color : ""); }).join(", ");
           lines.push("— Décor libre : " + state.free.length + " élément(s) — " + freeTxt);
         }
