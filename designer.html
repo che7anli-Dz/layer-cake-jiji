@@ -49,6 +49,10 @@
       .stage-tools{position:absolute; top:.7rem; inset-inline-start:.7rem; display:flex; flex-direction:column; gap:.5rem; z-index:3}
       .stage-tools .icon-btn{background:var(--panel); box-shadow:var(--shadow)}
       .stage-tools .icon-btn.active{background:var(--sage); color:#fff; border-color:var(--sage)}
+.deco-palette{position:absolute; top:.7rem; inset-inline-end:.7rem; display:flex; flex-direction:column; gap:.4rem; z-index:5}
+.deco-palette[hidden]{display:none}
+.deco-pal-btn{background:rgba(24,20,16,.85); color:#fff; border:1px solid rgba(255,255,255,.4); border-radius:10px; padding:.42rem .6rem; font:inherit; font-size:.8rem; font-weight:700; cursor:pointer; text-align:center; backdrop-filter:blur(4px)}
+.deco-pal-btn[aria-pressed="true"]{background:var(--sage); border-color:#fff}
       .fallback{position:absolute; inset:0; display:none; place-items:center; text-align:center; padding:2rem; color:var(--ink-soft); font-weight:700; pointer-events:none; z-index:1}
       .panel{width:384px; flex:none; background:var(--panel); border-inline-start:1px solid var(--line); display:flex; flex-direction:column; min-height:0}
       .tabs{display:flex; gap:.25rem; padding:.6rem .5rem .4rem; overflow-x:auto; scrollbar-width:none}
@@ -169,6 +173,7 @@
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V5a2 2 0 0 1 2-2h4M15 3h4a2 2 0 0 1 2 2v4M21 15v4a2 2 0 0 1-2 2h-4M9 21H5a2 2 0 0 1-2-2v-4"/><circle cx="12" cy="12" r="3.2"/></svg>
           </button>
         </div>
+        <div class="deco-palette" id="decoPalette" hidden aria-label="اختيارات الزواق"></div>
         <div class="fallback" id="fallback">تعذّر تحميل عارض ثلاثي الأبعاد.<br/>تحقق من الاتصال ثم أعد فتح الصفحة.</div>
         <div class="stage-hint" id="stageHint">اسحب بيدك لتدوير الكيكة · قرّب بإصبعين للتكبير</div>
       </section>
@@ -317,33 +322,10 @@
               <button class="chip" data-finish="powder" aria-pressed="false"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="8" r="1.3"/><circle cx="12" cy="5" r="1.1"/><circle cx="17" cy="9" r="1.3"/><circle cx="9" cy="14" r="1.1"/><circle cx="15" cy="15" r="1.2"/><circle cx="12" cy="19" r="1.1"/><circle cx="19" cy="18" r="1"/></svg></span>سكر بودرة<span class="tick">✓</span></button>
               <button class="chip" data-finish="gloss" aria-pressed="false"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3c2.5 3.2 6 6.6 6 10a6 6 0 1 1-12 0c0-3.4 3.5-6.8 6-10Z"/><path d="M9.5 13.5a2.8 2.8 0 0 0 2 3"/></svg></span>لمعة زبدة<span class="tick">✓</span></button>
             </div>
-            <h3>لون الشوكولاتة الذايبة</h3>
-            <div class="row">
-              <input type="color" id="dripPicker" value="#4a2c1c" aria-label="لون الشوكولاتة الذايبة" />
-              <span class="hexval" id="dripHex">#4a2c1c</span>
-            </div>
-            <div class="swatches" id="dripSwatches" style="margin-top:.6rem"></div>
-            <div class="sw-name" id="dripName"></div>
-            <h3>لون الشريط والفيونكات</h3>
-            <div class="row">
-              <input type="color" id="ribbonPicker" value="#e88ca0" aria-label="لون الشريط" />
-              <span class="hexval" id="ribbonHex">#e88ca0</span>
-            </div>
-            <div class="swatches" id="ribbonSwatches" style="margin-top:.6rem"></div>
-            <div class="sw-name" id="ribbonName"></div>
-            <h3>لون الورود والأزهار</h3>
-            <div class="row">
-              <input type="color" id="rosePicker" value="#e88ca0" aria-label="لون الورود" />
-              <span class="hexval" id="roseHex">#e88ca0</span>
-            </div>
-            <div class="swatches" id="roseSwatches" style="margin-top:.6rem"></div>
-            <div class="sw-name" id="roseName"></div>
           </section>
 
           <!-- DECORATIONS -->
           <section class="pane" id="pane-deco" role="tabpanel">
-            <h3>زواق تلقائي</h3>
-            <div class="chips" id="decoChips"></div>
             <h3>حواف الكريمة (التقليم)</h3>
             <div class="seg" id="pipingSeg">
               <button data-piping="shell" aria-pressed="true">أصداف</button>
@@ -352,16 +334,12 @@
               <button data-piping="none" aria-pressed="false">بلا حواف</button>
             </div>
             <h3>زواق حر — حطّه وين تحب</h3>
-            <p class="note">اختر نوع الزواق، فعّل «وضع الحط»، ومن بعد اضغط على سطح الكيكة باش يتحط تما. اسحب أي زواق حر بإصبعك باش تبدل بلاصتو، واضغط عليه باش تختارو وتكبّرو ولا تمسحو.</p>
-            <div class="seg" id="freeTypeSeg">
-              <button data-ftype="rose" aria-pressed="true">وردة</button>
-              <button data-ftype="flower" aria-pressed="false">زهرة</button>
-              <button data-ftype="ball" aria-pressed="false">كرة لؤلؤ</button>
-              <button data-ftype="bow" aria-pressed="false">فيونكة</button>
-              <button data-ftype="strawberry" aria-pressed="false">فراولة</button>
-              <button data-ftype="blueberry" aria-pressed="false">توت</button>
-              <button data-ftype="macaron" aria-pressed="false">ماكرون</button>
-              <button data-ftype="cherry" aria-pressed="false">كرزة</button>
+            <p class="note">اختار شكل من القنت، ومن بعد اضغط على سطح الكيكة باش يتحط تما وين تحب. اسحب أي زواق بإصبعك باش تبدل بلاصتو، واضغط عليه باش تختارو وتكبّرو ولا تبدل لونو ولا تمسحو.</p>
+            <h3>لون الزواق</h3>
+            <div class="row">
+              <input type="color" id="freeColor" value="#e88ca0" aria-label="لون الزواق" />
+              <span class="hexval" id="freeColorHex">#e88ca0</span>
+              <span class="lbl">للوردة والزهرة والفيونكة واللؤلؤ والماكرون — الفواكه بلونها الطبيعي</span>
             </div>
             <div class="row" style="margin-top:.6rem">
               <button class="btn primary" id="btnPlaceMode" aria-pressed="false">تفعيل وضع الحط</button>
@@ -374,29 +352,6 @@
               <span class="val" id="freeSizeVal">4 سم</span>
             </div>
             <p class="note" id="freeInfo">ما كاش زواق حر محطوط دوقا.</p>
-            <h3>أنماط الزواق — رتّبهم دفعة وحدة</h3>
-            <div class="seg" id="patternSeg">
-              <button data-pattern="ring" aria-pressed="true">حلقة</button>
-              <button data-pattern="spiral" aria-pressed="false">حلزون</button>
-              <button data-pattern="zigzag" aria-pressed="false">متعرج</button>
-              <button data-pattern="wreath" aria-pressed="false">إكليل</button>
-              <button data-pattern="arch" aria-pressed="false">قوس</button>
-              <button data-pattern="wave" aria-pressed="false">موجة</button>
-              <button data-pattern="scatter" aria-pressed="false">مبعثر</button>
-            </div>
-            <div class="row">
-              <span class="lbl">عدد النسخ</span>
-              <input type="range" id="patCount" min="4" max="40" value="14" aria-label="عدد نسخ النمط" />
-              <span class="val" id="patCountVal">14</span>
-            </div>
-            <div class="row">
-              <span class="lbl">نصف القطر</span>
-              <input type="range" id="patRadius" min="25" max="95" value="70" aria-label="نصف قطر النمط بالنسبة المئوية" />
-              <span class="val" id="patRadiusVal">70%</span>
-            </div>
-            <div class="row">
-              <button class="btn primary" id="btnApplyPattern" style="flex:1">طبّق النمط بنوع الزواق المختار</button>
-            </div>
           </section>
 
           <!-- DRAW -->
@@ -518,7 +473,7 @@
         tiers:[ mkTier("round",26,10,"#fdfbf6"), mkTier("round",21,10,"#fdfbf6"), mkTier("round",16,10,"#fdfbf6") ],
         selTier:0, piping:"shell", roseColor:"#e88ca0", dripColor:"#4a2c1c", ribbonColor:"#e88ca0",
         finishes:{ powder:false, gloss:false },
-        deco:{ roses:true, babbreath:false, pearls:true, bows:true, ribbon:false, cherries:false, strawberries:false, blueberries:false, macarons:false, chocolate:false, goldleaf:false, candles:false, crown:false, drip:false, sprinkles:false },
+        deco:{ roses:false, babbreath:false, pearls:false, bows:false, ribbon:false, cherries:false, strawberries:false, blueberries:false, macarons:false, chocolate:false, goldleaf:false, candles:false, crown:false, drip:false, sprinkles:false },
         stand:"silver", sceneName:"studio", text:"", textStyle:"pearl", free:[]
       };
       var state = JSON.parse(JSON.stringify(DEFAULTS));
@@ -919,9 +874,10 @@
         c.position.y = 0.035; g.add(c);
         return g;
       }
-      function makeBall(){
+      function makeBall(colorHex){
         var g = new THREE.Group();
-        var s = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.075, 20, 14), pearlMat));
+        var m = colorHex ? new THREE.MeshPhysicalMaterial({ color: colorHex, roughness:0.25, clearcoat:0.8, envMap: envTex, envMapIntensity: 0.8 }) : pearlMat;
+        var s = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.075, 20, 14), m));
         s.position.y = 0.07; g.add(s);
         return g;
       }
@@ -976,9 +932,9 @@
         return g;
       }
       var MAC_COLORS = ["#f2a7bb", "#bcd7ea", "#f6e49c", "#b3c2a4", "#d3c4e6", "#f9c69b"];
-      function makeMacaron(idx){
+      function makeMacaron(idx, colorHex){
         var g = new THREE.Group();
-        var col = MAC_COLORS[(idx || 0) % MAC_COLORS.length];
+        var col = colorHex || MAC_COLORS[(idx || 0) % MAC_COLORS.length];
         var shellMat = new THREE.MeshPhysicalMaterial({ color: col, roughness:0.55, bumpMap: bumpButter, bumpScale:0.01, envMap: envTex, envMapIntensity: 0.3 });
         var top = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.105, 0.11, 0.045, 22), shellMat)); top.position.y = 0.075; g.add(top);
         var dome = new THREE.Mesh(new THREE.SphereGeometry(0.105, 22, 10), shellMat); dome.scale.y = 0.32; dome.position.y = 0.096; g.add(dome);
@@ -1030,15 +986,15 @@
         }
         return g;
       }
-      function makeFreeItem(type, idx){
+      function makeFreeItem(type, idx, colorHex){
         var g;
-        if (type === "rose") g = makeRose();
-        else if (type === "flower") g = makeFlower();
-        else if (type === "ball") g = makeBall();
-        else if (type === "bow") g = makeBow();
+        if (type === "rose") g = makeRose(colorHex);
+        else if (type === "flower") g = makeFlower(colorHex);
+        else if (type === "ball") g = makeBall(colorHex);
+        else if (type === "bow") g = makeBow(colorHex);
         else if (type === "strawberry") g = makeStrawberry();
         else if (type === "blueberry") g = makeBlueberry();
-        else if (type === "macaron") g = makeMacaron(idx);
+        else if (type === "macaron") g = makeMacaron(idx, colorHex);
         else g = makeCherry();
         return g;
       }
@@ -1462,7 +1418,7 @@
         /* ---- free decorations (drag & drop) ---- */
         freeGroup = new THREE.Group();
         state.free.forEach(function(item, ix){
-          var obj = makeFreeItem(item.type, ix);
+          var obj = makeFreeItem(item.type, ix, item.color);
           var sc3 = item.sizeCm * 0.055;
           obj.scale.setScalar(sc3);
           obj.position.set(item.x, tY + 0.005, item.z);
@@ -1495,7 +1451,7 @@
       }
 
       /* ============ Free items: select / drag / place ============ */
-      var placeMode = false, freeType = "rose", freeSizeCm = 4, selectedFree = -1;
+      var placeMode = false, freeType = "rose", freeSizeCm = 4, selectedFree = -1, freeColor = "#e88ca0";
       var ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
       var dragPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
       var dragging = null;
@@ -1523,7 +1479,7 @@
       }
       function addFree(type, x, z, sizeCm){
         if (state.free.length >= 120){ toast("وصلت للحد الأقصى تاع الزواق الحر"); return -1; }
-        state.free.push({ type:type, x:x, z:z, sizeCm:sizeCm || freeSizeCm, rot: Math.random()*Math.PI*2 });
+        state.free.push({ type:type, x:x, z:z, sizeCm:sizeCm || freeSizeCm, rot: Math.random()*Math.PI*2, color: freeColor });
         return state.free.length - 1;
       }
       function findFreeAncestor(obj){
@@ -1543,27 +1499,6 @@
         else if (kind === "wave"){ for (i = 0; i < count; i++){ t = count === 1 ? 0 : i/(count-1); var wx = -R + t*2*R; pts.push([wx, Math.sin(t*Math.PI*2.2)*R*0.3]); } }
         else { for (i = 0; i < count; i++){ var tries = 0, px, pz; do { var aa = Math.random()*Math.PI*2, dd = Math.sqrt(Math.random())*R; px = Math.cos(aa)*dd; pz = Math.sin(aa)*dd; tries++; } while (!inTop(ti, px, pz) && tries < 8); pts.push([px, pz]); } }
         return pts;
-      }
-      function applyPattern(){
-        var count = +$("#patCount").value, radFrac = +$("#patRadius").value/100;
-        var pts = patternPositions(pattern, count, radFrac);
-        var ti = state.tiers.length - 1, added = 0;
-        pts.forEach(function(p){
-          if (!inTop(ti, p[0], p[1])) return;
-          if (addFree(freeType, p[0], p[1], freeSizeCm) >= 0) added++;
-        });
-        if (pattern === "wreath"){
-          var pts2 = patternPositions("ring", count, radFrac);
-          var filler = freeType === "flower" ? "ball" : "flower";
-          pts2.forEach(function(p, ix){
-            var a = (ix + 0.5)/count*Math.PI*2, R = tierR(ti)*0.88*radFrac;
-            var x = Math.cos(a)*R, z = Math.sin(a)*R;
-            if (inTop(ti, x, z)) addFree(filler, x, z, Math.max(2, freeSizeCm*0.65));
-          });
-        }
-        selectedFree = -1;
-        buildCake(); freeInfoUpdate();
-        toast("تطبق النمط: " + added + " " + FREE_TYPES[freeType]);
       }
 
       /* ============ Pointer handling (draw / place / drag) ============ */
@@ -1704,6 +1639,7 @@
         $$(".pane").forEach(function(p){ p.classList.toggle("on", p.id === "pane-" + name); });
         if (name !== "draw" && drawMode) setDrawMode(false);
         if (name !== "deco" && placeMode) setPlaceMode(false);
+        var pal = $("#decoPalette"); if (pal) pal.hidden = (name !== "deco");
       }
       $$(".tab").forEach(function(tab){ tab.addEventListener("click", function(){ activateTab(tab.dataset.tab); }); });
 
@@ -1790,13 +1726,7 @@
         buildSwatches(document.getElementById(swId), list, pk.value, document.getElementById(nameId), function(it){ apply(it.c); pk.value = it.c; document.getElementById(hexId).textContent = it.c; buildCake(); refreshColorUI(); });
       }
       function refreshColorUI(){
-        buildSwatches($("#dripSwatches"), DRIPS, state.dripColor, $("#dripName"), function(it){ state.dripColor = it.c; $("#dripPicker").value = it.c; $("#dripHex").textContent = it.c; buildCake(); });
-        buildSwatches($("#ribbonSwatches"), RIBBONS, state.ribbonColor, $("#ribbonName"), function(it){ state.ribbonColor = it.c; $("#ribbonPicker").value = it.c; $("#ribbonHex").textContent = it.c; buildCake(); });
-        buildSwatches($("#roseSwatches"), ROSES, state.roseColor, $("#roseName"), function(it){ state.roseColor = it.c; $("#rosePicker").value = it.c; $("#roseHex").textContent = it.c; buildCake(); });
       }
-      colorWire("dripPicker", "dripHex", "dripSwatches", "dripName", DRIPS, function(v){ state.dripColor = v; });
-      colorWire("ribbonPicker", "ribbonHex", "ribbonSwatches", "ribbonName", RIBBONS, function(v){ state.ribbonColor = v; });
-      colorWire("rosePicker", "roseHex", "roseSwatches", "roseName", ROSES, function(v){ state.roseColor = v; });
       $$("#finishChips .chip").forEach(function(ch){
         ch.addEventListener("click", function(){
           var f = ch.dataset.finish;
@@ -1807,40 +1737,27 @@
       });
 
       /* ============ Decorations UI ============ */
-      var DECO_ICONS = {
-        roses:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="10" r="5.5"/><path d="M12 7.5a2.5 2.5 0 1 1-2.5 2.5"/><path d="M12 15.5c0 2-1 3.5-2.5 4.5M12 15.5c.5 2 2 3.5 4 4"/></svg>',
-        babbreath:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="7" r="1.6"/><circle cx="16" cy="6" r="1.6"/><circle cx="12" cy="11" r="1.6"/><path d="M12 21v-8M12 13l-4-4M12 13l4-5"/></svg>',
-        pearls:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="14" r="2.4"/><circle cx="12" cy="10" r="2.4"/><circle cx="18" cy="14" r="2.4"/></svg>',
-        bows:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 12 4 6.5v11L12 12ZM12 12l8-5.5v11L12 12Z"/><circle cx="12" cy="12" r="1.8"/></svg>',
-        ribbon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9h16M4 15h16"/><path d="M4 9c3 2 13 2 16 0M4 15c3 2 13 2 16 0" opacity=".4"/></svg>',
-        cherries:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="16.5" r="3.5"/><circle cx="16.5" cy="14.5" r="3"/><path d="M8 13c1-4 4-7 8-8.5M16.5 11.5C16 8 15 6 13.5 4.5"/></svg>',
-        strawberries:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 21C7 17 5 13.5 5 10.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 7 3.5C19 13.5 17 17 12 21Z"/><path d="M12 7c0-2 1-3 3-3.5M12 7c-1-1.5-2.5-2-4.5-1.5"/></svg>',
-        blueberries:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="13" r="5"/><circle cx="17" cy="10" r="3.6"/><circle cx="9" cy="13" r="1.2"/></svg>',
-        macarons:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="8" rx="7" ry="3"/><path d="M5 12h14M5 16c1.5 2.5 12.5 2.5 14 0"/></svg>',
-        chocolate:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="4" width="14" height="16" rx="1.5"/><path d="M12 4v16M5 12h14"/></svg>',
-        goldleaf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/></svg>',
-        candles:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3c1 1.6 1.6 2.7 1.6 3.8a1.6 1.6 0 1 1-3.2 0C10.4 5.7 11 4.6 12 3Z"/><path d="M9 11h6v9H9z"/></svg>',
-        crown:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 18h16M4 18l-1-9 5 4 4-7 4 7 5-4-1 9H4Z"/></svg>',
-        drip:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 5h16v3c-2 0-2 3-4 3s-2-4-4-4-2 5-4 5-2-4-4-4V5Z"/><path d="M4 19h16" opacity=".45"/></svg>',
-        sprinkles:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 7l3 1M11 5l1 3M17 6l2 2M7 13l3 1M14 12l1 3M19 14l-2 2M10 18l3 1"/></svg>'
-      };
-      var chipsEl = $("#decoChips");
-      DECOS.forEach(function(d){
-        var b = document.createElement("button");
-        b.className = "chip"; b.dataset.deco = d.id;
-        b.setAttribute("aria-pressed", state.deco[d.id] ? "true" : "false");
-        b.innerHTML = '<span class="dot">' + (DECO_ICONS[d.id] || "") + '</span>' + d.n + '<span class="tick">✓</span>';
-        b.addEventListener("click", function(){
-          state.deco[d.id] = !state.deco[d.id];
-          b.setAttribute("aria-pressed", state.deco[d.id] ? "true" : "false");
-          buildCake();
-        });
-        chipsEl.appendChild(b);
-      });
-      function syncDecoChips(){ $$("#decoChips .chip").forEach(function(b){ b.setAttribute("aria-pressed", state.deco[b.dataset.deco] ? "true" : "false"); }); }
       segWire("pipingSeg", "piping", function(v){ state.piping = v; buildCake(); });
-      segWire("freeTypeSeg", "ftype", function(v){ freeType = v; });
-      segWire("patternSeg", "pattern", function(v){ pattern = v; });
+      var palEl = $("#decoPalette");
+      Object.keys(FREE_TYPES).forEach(function(k){
+        var b = document.createElement("button");
+        b.className = "deco-pal-btn"; b.dataset.ftype = k; b.textContent = FREE_TYPES[k];
+        b.setAttribute("aria-pressed", k === freeType ? "true" : "false");
+        b.addEventListener("click", function(){
+          freeType = k;
+          $$("#decoPalette .deco-pal-btn").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+          setPlaceMode(true);
+        });
+        palEl.appendChild(b);
+      });
+      $("#freeColor").addEventListener("input", function(e){
+        freeColor = e.target.value;
+        $("#freeColorHex").textContent = freeColor;
+        if (selectedFree >= 0 && state.free[selectedFree] && {rose:1, flower:1, ball:1, bow:1, macaron:1}[state.free[selectedFree].type]){
+          state.free[selectedFree].color = freeColor;
+          buildCake(); freeInfoUpdate();
+        }
+      });
       function setPlaceMode(on){
         placeMode = on;
         controls.enabled = !on;
@@ -1866,9 +1783,6 @@
           buildCake(); freeInfoUpdate();
         }
       });
-      $("#patCount").addEventListener("input", function(e){ $("#patCountVal").textContent = e.target.value; });
-      $("#patRadius").addEventListener("input", function(e){ $("#patRadiusVal").textContent = e.target.value + "%"; });
-      $("#btnApplyPattern").addEventListener("click", applyPattern);
 
       /* ============ Draw UI ============ */
       var BRUSHES = ["#6b4232", "#c23b4e", "#e88ca0", "#2e2a24", "#ffffff", "#c9973f", "#5f7d4c", "#4f9dd8"];
@@ -1940,11 +1854,7 @@
         syncTierEditor();
         syncSeg($("#pipingSeg"), state.piping, "piping");
         syncSeg($("#textStyleSeg"), state.textStyle, "tstyle");
-        syncDecoChips();
         $$("#finishChips .chip").forEach(function(ch){ ch.setAttribute("aria-pressed", state.finishes[ch.dataset.finish] ? "true" : "false"); });
-        $("#dripPicker").value = state.dripColor; $("#dripHex").textContent = state.dripColor;
-        $("#ribbonPicker").value = state.ribbonColor; $("#ribbonHex").textContent = state.ribbonColor;
-        $("#rosePicker").value = state.roseColor; $("#roseHex").textContent = state.roseColor;
         refreshColorUI();
       }
 
@@ -1956,7 +1866,7 @@
         var nt = 1 + ri(4), tiers = [], dia = 22 + ri(8);
         for (var i = 0; i < nt; i++){ tiers.push(mkTier(shapes[ri(shapes.length)], dia, 9 + ri(4), CREAMS[ri(CREAMS.length)].c, texs[ri(texs.length)])); dia = Math.max(13, dia - 4 - ri(3)); }
         state.tiers = tiers; state.selTier = 0;
-        DECOS.forEach(function(d){ state.deco[d.id] = Math.random() < 0.35; });
+        Object.keys(state.deco).forEach(function(k){ state.deco[k] = false; });
         state.piping = ["shell","rosette","ruffle","none"][ri(4)];
         state.free = [];
         var ft = ["rose","flower","ball","strawberry","macaron","cherry"][ri(6)];
@@ -2015,7 +1925,12 @@
         lines.push("— Design : " + state.tiers.length + " étage(s) — " + tiersTxt);
         var decoOn = DECOS.filter(function(x){ return state.deco[x.id]; }).map(function(x){ return DE[x.id] || x.id; });
         if (decoOn.length) lines.push("— Décor : " + decoOn.join(", "));
-        if (state.free && state.free.length) lines.push("— Décor libre : " + state.free.length + " élément(s)");
+        if (state.free && state.free.length){
+          var FT = {rose:"Rose", flower:"Fleur", ball:"Perle", bow:"Nœud", strawberry:"Fraise", blueberry:"Myrtille", macaron:"Macaron", cherry:"Cerise"};
+          var TINT = {rose:1, flower:1, ball:1, bow:1, macaron:1};
+          var freeTxt = state.free.map(function(it){ return (FT[it.type] || it.type) + (TINT[it.type] && it.color ? " " + it.color : ""); }).join(", ");
+          lines.push("— Décor libre : " + state.free.length + " élément(s) — " + freeTxt);
+        }
         var txt = ($("#cakeText").value || "").trim();
         if (txt) lines.push("— Texte sur le gâteau : « " + txt + " » (" + (state.textStyle === "pearl" ? "perles" : state.textStyle === "gold" ? "doré" : "chocolat") + ")");
         if (customerNotes.trim()) lines.push("— Notes : " + customerNotes.trim());
