@@ -199,23 +199,12 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14M12 5v14"/></svg>
             الكتابة
           </button>
-          <button class="tab" role="tab" data-tab="ready" aria-selected="false">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-            جاهزة
-          </button>
         </nav>
 
         <div class="tab-body">
           <!-- BAKE MODE -->
           <section class="pane" id="pane-bake" role="tabpanel">
-            <h3>وضع الخبز</h3>
-            <p class="note">اخلط العجينة واخبز الكيكة قبل ما تزيّنها — كيما في المخبزة بالصح.</p>
-            <ol class="bake-steps">
-              <li id="bstep1"><span class="n">1</span> اختر نكهة العجينة</li>
-              <li id="bstep2"><span class="n">2</span> اخلط المكونات</li>
-              <li id="bstep3"><span class="n">3</span> اخبز في الفرن على 180°</li>
-              <li id="bstep4"><span class="n">4</span> خلّيها تبرد وابدأ التزيين</li>
-            </ol>
+            <h3>اختيارات الكيكة</h3>
             <h3>نكهة العجينة</h3>
             <div class="seg" id="flavorSeg">
               <button data-flavor="vanilla" aria-pressed="true">فانيليا</button>
@@ -226,23 +215,6 @@
               <button data-flavor="red" aria-pressed="false">ريد فيلفت</button>
               <button data-flavor="pistachio" aria-pressed="false">بيسطاش</button>
               <button data-flavor="coffee" aria-pressed="false">قهوة</button>
-            </div>
-            <div class="bowl" aria-hidden="true"><div class="batter" id="batter"></div></div>
-            <h3>الخلط</h3>
-            <div class="bar"><i id="mixBar"></i></div>
-            <div class="row" style="margin-top:.5rem">
-              <button class="btn primary" id="btnMix">اخلط المكونات</button>
-              <span class="lbl" id="mixLbl">جاهز للخلط</span>
-            </div>
-            <h3>الفرن</h3>
-            <div class="oven" id="oven"><div class="win"><div class="glow"></div><span class="temp" id="ovenTemp">24°C</span></div></div>
-            <div class="bar hot" style="margin-top:.5rem"><i id="bakeBar"></i></div>
-            <div class="row" style="margin-top:.5rem">
-              <button class="btn primary" id="btnBake" disabled>اخبز الكيكة</button>
-              <span class="lbl" id="bakeLbl">اخلط قبل ما تخبز</span>
-            </div>
-            <div class="row" style="margin-top:.9rem">
-              <button class="btn primary" id="btnGoDecorate" disabled style="flex:1">الكيكة خبزت — ابدأ التزيين</button>
             </div>
             <h3>الحشوة</h3>
             <div class="seg" id="fillingSeg">
@@ -261,6 +233,18 @@
               <button data-servings="25-30" aria-pressed="false">25–30 شخص</button>
               <button data-servings="40+" aria-pressed="false">أكثر من 40</button>
             </div>
+            <h3>مقاس الطبقة المختارة</h3>
+            <div class="row">
+              <span class="lbl">القطر</span>
+              <input type="range" id="diaRange" min="12" max="40" value="26" aria-label="قطر الطبقة بالسنتيمتر" />
+              <span class="val" id="diaVal">Ø 26 سم</span>
+            </div>
+            <div class="row">
+              <span class="lbl">الارتفاع</span>
+              <input type="range" id="hRange" min="6" max="16" value="10" aria-label="ارتفاع الطبقة بالسنتيمتر" />
+              <span class="val" id="hVal">10 سم</span>
+            </div>
+            <p class="note">كل طبقة عندها شكلها وملمسها ومقاسها الخاص — كبّر القاعدة وصغّر اللي فوقها كيما الكيكات الحقيقية.</p>
             <h3>مستوى الحلاوة</h3>
             <div class="seg" id="sweetnessSeg">
               <button data-sweetness="normal" aria-pressed="true">عادي</button>
@@ -312,18 +296,6 @@
                 <span class="hexval" id="marbleHex">#d8b7c3</span>
               </div>
             </div>
-            <h3>مقاس الطبقة المختارة</h3>
-            <div class="row">
-              <span class="lbl">القطر</span>
-              <input type="range" id="diaRange" min="12" max="40" value="26" aria-label="قطر الطبقة بالسنتيمتر" />
-              <span class="val" id="diaVal">Ø 26 سم</span>
-            </div>
-            <div class="row">
-              <span class="lbl">الارتفاع</span>
-              <input type="range" id="hRange" min="6" max="16" value="10" aria-label="ارتفاع الطبقة بالسنتيمتر" />
-              <span class="val" id="hVal">10 سم</span>
-            </div>
-            <p class="note">كل طبقة عندها شكلها وملمسها ومقاسها الخاص — كبّر القاعدة وصغّر اللي فوقها كيما الكيكات الحقيقية.</p>
           </section>
 
           <!-- COLORS & FINISHES -->
@@ -469,11 +441,6 @@
             </div>
           </section>
 
-          <!-- PRESETS -->
-          <section class="pane" id="pane-ready" role="tabpanel">
-            <h3>قوالب جاهزة</h3>
-            <div class="presets" id="presetGrid"></div>
-          </section>
         </div>
 
         <div class="panel-foot">
@@ -1951,54 +1918,12 @@
       });
 
       /* ============ Bake mode ============ */
-      var flavor = "vanilla", mixed = false, baked = false, bakeBusy = false;
+      var flavor = "vanilla";
       var filling = "butter", servings = "10-12", sweetness = "normal", allergies = [], customerNotes = "";
-      segWire("flavorSeg", "flavor", function(v){
-        flavor = v;
-        var b = $("#batter");
-        b.className = "batter" + (v === "vanilla" ? "" : " " + v);
-        $("#bstep1").classList.add("done");
-      });
-      $("#bstep1").classList.add("done");
-      $("#btnMix").addEventListener("click", function(){
-        if (bakeBusy) return; bakeBusy = true;
-        $("#btnMix").disabled = true; $("#mixLbl").textContent = "الخلط راه يدور...";
-        var p = 0;
-        var iv = setInterval(function(){
-          p += 4 + Math.random()*5;
-          if (p >= 100){ p = 100; clearInterval(iv); bakeBusy = false; mixed = true;
-            $("#mixLbl").textContent = "العجينة واجدة وناعمة";
-            $("#bstep2").classList.add("done");
-            $("#btnBake").disabled = false; $("#bakeLbl").textContent = "الفرن يسخن — اضغط باش تخبز";
-            toast("العجينة تخليطت مليح");
-          }
-          $("#mixBar").style.width = p + "%";
-        }, 90);
-      });
-      $("#btnBake").addEventListener("click", function(){
-        if (!mixed || bakeBusy) return; bakeBusy = true;
-        $("#btnBake").disabled = true;
-        $("#oven").classList.add("baking");
-        $("#bakeLbl").textContent = "الكيكة راهي تخبز...";
-        var p = 0;
-        var iv = setInterval(function(){
-          p += 2.4 + Math.random()*2;
-          if (p > 100) p = 100;
-          $("#bakeBar").style.width = p + "%";
-          $("#ovenTemp").textContent = Math.round(24 + (180-24) * Math.min(1, p/55)) + "°C";
-          if (p >= 100){
-            clearInterval(iv); bakeBusy = false; baked = true;
-            $("#bakeLbl").textContent = "خبزت وطلعت ريحتها — خليها تبرد شوية";
-            $("#bstep3").classList.add("done"); $("#bstep4").classList.add("done");
-            $("#btnGoDecorate").disabled = false;
-            toast("الكيكة خبزت — واجدة للتزيين");
-          }
-        }, 120);
-      });
-      $("#btnGoDecorate").addEventListener("click", function(){
-        activateTab("layers");
-        toast("ابدأ التزيين: بدّل الأشكال والألوان والزواق");
-      });
+      segWire("flavorSeg", "flavor", function(v){ flavor = v; });
+
+
+
       segWire("fillingSeg", "filling", function(v){ filling = v; });
       segWire("servingsSeg", "servings", function(v){ servings = v; });
       segWire("sweetnessSeg", "sweetness", function(v){ sweetness = v; });
@@ -2011,59 +1936,6 @@
       });
       $("#orderNotes").addEventListener("input", function(e){ customerNotes = e.target.value; });
 
-      /* ============ Presets ============ */
-      function T(shape, dia, h, color, tex){ return mkTier(shape, dia, h, color, tex); }
-      function ringFree(type, count, radFrac, sizeCm, topDiaCm){
-        var R = topDiaCm/2 * CM_R * 0.88 * radFrac, out = [];
-        for (var i = 0; i < count; i++){
-          var a = i/count*Math.PI*2;
-          out.push({ type:type, x:Math.cos(a)*R, z:Math.sin(a)*R, sizeCm:sizeCm, rot:Math.random()*3 });
-        }
-        return out;
-      }
-      function decoAll(on){
-        var d = {}; DECOS.forEach(function(x){ d[x.id] = !!on[x.id]; }); return d;
-      }
-      var PRESETS = [
-        { n:"توقيع جيجي", d:"بيضاء بطابقين · ورود وردية ولؤلؤ — زيد اسمك ورقمك من تبويب الكتابة", tiers:[T("round",24,10,"#fdfbf6"),T("round",18,10,"#fdfbf6")], piping:"shell", deco:decoAll({roses:1,pearls:1,bows:1}), rose:"#e88ca0", free:ringFree("rose", 8, 0.7, 4.5, 18) },
-        { n:"ماتيلدا", d:"شوكولاتة · شوكولاتة ذايبة ذهبية", tiers:[T("round",25,11,"#5a3a28"),T("round",19,10,"#5a3a28")], piping:"none", deco:decoAll({drip:1,chocolate:1}), drip:"#c9973f", free:[] },
-        { n:"ليوبارد", d:"كريمي فاتح · أوراق ذهب ولؤلؤ", tiers:[T("round",25,11,"#f5e9d4","marble"),T("round",19,10,"#f5e9d4","marble")], piping:"none", deco:decoAll({goldleaf:1,pearls:1}), free:[] },
-        { n:"فراولة", d:"بيضاء · فراولة وتوت وورود", tiers:[T("round",25,10,"#fdfbf6"),T("round",19,10,"#fdfbf6")], piping:"shell", deco:decoAll({strawberries:1,roses:1}), rose:"#e88ca0", free:ringFree("strawberry", 7, 0.6, 4, 19) },
-        { n:"سبايدرمان", d:"رمادي رخامي وأحمر", tiers:[T("round",25,11,"#9aa0a8","marble"),T("round",19,10,"#a63a4a")], piping:"shell", deco:decoAll({sprinkles:1}), free:[] },
-        { n:"بيضاء كلاسيكية", d:"3 طبقات · ورود ولؤلؤ وفيونكات", tiers:[T("round",26,10,"#fdfbf6"),T("round",21,10,"#fdfbf6"),T("round",16,10,"#fdfbf6")], piping:"shell", deco:decoAll({roses:1,pearls:1,bows:1}), free:[] },
-        { n:"وردية رومانسية", d:"قلب فوق دائرية · إكليل ورود حر", tiers:[T("round",24,10,"#f9dee4"),T("heart",17,9,"#f9dee4")], piping:"rosette", deco:decoAll({pearls:1,babbreath:1}), rose:"#e88ca0", free:ringFree("rose", 9, 0.72, 4.5, 17) },
-        { n:"شوكولاتة وكرز فاخرة", d:"شوكولاتة ذايبة وقطع شوكولاتة وكرز", tiers:[T("round",25,11,"#f5e9d4"),T("round",19,10,"#f5e9d4")], piping:"none", deco:decoAll({drip:1,cherries:1,chocolate:1}), drip:"#4a2c1c", free:[] },
-        { n:"فراولة وتوت", d:"فواكه حمراء وزرقاء فوق كريمة بيضاء", tiers:[T("round",25,10,"#fdfbf6"),T("round",19,10,"#fdfbf6")], piping:"shell", deco:decoAll({strawberries:1,blueberries:1}), free:ringFree("strawberry", 7, 0.6, 4, 19) },
-        { n:"عيد ميلاد مبهج", d:"شموع ورشّات وماكرون ملون", tiers:[T("round",26,10,"#f5e9d4"),T("round",20,10,"#f9dee4"),T("round",15,9,"#bcd7ea")], piping:"shell", deco:decoAll({candles:1,sprinkles:1,macarons:1}), free:[] },
-        { n:"رخامية ذهبية", d:"رخامي وردي · أوراق ذهب وتاج", tiers:[T("round",26,11,"#fdfbf6","marble"),T("round",20,10,"#fdfbf6","marble")], piping:"none", deco:decoAll({goldleaf:1,crown:1,pearls:1}), free:[] },
-        { n:"زفاف سداسي", d:"سداسية فوق دائرية · شريط وورود", tiers:[T("round",28,10,"#fdfbf6","fondant"),T("hex",21,10,"#fdfbf6","fondant"),T("hex",15,9,"#fdfbf6","fondant")], piping:"none", deco:decoAll({ribbon:1,roses:1,babbreath:1}), ribbon:"#c9973f", free:[] },
-        { n:"نجمة الأطفال", d:"نجمة سماوية · كرات لؤلؤ حرة", tiers:[T("round",24,10,"#bcd7ea"),T("star",18,10,"#f6e49c")], piping:"rosette", deco:decoAll({sprinkles:1}), free:ringFree("ball", 10, 0.62, 3.5, 18) },
-        { n:"ريد فيلفت مخملية", d:"عنابية مخططة بالمشط · سكر بودرة", tiers:[T("round",25,11,"#a63a4a","combed"),T("round",19,10,"#a63a4a","combed")], piping:"none", deco:decoAll({cherries:1}), finishes:{powder:1,gloss:0}, free:[] },
-        { n:"باستيل ريفية", d:"ملمس ريفي · ماكرون وأزهار حرة مبعثرة", tiers:[T("oval",27,10,"#f9c69b","rustic"),T("oval",20,9,"#f9dee4","rustic")], piping:"ruffle", deco:decoAll({macarons:1}), free:[{type:"flower",x:0.4,z:0.3,sizeCm:4,rot:1},{type:"flower",x:-0.5,z:0.45,sizeCm:3.5,rot:2},{type:"macaron",x:0.05,z:-0.5,sizeCm:4.5,rot:0.4},{type:"rose",x:-0.35,z:-0.3,sizeCm:4.5,rot:2.6}] },
-        { n:"مربعة أنيقة", d:"مربعة عاجية · فيونكات وورود", tiers:[T("square",25,10,"#f5e9d4"),T("square",19,10,"#f5e9d4")], piping:"shell", deco:decoAll({bows:1,roses:1,pearls:1}), free:[] },
-        { n:"ليمون ومريمية", d:"ألوان طبيعية هادئة · أزهار بيضاء", tiers:[T("round",26,10,"#f6e49c"),T("round",20,10,"#b3c2a4"),T("round",15,9,"#fdfbf6")], piping:"ruffle", deco:decoAll({babbreath:1,pearls:1}), free:ringFree("flower", 8, 0.7, 3.5, 15) }
-      ];
-      var pg = $("#presetGrid");
-      PRESETS.forEach(function(p){
-        var b = document.createElement("button");
-        b.className = "preset";
-        b.innerHTML = "<b>" + p.n + "</b><span>" + p.d + "</span>";
-        b.addEventListener("click", function(){ applyPreset(p); toast("تطبق قالب «" + p.n + "»"); });
-        pg.appendChild(b);
-      });
-      function applyPreset(p){
-        state.tiers = JSON.parse(JSON.stringify(p.tiers));
-        state.selTier = 0;
-        state.piping = p.piping || "shell";
-        state.deco = JSON.parse(JSON.stringify(p.deco));
-        state.free = JSON.parse(JSON.stringify(p.free || []));
-        state.finishes = p.finishes ? JSON.parse(JSON.stringify(p.finishes)) : { powder:false, gloss:false };
-        if (p.rose) state.roseColor = p.rose;
-        if (p.drip) state.dripColor = p.drip;
-        if (p.ribbon) state.ribbonColor = p.ribbon;
-        selectedFree = -1;
-        syncAllUI(); buildCake(); freeInfoUpdate();
-      }
       function syncAllUI(){
         syncTierEditor();
         syncSeg($("#pipingSeg"), state.piping, "piping");
