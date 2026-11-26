@@ -49,7 +49,8 @@
       .ts-lbl{position:absolute; bottom:0; font-size:.72rem; font-weight:800; color:#fff; background:rgba(30,26,20,.55); border-radius:99px; padding:.15rem .5rem; z-index:1}
       .stage-deco{position:absolute; top:50%; inset-inline-end:.7rem; transform:translateY(-50%); display:flex; flex-direction:column; gap:.45rem; z-index:4}
       .stage-deco[hidden]{display:none}
-      .deco-chip{background:rgba(255,255,255,.94); border:1px solid #d8d8d8; color:#333; border-radius:99px; padding:.45rem .8rem; font:inherit; font-size:.85rem; font-weight:800; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.12); text-align:center; touch-action:none}
+      .deco-chip{background:rgba(255,255,255,.94); border:1px solid #d8d8d8; color:#333; border-radius:99px; padding:.45rem .8rem; font:inherit; font-size:.85rem; font-weight:800; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.12); text-align:center; touch-action:none; display:flex; align-items:center; gap:.4rem}
+      .deco-chip .dot{width:10px; height:10px; border-radius:50%; flex:none; box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
       .deco-chip[aria-pressed="true"]{background:var(--sage); border-color:var(--sage); color:#fff}
       .drag-ghost{position:fixed; z-index:50; pointer-events:none; background:rgba(24,20,16,.92); color:#fff; padding:.4rem .7rem; border-radius:99px; font-weight:800; font-size:.85rem; transform:translate(12px,-14px); white-space:nowrap}
       .seg button.deco-item{touch-action:none}
@@ -57,10 +58,10 @@
       .panel{width:420px; flex:none; background:var(--panel); border-inline-start:1px solid var(--line); display:grid; grid-template-columns:96px minmax(0,1fr); grid-template-rows:auto minmax(0,1fr) auto; min-height:0}
       .panel-search{grid-column:1 / -1; grid-row:1; padding:.6rem .6rem 0}
       .panel-search input{width:100%; border:1px solid var(--line); border-radius:99px; background:#fff; color:var(--ink); padding:.5rem .9rem; font:inherit; font-size:.9rem; font-weight:700}
-      .tabs{grid-column:1; grid-row:2; display:flex; flex-direction:column; gap:.35rem; padding:.6rem .4rem; overflow-y:auto; overflow-x:hidden; min-height:0; border-inline-end:1px solid var(--line); scrollbar-width:none}
+      .tabs{grid-column:1; grid-row:2; display:flex; flex-direction:column; gap:.35rem; padding:.6rem .4rem; overflow-y:auto; overflow-x:hidden; min-height:0; border-inline-end:1px solid var(--line); scrollbar-width:none; background-image:url(assets/floral-sidebar.jpg); background-size:220px auto; background-repeat:repeat-y; background-position:center top}
       .tabs::-webkit-scrollbar{display:none}
       .tab{flex:none; width:100%; min-width:0; border:1px solid var(--line); background:#fff; color:var(--ink-soft); border-radius:12px; padding:.5rem .1rem; font-weight:800; font-size:.71rem; display:flex; flex-direction:column; align-items:center; gap:.2rem}
-      .tab svg{width:21px; height:21px}
+      .tab svg{display:none}
       .tab[aria-selected="true"]{background:var(--sage-soft); color:var(--sage-deep); border-color:var(--line)}
       .tab-body{grid-column:2; grid-row:2; flex:1; overflow-y:auto; padding:.6rem .8rem 2.4rem; min-height:0; min-width:0; scroll-padding-bottom:2.4rem; position:relative; z-index:0}
       .pane{display:none}
@@ -346,7 +347,8 @@
             <div class="seg" id="decoGroupSeg">
               <button data-dgroup="0" aria-pressed="true">نباتات</button>
               <button data-dgroup="1" aria-pressed="false">مأكولات</button>
-              <button data-dgroup="2" aria-pressed="false">أخرى</button>
+              <button data-dgroup="2" aria-pressed="false">فواكه وخضار</button>
+              <button data-dgroup="3" aria-pressed="false">أخرى</button>
             </div>
             <h3>لون الزواق</h3>
             <div class="row">
@@ -1762,9 +1764,11 @@
       segWire("pipingSeg", "piping", function(v){ state.piping = v; buildCake(); });
       var DECO_CATS = [
         { n:"نباتات", items:["rose", "flower"] },
-        { n:"مأكولات", items:["strawberry", "blueberry", "macaron", "cherry"] },
+        { n:"مأكولات", items:["macaron"] },
+        { n:"فواكه وخضار", items:["strawberry", "blueberry", "cherry"] },
         { n:"أخرى", items:["ball", "bow"] }
       ];
+      var FREE_COLORS = { rose:"#d42b4d", flower:"#e88ca0", strawberry:"#d42b2b", blueberry:"#5a4a8a", macaron:"#e88ca0", cherry:"#a4133c", ball:"#f2ead8", bow:"#e88ca0" };
 
       /* app-style: the group's items float beside the cake on the stage */
       var curDecoCat = 0;
@@ -1774,7 +1778,7 @@
         DECO_CATS[curDecoCat].items.forEach(function(k){
           if (q && FREE_TYPES[k].indexOf(q) === -1) return;
           var b = document.createElement("button");
-          b.className = "deco-chip"; b.dataset.ftype = k; b.textContent = FREE_TYPES[k];
+          b.className = "deco-chip"; b.dataset.ftype = k; b.innerHTML = '<span class="dot" style="background:' + FREE_COLORS[k] + '"></span>' + FREE_TYPES[k];
           b.setAttribute("aria-pressed", k === freeType ? "true" : "false");
           b.addEventListener("click", function(){
             freeType = k;
