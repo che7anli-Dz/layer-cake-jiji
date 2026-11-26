@@ -30,6 +30,7 @@
       .brand .name{font-weight:900; font-size:1.35rem; color:var(--ink); line-height:1}
       .brand .name small{display:block; font-size:.68rem; font-weight:700; color:var(--ink-soft)}
       .icon-btn{width:42px; height:42px; border-radius:12px; border:1px solid var(--line); background:var(--panel-2); color:var(--ink); display:grid; place-items:center}
+      .icon-btn.txt{font-size:1.35rem; font-weight:900; line-height:1}
       .icon-btn:active{transform:scale(.96)}
       .icon-btn.primary{background:var(--sage); border-color:var(--sage); color:#fff}
       @media (prefers-color-scheme: dark){ .icon-btn.primary{color:#16210f} }
@@ -153,10 +154,14 @@
       .bar i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--sage),var(--sage-deep)); transition:width .2s}
       .bar.hot i{background:linear-gradient(90deg,#e8a04c,#d96f2e)}
       textarea{width:100%; border:1px solid var(--line); border-radius:12px; background:var(--panel-2); color:var(--ink); padding:.55rem .8rem; font-family:inherit; font-size:.95rem; font-weight:700; min-height:84px; resize:vertical; line-height:1.7}
-      @media (max-width:820px){
-        .work{flex-direction:column}
-        #stage{flex:none; height:41vh; min-height:260px}
-        .panel{width:auto; flex:1; min-width:0; border-inline-start:none; border-top:1px solid var(--line); min-height:0}
+      @media (max-width:1024px){
+        /* v9.2 vertical: cake on top (full width), tools below, the page
+           scrolls like a normal phone page — comfortable designing */
+        html,body{height:auto; min-height:100dvh}
+        body{overflow:visible; display:block}
+        .work{display:block}
+        #stage{height:52vh; min-height:320px}
+        .panel{width:auto; min-width:0; border-inline-start:none; border-top:1px solid var(--line)}
         .panel-foot{gap:.4rem; padding:.6rem .6rem calc(.6rem + env(safe-area-inset-bottom))}
         .panel-foot .btn{padding:.55rem .35rem; font-size:.8rem}
         .brand .name small{display:none}
@@ -206,6 +211,8 @@
         </div>
         <div class="stage-item-tools" id="stageItemTools" hidden>
           <button class="icon-btn" id="btnItemRotate" aria-label="دوّر الزواق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button>
+          <button class="icon-btn txt" id="btnItemBigger" aria-label="كبّر الزواق">+</button>
+          <button class="icon-btn txt" id="btnItemSmaller" aria-label="صغّر الزواق">−</button>
           <button class="icon-btn" id="btnItemDup" aria-label="نسخ الزواق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
           <button class="icon-btn" id="btnItemDel" aria-label="مسح الزواق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
         </div>
@@ -1368,6 +1375,10 @@
         ctx.clearRect(0,0,1024,1024);
         if (!state.text){ if (textTex) textTex.needsUpdate = true; return; }
         var size = state.text.length <= 2 ? 400 : (state.text.length <= 5 ? 300 : 205);
+        /* v9.2: shrink long text until it fits the top tier (was spilling past the rim) */
+        ctx.font = "900 " + size + "px Tajawal, sans-serif";
+        var tw = ctx.measureText(state.text).width;
+        if (tw > 900){ size = Math.max(60, Math.floor(size * 900 / tw)); }
         if (state.textStyle === "pearl"){
           var off = document.createElement("canvas"); off.width = off.height = 1024;
           var o = off.getContext("2d");
@@ -2141,6 +2152,18 @@
         state.free[selectedFree].rot = (state.free[selectedFree].rot || 0) + Math.PI / 4;
         buildCake();
       });
+      /* v9.2: grow/shrink the selected decoration from the stage itself */
+      function resizeSelected(d){
+        if (selectedFree < 0 || !state.free[selectedFree]) return;
+        var it = state.free[selectedFree];
+        it.sizeCm = Math.min(9, Math.max(2, Math.round((it.sizeCm + d) * 2) / 2));
+        freeSizeCm = it.sizeCm;
+        $("#freeSize").value = freeSizeCm;
+        $("#freeSizeVal").textContent = freeSizeCm + " سم";
+        buildCake(); freeInfoUpdate();
+      }
+      $("#btnItemBigger").addEventListener("click", function(){ resizeSelected(0.5); });
+      $("#btnItemSmaller").addEventListener("click", function(){ resizeSelected(-0.5); });
       $("#btnItemDup").addEventListener("click", function(){
         if (selectedFree < 0 || !state.free[selectedFree]) return;
         var it = state.free[selectedFree];
