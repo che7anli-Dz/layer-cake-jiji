@@ -11,10 +11,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
     <style>
       :root{
-        --sage:#7d9b76; --sage-deep:#5f7f57; --sage-soft:#e6efe1;
+        --sage:#e0789a; --sage-deep:#b04a68; --sage-soft:#fbe7ee;
         --bg:#f7f3ec; --panel:#fffdf9; --panel-2:#f3eee3;
         --ink:#2e2a24; --ink-soft:#6f675a; --line:#e4dccb;
-        --shadow:0 10px 30px rgba(80,66,40,.14);
+        --shadow:0 10px 30px rgba(176,74,104,.14);
         color-scheme:light;
       }
       /* always light, like the app (no dark mode) */
@@ -26,14 +26,14 @@
       button,[role="button"],select,input{min-height:2.5rem}
       .appbar{display:flex; align-items:center; gap:.6rem; padding:.5rem .9rem; background:var(--panel); border-bottom:1px solid var(--line); z-index:5}
       .brand{display:flex; align-items:center; gap:.55rem; margin-inline-end:auto}
-      .brand .mark{width:40px; height:40px; border-radius:12px; flex:none; background:linear-gradient(145deg,#aec7a6,#8cab84); display:grid; place-items:center; box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+      .brand .mark{width:40px; height:40px; border-radius:12px; flex:none; background:linear-gradient(145deg,#f3b8c8,#e08ba5); display:grid; place-items:center; box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
       .brand .name{font-weight:900; font-size:1.35rem; color:var(--ink); line-height:1}
       .brand .name small{display:block; font-size:.68rem; font-weight:700; color:var(--ink-soft)}
-      .icon-btn{width:42px; height:42px; border-radius:12px; border:1px solid var(--line); background:var(--panel-2); color:var(--ink); display:grid; place-items:center}
+      .icon-btn{width:42px; height:42px; border-radius:16px; border:1px solid var(--line); background:var(--panel-2); color:var(--ink); display:grid; place-items:center}
       .icon-btn.txt{font-size:1.35rem; font-weight:900; line-height:1}
       .icon-btn:active{transform:scale(.96)}
       .icon-btn.primary{background:var(--sage); border-color:var(--sage); color:#fff}
-      @media (prefers-color-scheme: dark){ .icon-btn.primary{color:#16210f} }
+      @media (prefers-color-scheme: dark){ .icon-btn.primary{color:#3a1420} }
       .work{flex:1; display:flex; min-height:0}
       #stage{position:relative; flex:1; min-width:0; touch-action:none}
       #stage canvas{display:block; width:100%; height:100%}
@@ -41,7 +41,7 @@
       .stage-tools .icon-btn{background:var(--panel); box-shadow:var(--shadow)}
       .stage-tools .icon-btn.active{background:var(--sage); color:#fff; border-color:var(--sage)}
       .tier-sliders{position:absolute; top:50%; inset-inline-end:.7rem; transform:translateY(-50%); display:flex; flex-direction:column; gap:.55rem; z-index:4}
-      .tier-sliders.card{background:rgba(255,255,255,.96); border:1px solid #e0e0e0; border-radius:16px; padding:.55rem; box-shadow:0 8px 24px rgba(0,0,0,.15)}
+      .tier-sliders.card{background:rgba(255,255,255,.96); border:1px solid #e0e0e0; border-radius:20px; padding:.55rem; box-shadow:0 8px 24px rgba(0,0,0,.15)}
       .tier-sliders:not(.card) .ts-shapes, .tier-sliders:not(.card) .ts-swatches{display:none}
       .ts-row{display:flex; gap:.5rem}
       .ts-shapes{display:flex; gap:.3rem}
@@ -61,7 +61,7 @@
       .panel{width:420px; flex:none; background:var(--panel); border-inline-start:1px solid var(--line); display:grid; grid-template-columns:96px minmax(0,1fr); grid-template-rows:auto minmax(0,1fr) auto; min-height:0}
       .tabs{grid-column:1; grid-row:2; display:flex; flex-direction:column; gap:.35rem; padding:.6rem .4rem; overflow-y:auto; overflow-x:hidden; min-height:0; border-inline-end:1px solid var(--line); scrollbar-width:none; background-image:url(assets/floral-sidebar.jpg); background-size:220px auto; background-repeat:repeat-y; background-position:center top}
       .tabs::-webkit-scrollbar{display:none}
-      .tab{flex:none; width:100%; min-width:0; border:1px solid var(--line); background:#fff; color:var(--ink-soft); border-radius:12px; padding:.5rem .1rem; font-weight:800; font-size:.71rem; display:flex; flex-direction:column; align-items:center; gap:.2rem}
+      .tab{flex:none; width:100%; min-width:0; border:1px solid var(--line); background:#fff; color:var(--ink-soft); border-radius:14px; padding:.5rem .1rem; font-weight:800; font-size:.71rem; display:flex; flex-direction:column; align-items:center; gap:.2rem}
       .tab svg{display:none}
       .tab[aria-selected="true"]{background:var(--sage-soft); color:var(--sage-deep); border-color:var(--line)}
       .tab-body{grid-column:2; grid-row:2; flex:1; overflow-y:auto; padding:.6rem .8rem 2.4rem; min-height:0; min-width:0; scroll-padding-bottom:2.4rem; position:relative; z-index:0}
@@ -72,16 +72,16 @@
       .pane h3:first-child{margin-top:.2rem}
       .pane p.note{margin:.2rem 0 .7rem; font-size:.8rem; color:var(--ink-soft); line-height:1.7}
       .seg{display:flex; gap:.45rem; flex-wrap:wrap}
-      .seg button{flex:1 1 28%; border:1px solid var(--line); background:var(--panel-2); color:var(--ink); border-radius:12px; padding:.55rem .3rem; font-weight:800; font-size:.86rem; display:flex; flex-direction:column; align-items:center; gap:.25rem}
+      .seg button{flex:1 1 28%; border:1px solid var(--line); background:var(--panel-2); color:var(--ink); border-radius:14px; padding:.55rem .3rem; font-weight:800; font-size:.86rem; display:flex; flex-direction:column; align-items:center; gap:.25rem}
       .seg button svg{width:24px; height:24px}
       .seg button[aria-pressed="true"]{background:var(--sage); border-color:var(--sage); color:#fff}
-      @media (prefers-color-scheme: dark){ .seg button[aria-pressed="true"]{color:#16210f} }
+      @media (prefers-color-scheme: dark){ .seg button[aria-pressed="true"]{color:#3a1420} }
       .swatches{display:grid; grid-template-columns:repeat(6,1fr); gap:.55rem}
       .sw{border:2px solid var(--line); border-radius:50%; aspect-ratio:1; padding:0; min-height:0; box-shadow:inset 0 -6px 10px rgba(0,0,0,.10), inset 0 4px 6px rgba(255,255,255,.35)}
       .sw[aria-pressed="true"]{border-color:var(--sage-deep); outline:2px solid var(--sage); outline-offset:2px}
       .sw-name{font-size:.82rem; font-weight:700; color:var(--ink-soft); margin-top:.45rem; text-align:center; min-height:1.2em}
       .chips{display:grid; grid-template-columns:1fr 1fr; gap:.5rem}
-      .chip{border:1px solid var(--line); background:var(--panel-2); color:var(--ink); border-radius:14px; padding:.6rem .5rem; font-weight:800; font-size:.84rem; display:flex; align-items:center; gap:.5rem; text-align:start}
+      .chip{border:1px solid var(--line); background:var(--panel-2); color:var(--ink); border-radius:16px; padding:.6rem .5rem; font-weight:800; font-size:.84rem; display:flex; align-items:center; gap:.5rem; text-align:start}
       .chip .dot{width:24px; height:24px; flex:none; display:grid; place-items:center}
       .chip .dot svg{width:22px; height:22px}
       .chip[aria-pressed="true"]{background:var(--sage-soft); border-color:var(--sage); color:var(--sage-deep)}
@@ -93,9 +93,9 @@
       input[type="range"]{flex:1; accent-color:var(--sage); min-height:2rem}
       input[type="color"]{width:52px; height:42px; min-height:42px; border:1px solid var(--line); border-radius:12px; background:var(--panel-2); padding:3px; cursor:pointer}
       .hexval{font-weight:800; font-size:.85rem; color:var(--ink-soft); direction:ltr}
-      .btn{border:1px solid var(--line); background:var(--panel-2); color:var(--ink); border-radius:12px; padding:.55rem .9rem; font-weight:800; font-size:.88rem}
+      .btn{border:1px solid var(--line); background:var(--panel-2); color:var(--ink); border-radius:14px; padding:.55rem .9rem; font-weight:800; font-size:.88rem}
       .btn.primary{background:var(--sage); border-color:var(--sage); color:#fff}
-      @media (prefers-color-scheme: dark){ .btn.primary{color:#16210f} }
+      @media (prefers-color-scheme: dark){ .btn.primary{color:#3a1420} }
       .btn:active{transform:scale(.97)}
       .btn:disabled{opacity:.45; cursor:default; transform:none}
       .tier-pick{display:flex; gap:.4rem; flex-wrap:wrap}
@@ -119,7 +119,7 @@
       .btn.gold{background:#e8a317; border-color:#e8a317; color:#3a2c00}
       .app-modal{position:fixed; inset:0; background:rgba(30,26,20,.45); display:flex; align-items:center; justify-content:center; z-index:60; padding:1rem}
       .app-modal[hidden]{display:none}
-      .app-modal-card{position:relative; background:#fff; border-radius:22px; box-shadow:0 20px 60px rgba(0,0,0,.3); padding:1.4rem 1.3rem 1.2rem; max-width:420px; width:100%; text-align:center}
+      .app-modal-card{position:relative; background:#fff; border-radius:26px; box-shadow:0 20px 60px rgba(0,0,0,.3); padding:1.4rem 1.3rem 1.2rem; max-width:420px; width:100%; text-align:center}
       .app-modal-card h3{margin:.2rem 0 .5rem; font-size:1.15rem; color:#2e2a24}
       .app-modal-card p{margin:0 0 .9rem; color:#6f675a; font-weight:600; line-height:1.6}
       .app-modal-x{position:absolute; top:.6rem; inset-inline-end:.6rem; width:34px; height:34px; border-radius:50%; border:1px solid #e4dccb; background:#fff; color:#2e2a24; font-size:.9rem; line-height:1; min-height:0}
@@ -448,7 +448,7 @@
         selTier:0, piping:"none", roseColor:"#e88ca0", dripColor:"#4a2c1c", ribbonColor:"#e88ca0",
         finishes:{ powder:false, gloss:false },
         deco:{ roses:false, babbreath:false, pearls:false, bows:false, ribbon:false, cherries:false, strawberries:false, blueberries:false, macarons:false, chocolate:false, goldleaf:false, candles:false, crown:false, drip:false, sprinkles:false },
-        stand:"gold", sceneName:"studio", text:"", textStyle:"pearl", free:[]
+        stand:"gold", sceneName:"blush", text:"", textStyle:"pearl", free:[]
       };
       var state = JSON.parse(JSON.stringify(DEFAULTS));
 
@@ -465,7 +465,7 @@
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.outputEncoding = THREE.sRGBEncoding;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.12;
+      renderer.toneMappingExposure = 1.18;
       stage.insertBefore(renderer.domElement, stage.firstChild);
 
       // Procedural studio environment (bright window + warm bounce) for real reflections
@@ -499,7 +499,7 @@
       key.shadow.mapSize.set(2048, 2048);
       key.shadow.camera.left = -5.5; key.shadow.camera.right = 5.5;
       key.shadow.camera.top = 7; key.shadow.camera.bottom = -3;
-      key.shadow.radius = 5; key.shadow.bias = -0.0004;
+      key.shadow.radius = 6; key.shadow.bias = -0.0004;
       scene.add(key);
       var fill = new THREE.DirectionalLight(0xdfeaf5, 0.32); fill.position.set(-5.5, 3.5, -3); scene.add(fill);
       var rim = new THREE.DirectionalLight(0xffe3b8, 0.4); rim.position.set(-2, 5, -6); scene.add(rim);
@@ -646,7 +646,7 @@
         var bump = tex === "fondant" ? bumpFondant : tex === "combed" ? bumpComb : tex === "rustic" ? bumpRustic : bumpButter;
         var rough = tex === "fondant" ? 0.34 : tex === "marble" ? 0.3 : tex === "rustic" ? 0.62 : 0.48;
         var opts = { color: new THREE.Color(tier.color), roughness: rough, metalness: 0,
-          clearcoat: state.finishes.gloss ? 0.55 : 0.22, clearcoatRoughness: 0.5,
+          clearcoat: state.finishes.gloss ? 0.55 : 0.32, clearcoatRoughness: 0.5,
           bumpMap: bump, bumpScale: tex === "combed" ? 0.034 : tex === "rustic" ? 0.04 : tex === "fondant" ? 0.006 : 0.024,
           envMap: envTex, envMapIntensity: 0.45 };
         if (tex === "marble"){ opts.map = marbleTexture(tier.color, tier.marble2); opts.bumpMap = bumpFondant; opts.bumpScale = 0.004; }
@@ -658,7 +658,7 @@
         return new THREE.MeshPhysicalMaterial({ color:c, roughness:0.5, clearcoat:0.3, clearcoatRoughness:0.5, envMap: envTex, envMapIntensity: 0.4 });
       }
       var pearlMat = new THREE.MeshPhysicalMaterial({ color:0xfdf8ee, roughness:0.08, metalness:0.05, clearcoat:1, clearcoatRoughness:0.1, envMap: envTex, envMapIntensity: 1.5 });
-      var goldMat = new THREE.MeshStandardMaterial({ color:0xd9ab54, roughness:0.27, metalness:1, envMap: envTex, envMapIntensity: 1.5 });
+      var goldMat = new THREE.MeshStandardMaterial({ color:0xd9ab54, roughness:0.22, metalness:1, envMap: envTex, envMapIntensity: 1.5 });
       var leafMat = new THREE.MeshStandardMaterial({ color:0x5f7d4c, roughness:0.65, envMap: envTex, envMapIntensity: 0.3 });
       var cherryMat = new THREE.MeshPhysicalMaterial({ color:0xb3232f, roughness:0.14, clearcoat:1, clearcoatRoughness:0.1, envMap: envTex, envMapIntensity: 1.2 });
       var stemMat = new THREE.MeshStandardMaterial({ color:0x5a4028, roughness:0.8 });
