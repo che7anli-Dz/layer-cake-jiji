@@ -1,0 +1,2213 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Layer Cake by Jiji — صمّم كيكتك</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+      :root{
+        --sage:#7d9b76; --sage-deep:#5f7f57; --sage-soft:#e6efe1;
+        --bg:#f7f3ec; --panel:#fffdf9; --panel-2:#f3eee3;
+        --ink:#2e2a24; --ink-soft:#6f675a; --line:#e4dccb;
+        --shadow:0 10px 30px rgba(80,66,40,.14);
+        color-scheme:light;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --sage:#9db894; --sage-deep:#b7d1ae; --sage-soft:#2c382a;
+          --bg:#1c1915; --panel:#26221c; --panel-2:#2e2921;
+          --ink:#f0e9dc; --ink-soft:#b3a893; --line:#3d362b;
+          --shadow:0 10px 30px rgba(0,0,0,.45);
+          color-scheme:dark;
+        }
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{margin:0; font-family:"Tajawal",system-ui,sans-serif; background:var(--bg); color:var(--ink); display:flex; flex-direction:column; overflow:hidden}
+      button{font-family:inherit; cursor:pointer}
+      button,[role="button"],select,input{min-height:2.5rem}
+      .appbar{display:flex; align-items:center; gap:.6rem; padding:.5rem .9rem; background:var(--panel); border-bottom:1px solid var(--line); z-index:5}
+      .brand{display:flex; align-items:center; gap:.55rem; margin-inline-end:auto}
+      .brand .mark{width:40px; height:40px; border-radius:12px; flex:none; background:linear-gradient(145deg,#aec7a6,#8cab84); display:grid; place-items:center; box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+      .brand .name{font-weight:900; font-size:1.35rem; color:var(--ink); line-height:1}
+      .brand .name small{display:block; font-size:.68rem; font-weight:700; color:var(--ink-soft)}
+      .icon-btn{width:42px; height:42px; border-radius:12px; border:1px solid var(--line); background:var(--panel-2); color:var(--ink); display:grid; place-items:center}
+      .icon-btn:active{transform:scale(.96)}
+      .icon-btn.primary{background:var(--sage); border-color:var(--sage); color:#fff}
+      @media (prefers-color-scheme: dark){ .icon-btn.primary{color:#16210f} }
+      .work{flex:1; display:flex; min-height:0}
+      #stage{position:relative; flex:1; min-width:0; touch-action:none}
+      #stage canvas{display:block; width:100%; height:100%}
+      .stage-vignette{position:absolute; inset:0; pointer-events:none; z-index:2; background:radial-gradient(ellipse at 50% 42%, transparent 52%, rgba(74,52,26,.20) 100%)}
+      .stage-hint{position:absolute; bottom:.7rem; inset-inline-start:50%; transform:translateX(50%); background:rgba(30,26,20,.55); color:#fff; font-size:.78rem; font-weight:700; padding:.35rem .8rem; border-radius:999px; pointer-events:none; white-space:nowrap; backdrop-filter:blur(4px); max-width:92%; z-index:3}
+      @media (max-width:520px){ .stage-hint{white-space:normal; text-align:center; line-height:1.5} }
+      .stage-tools{position:absolute; top:.7rem; inset-inline-start:.7rem; display:flex; flex-direction:column; gap:.5rem; z-index:3}
+      .stage-tools .icon-btn{background:var(--panel); box-shadow:var(--shadow)}
+      .stage-tools .icon-btn.active{background:var(--sage); color:#fff; border-color:var(--sage)}
+      .fallback{position:absolute; inset:0; display:none; place-items:center; text-align:center; padding:2rem; color:var(--ink-soft); font-weight:700; pointer-events:none; z-index:1}
+      .panel{width:384px; flex:none; background:var(--panel); border-inline-start:1px solid var(--line); display:flex; flex-direction:column; min-height:0}
+      .tabs{display:flex; gap:.25rem; padding:.6rem .5rem .4rem; overflow-x:auto; scrollbar-width:none}
+      .tabs::-webkit-scrollbar{display:none}
+      .tab{flex:1 1 0; min-width:41px; border:1px solid transparent; background:transparent; color:var(--ink-soft); border-radius:12px; padding:.45rem .1rem; font-weight:800; font-size:.71rem; display:flex; flex-direction:column; align-items:center; gap:.2rem}
+      .tab svg{width:21px; height:21px}
+      .tab[aria-selected="true"]{background:var(--sage-soft); color:var(--sage-deep); border-color:var(--line)}
+      .tab-body{flex:1; overflow-y:auto; padding:.6rem .9rem 2.4rem; min-height:0; scroll-padding-bottom:2.4rem; position:relative; z-index:0}
+      .pane{display:none}
+      .pane.on{display:block}
+      .pane h3{margin:.7rem 0 .55rem; font-size:.92rem; font-weight:800}
+      .pane h3:first-child{margin-top:.2rem}
+      .pane p.note{margin:.2rem 0 .7rem; font-size:.8rem; color:var(--ink-soft); line-height:1.7}
+      .seg{display:flex; gap:.45rem; flex-wrap:wrap}
+      .seg button{flex:1 1 28%; border:1px solid var(--line); background:var(--panel-2); color:var(--ink); border-radius:12px; padding:.55rem .3rem; font-weight:800; font-size:.86rem; display:flex; flex-direction:column; align-items:center; gap:.25rem}
+      .seg button svg{width:24px; height:24px}
+      .seg button[aria-pressed="true"]{background:var(--sage); border-color:var(--sage); color:#fff}
+      @media (prefers-color-scheme: dark){ .seg button[aria-pressed="true"]{color:#16210f} }
+      .swatches{display:grid; grid-template-columns:repeat(6,1fr); gap:.55rem}
+      .sw{border:2px solid var(--line); border-radius:50%; aspect-ratio:1; padding:0; min-height:0; box-shadow:inset 0 -6px 10px rgba(0,0,0,.10), inset 0 4px 6px rgba(255,255,255,.35)}
+      .sw[aria-pressed="true"]{border-color:var(--sage-deep); outline:2px solid var(--sage); outline-offset:2px}
+      .sw-name{font-size:.82rem; font-weight:700; color:var(--ink-soft); margin-top:.45rem; text-align:center; min-height:1.2em}
+      .chips{display:grid; grid-template-columns:1fr 1fr; gap:.5rem}
+      .chip{border:1px solid var(--line); background:var(--panel-2); color:var(--ink); border-radius:14px; padding:.6rem .5rem; font-weight:800; font-size:.84rem; display:flex; align-items:center; gap:.5rem; text-align:start}
+      .chip .dot{width:24px; height:24px; flex:none; display:grid; place-items:center}
+      .chip .dot svg{width:22px; height:22px}
+      .chip[aria-pressed="true"]{background:var(--sage-soft); border-color:var(--sage); color:var(--sage-deep)}
+      .chip .tick{margin-inline-start:auto; font-weight:900; opacity:0}
+      .chip[aria-pressed="true"] .tick{opacity:1}
+      .row{display:flex; gap:.5rem; align-items:center; flex-wrap:wrap}
+      .row + .row{margin-top:.6rem}
+      input[type="text"]{flex:1; min-width:120px; border:1px solid var(--line); border-radius:12px; background:var(--panel-2); color:var(--ink); padding:.55rem .8rem; font-family:inherit; font-size:1rem; font-weight:700}
+      input[type="range"]{flex:1; accent-color:var(--sage); min-height:2rem}
+      input[type="color"]{width:52px; height:42px; min-height:42px; border:1px solid var(--line); border-radius:12px; background:var(--panel-2); padding:3px; cursor:pointer}
+      .hexval{font-weight:800; font-size:.85rem; color:var(--ink-soft); direction:ltr}
+      .btn{border:1px solid var(--line); background:var(--panel-2); color:var(--ink); border-radius:12px; padding:.55rem .9rem; font-weight:800; font-size:.88rem}
+      .btn.primary{background:var(--sage); border-color:var(--sage); color:#fff}
+      @media (prefers-color-scheme: dark){ .btn.primary{color:#16210f} }
+      .btn:active{transform:scale(.97)}
+      .btn:disabled{opacity:.45; cursor:default; transform:none}
+      .brush-sw{width:38px; height:38px; min-height:38px; border-radius:50%; border:2px solid var(--line); padding:0}
+      .brush-sw[aria-pressed="true"]{border-color:var(--sage-deep); outline:2px solid var(--sage); outline-offset:2px}
+      .tier-pick{display:flex; gap:.4rem; flex-wrap:wrap}
+      .tier-pick button{flex:1 1 30%; border:1px solid var(--line); background:var(--panel-2); color:var(--ink); border-radius:10px; padding:.45rem .2rem; font-weight:800; font-size:.82rem}
+      .tier-pick button[aria-pressed="true"]{background:var(--sage); border-color:var(--sage); color:#fff}
+      .stepper{display:flex; align-items:center; gap:.6rem}
+      .stepper .count{font-weight:900; font-size:1.05rem; min-width:5.5rem; text-align:center}
+      .stepper button{width:46px; height:46px; border-radius:50%; border:1px solid var(--line); background:var(--panel-2); color:var(--ink); font-size:1.3rem; font-weight:900; display:grid; place-items:center}
+      .val{font-weight:900; color:var(--sage-deep); font-size:.88rem; min-width:4.6rem; text-align:end}
+      .lbl{font-size:.84rem; font-weight:700; color:var(--ink-soft)}
+      .presets{display:grid; grid-template-columns:1fr 1fr; gap:.6rem}
+      .preset{border:1px solid var(--line); background:var(--panel-2); border-radius:14px; padding:.7rem .6rem; text-align:start; color:var(--ink)}
+      .preset b{display:block; font-size:.92rem; margin-bottom:.15rem}
+      .preset span{font-size:.76rem; color:var(--ink-soft); line-height:1.5; display:block}
+      .preset:active{transform:scale(.98)}
+      .panel-foot{display:flex; gap:.5rem; padding:.7rem .9rem calc(.7rem + env(safe-area-inset-bottom)); border-top:1px solid var(--line); background:var(--panel)}
+      .panel-foot .btn{flex:1; display:flex; align-items:center; justify-content:center; gap:.4rem}
+      .panel-foot svg{width:19px; height:19px}
+      .toast{position:fixed; bottom:1.1rem; inset-inline-start:50%; transform:translate(-50%,20px); background:#2e2a24; color:#fff; padding:.6rem 1.1rem; border-radius:999px; font-weight:800; font-size:.88rem; opacity:0; pointer-events:none; transition:.25s; z-index:20}
+      .toast.show{opacity:1; transform:translate(-50%,0)}
+      /* Bake mode */
+      .bake-steps{list-style:none; margin:0 0 .8rem; padding:0; display:grid; gap:.45rem}
+      .bake-steps li{display:flex; gap:.6rem; align-items:center; background:var(--panel-2); border:1px solid var(--line); border-radius:12px; padding:.55rem .7rem; font-weight:800; font-size:.86rem}
+      .bake-steps li .n{width:26px; height:26px; flex:none; border-radius:50%; background:var(--chip,#eee); background:var(--sage-soft); color:var(--sage-deep); display:grid; place-items:center; font-size:.8rem}
+      .bake-steps li.done{border-color:var(--sage); color:var(--sage-deep)}
+      .bake-steps li.done .n{background:var(--sage); color:#fff}
+      .bowl{width:150px; height:86px; margin:.4rem auto .2rem; border-radius:12px 12px 75px 75px; background:linear-gradient(180deg,#e8e2d2,#cfc4a8); position:relative; overflow:hidden; box-shadow:inset 0 -12px 18px rgba(90,70,40,.25)}
+      .bowl .batter{position:absolute; inset-inline:8px; top:10px; height:30px; border-radius:50%; background:#f3e3bb; transition:background .5s}
+      .bowl .batter.choc{background:#7a4a2c}.bowl .batter.red{background:#a83a48}.bowl .batter.lemon{background:#f6e49c}
+      .bowl .batter.strawberry{background:#f2a7bb}.bowl .batter.caramel{background:#d99a4e}.bowl .batter.pistachio{background:#a9bd7a}.bowl .batter.coffee{background:#5b3a26}
+      .oven{margin:.4rem auto .2rem; max-width:230px; border-radius:14px; background:linear-gradient(180deg,#4a443c,#322e28); padding:.7rem; color:#ffe9c4; text-align:center; box-shadow:var(--shadow)}
+      .oven .win{height:74px; border-radius:9px; background:#1d1a16; display:grid; place-items:center; overflow:hidden; position:relative}
+      .oven .glow{position:absolute; inset:0; background:radial-gradient(ellipse at 50% 80%, rgba(255,140,40,.0), transparent 60%); transition:.5s}
+      .oven.baking .glow{background:radial-gradient(ellipse at 50% 80%, rgba(255,140,40,.75), transparent 65%)}
+      .oven .temp{font-weight:900; font-size:1.25rem; direction:ltr}
+      .bar{height:10px; border-radius:99px; background:var(--panel-2); border:1px solid var(--line); overflow:hidden}
+      .bar i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--sage),var(--sage-deep)); transition:width .2s}
+      .bar.hot i{background:linear-gradient(90deg,#e8a04c,#d96f2e)}
+      textarea{width:100%; border:1px solid var(--line); border-radius:12px; background:var(--panel-2); color:var(--ink); padding:.55rem .8rem; font-family:inherit; font-size:.95rem; font-weight:700; min-height:84px; resize:vertical; line-height:1.7}
+      @media (max-width:820px){
+        .work{flex-direction:column}
+        #stage{flex:none; height:41vh; min-height:260px}
+        .panel{width:auto; flex:1; border-inline-start:none; border-top:1px solid var(--line); min-height:0}
+        .brand .name small{display:none}
+      }
+      .back-menu{color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:8px 14px;border:1px solid rgba(255,255,255,.45);border-radius:99px;white-space:nowrap}
+      .back-menu:hover{background:rgba(255,255,255,.15)}
+    </style>
+  </head>
+  <body>
+    <header class="appbar">
+      <div class="brand">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="30" height="30" fill="none">
+            <path d="M27.8 6.2c.5 2.3.2 4.5-.9 6.6l-6.4 11.7c-1.1 2-2.9 3.6-5.1 4.4-1.9.7-3.3 2.3-3.8 4.3-.6 2.5.6 5.1 2.9 6.3 2.6 1.4 5.9.6 7.6-1.8l1.7-2.4 3.4 1.6c4.9 2.3 10.8.3 13.1-4.5 2.2-4.6.5-10.1-3.9-12.5l-6.5-3.4c.9-2.3 1-4.8.4-7.2-.3-1.3-1.6-2.1-2.9-1.8-.3.1-.6.3-.6.7Z" fill="#ffffff"/>
+            <path d="M27.5 5.4 19.9 3.6c-1.2-.3-2.4.5-2.7 1.7l-1.9 8c-.2 1 .3 2 1.2 2.4l4.6 2 6.4-12.3Z" fill="#ffffff" opacity=".92"/>
+          </svg>
+        </span>
+        <span class="name">Layer Cake by Jiji<small>صمّم كيكتك — مصمم ثلاثي الأبعاد</small></span>
+      </div>
+      <a class="back-menu" href="index.html">← المنيو</a>
+      <button class="icon-btn" id="btnShare" aria-label="مشاركة التصميم" title="مشاركة">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>
+      </button>
+      <button class="icon-btn primary" id="btnDownload" aria-label="تحميل التصميم" title="تحميل التصميم">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4.5-4.5M12 15 7.5 10.5"/><path d="M4 19h16"/></svg>
+      </button>
+    </header>
+
+    <div class="work">
+      <section id="stage" aria-label="معاينة الكيكة ثلاثية الأبعاد">
+        <div class="stage-vignette"></div>
+        <div class="stage-tools">
+          <button class="icon-btn active" id="btnSpin" aria-label="تدوير تلقائي" title="تدوير تلقائي" aria-pressed="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3"/><path d="M21 3v6h-6"/></svg>
+          </button>
+          <button class="icon-btn" id="btnCam" aria-label="إعادة ضبط الكاميرا" title="إعادة ضبط الكاميرا">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V5a2 2 0 0 1 2-2h4M15 3h4a2 2 0 0 1 2 2v4M21 15v4a2 2 0 0 1-2 2h-4M9 21H5a2 2 0 0 1-2-2v-4"/><circle cx="12" cy="12" r="3.2"/></svg>
+          </button>
+        </div>
+        <div class="fallback" id="fallback">تعذّر تحميل عارض ثلاثي الأبعاد.<br/>تحقق من الاتصال ثم أعد فتح الصفحة.</div>
+        <div class="stage-hint" id="stageHint">اسحب بيدك لتدوير الكيكة · قرّب بإصبعين للتكبير</div>
+      </section>
+
+      <aside class="panel" aria-label="أدوات تصميم الكيكة">
+        <nav class="tabs" role="tablist" aria-label="أقسام التصميم">
+          <button class="tab" role="tab" data-tab="bake" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h16v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19v-9Z"/><path d="M8 10V7a4 4 0 0 1 8 0v3M2 10h20"/></svg>
+            الخبز
+          </button>
+          <button class="tab" role="tab" data-tab="layers" aria-selected="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg>
+            الطبقات
+          </button>
+          <button class="tab" role="tab" data-tab="cream" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c2.5 3.2 6 6.6 6 10a6 6 0 1 1-12 0c0-3.4 3.5-6.8 6-10Z"/></svg>
+            الألوان
+          </button>
+          <button class="tab" role="tab" data-tab="deco" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15Z"/></svg>
+            الزواق
+          </button>
+          <button class="tab" role="tab" data-tab="draw" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3Z"/></svg>
+            الرسم
+          </button>
+          <button class="tab" role="tab" data-tab="text" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14M12 5v14"/></svg>
+            الكتابة
+          </button>
+          <button class="tab" role="tab" data-tab="ready" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            جاهزة
+          </button>
+        </nav>
+
+        <div class="tab-body">
+          <!-- BAKE MODE -->
+          <section class="pane" id="pane-bake" role="tabpanel">
+            <h3>وضع الخبز</h3>
+            <p class="note">اخلط العجينة واخبز الكيكة قبل ما تزيّنها — كيما في المخبزة بالصح.</p>
+            <ol class="bake-steps">
+              <li id="bstep1"><span class="n">1</span> اختر نكهة العجينة</li>
+              <li id="bstep2"><span class="n">2</span> اخلط المكونات</li>
+              <li id="bstep3"><span class="n">3</span> اخبز في الفرن على 180°</li>
+              <li id="bstep4"><span class="n">4</span> خلّيها تبرد وابدأ التزيين</li>
+            </ol>
+            <h3>نكهة العجينة</h3>
+            <div class="seg" id="flavorSeg">
+              <button data-flavor="vanilla" aria-pressed="true">فانيليا</button>
+              <button data-flavor="choc" aria-pressed="false">شوكولاتة</button>
+              <button data-flavor="strawberry" aria-pressed="false">فراولة</button>
+              <button data-flavor="lemon" aria-pressed="false">ليمون</button>
+              <button data-flavor="caramel" aria-pressed="false">كراميل</button>
+              <button data-flavor="red" aria-pressed="false">ريد فيلفت</button>
+              <button data-flavor="pistachio" aria-pressed="false">بيسطاش</button>
+              <button data-flavor="coffee" aria-pressed="false">قهوة</button>
+            </div>
+            <div class="bowl" aria-hidden="true"><div class="batter" id="batter"></div></div>
+            <h3>الخلط</h3>
+            <div class="bar"><i id="mixBar"></i></div>
+            <div class="row" style="margin-top:.5rem">
+              <button class="btn primary" id="btnMix">اخلط المكونات</button>
+              <span class="lbl" id="mixLbl">جاهز للخلط</span>
+            </div>
+            <h3>الفرن</h3>
+            <div class="oven" id="oven"><div class="win"><div class="glow"></div><span class="temp" id="ovenTemp">24°C</span></div></div>
+            <div class="bar hot" style="margin-top:.5rem"><i id="bakeBar"></i></div>
+            <div class="row" style="margin-top:.5rem">
+              <button class="btn primary" id="btnBake" disabled>اخبز الكيكة</button>
+              <span class="lbl" id="bakeLbl">اخلط قبل ما تخبز</span>
+            </div>
+            <div class="row" style="margin-top:.9rem">
+              <button class="btn primary" id="btnGoDecorate" disabled style="flex:1">الكيكة خبزت — ابدأ التزيين</button>
+            </div>
+            <h3>الحشوة</h3>
+            <div class="seg" id="fillingSeg">
+              <button data-filling="butter" aria-pressed="true">كريمة زبدة</button>
+              <button data-filling="ganache" aria-pressed="false">غاناش شوكولاتة</button>
+              <button data-filling="caramel" aria-pressed="false">كراميل</button>
+              <button data-filling="fruits" aria-pressed="false">فواكه</button>
+              <button data-filling="jam" aria-pressed="false">مربى</button>
+              <button data-filling="nutella" aria-pressed="false">نوتيلا</button>
+            </div>
+            <h3>حجم الكيكة — عدد الأشخاص</h3>
+            <div class="seg" id="servingsSeg">
+              <button data-servings="6-8" aria-pressed="false">6–8 أشخاص</button>
+              <button data-servings="10-12" aria-pressed="true">10–12 شخص</button>
+              <button data-servings="15-20" aria-pressed="false">15–20 شخص</button>
+              <button data-servings="25-30" aria-pressed="false">25–30 شخص</button>
+              <button data-servings="40+" aria-pressed="false">أكثر من 40</button>
+            </div>
+            <h3>مستوى الحلاوة</h3>
+            <div class="seg" id="sweetnessSeg">
+              <button data-sweetness="normal" aria-pressed="true">عادي</button>
+              <button data-sweetness="less" aria-pressed="false">أقل سكر</button>
+              <button data-sweetness="none" aria-pressed="false">بدون سكر</button>
+            </div>
+            <h3>الحساسية</h3>
+            <div class="chips" id="allergyChips">
+              <button class="chip" data-allergy="gluten" aria-pressed="false">بدون غلوتين<span class="tick">✓</span></button>
+              <button class="chip" data-allergy="nuts" aria-pressed="false">بدون مكسرات<span class="tick">✓</span></button>
+              <button class="chip" data-allergy="lactose" aria-pressed="false">بدون لاكتوز<span class="tick">✓</span></button>
+            </div>
+            <p class="note">اختار وحدة ولا أكثر إذا عندك حساسية — خليهم بلا اختيار إذا ما عندك حتى حساسية.</p>
+            <h3>ملاحظات الزبون</h3>
+            <textarea id="orderNotes" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+          </section>
+
+          <!-- LAYERS -->
+          <section class="pane on" id="pane-layers" role="tabpanel">
+            <h3>عدد الطبقات</h3>
+            <div class="stepper">
+              <button id="btnTierMinus" aria-label="نقص طبقة">−</button>
+              <span class="count" id="tierCountLbl">3 طبقات</span>
+              <button id="btnTierPlus" aria-label="زيد طبقة">+</button>
+            </div>
+            <h3>اختر الطبقة اللي تعدّلها</h3>
+            <div class="tier-pick" id="tierPick"></div>
+            <h3>شكل الطبقة المختارة</h3>
+            <div class="seg" id="shapeSeg">
+              <button data-shape="round" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg>دائرية</button>
+              <button data-shape="square" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4.5" y="4.5" width="15" height="15" rx="3"/></svg>مربعة</button>
+              <button data-shape="heart" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20.5C6 16 3.5 12.6 3.5 9.3 3.5 6.4 5.7 4.5 8.2 4.5c1.6 0 3 .8 3.8 2 .8-1.2 2.2-2 3.8-2 2.5 0 4.7 1.9 4.7 4.8 0 3.3-2.5 6.7-8.5 11.2Z"/></svg>قلب</button>
+              <button data-shape="star" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m12 3 2.7 5.8 6.3.7-4.7 4.3 1.3 6.2L12 16.9 6.4 20l1.3-6.2L3 9.5l6.3-.7L12 3Z"/></svg>نجمة</button>
+              <button data-shape="hex" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l7.8 4.5v9L12 21l-7.8-4.5v-9L12 3Z"/></svg>سداسية</button>
+              <button data-shape="oval" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="12" rx="9" ry="6"/></svg>بيضاوية</button>
+            </div>
+            <h3>ملمس الطبقة المختارة</h3>
+            <div class="seg" id="textureSeg">
+              <button data-texture="butter" aria-pressed="true">كريمة زبدة</button>
+              <button data-texture="fondant" aria-pressed="false">فوندان ناعم</button>
+              <button data-texture="combed" aria-pressed="false">مخططة بالمشط</button>
+              <button data-texture="rustic" aria-pressed="false">ريفية بالملعقة</button>
+              <button data-texture="marble" aria-pressed="false">رخامي</button>
+            </div>
+            <div id="marbleRow" style="display:none">
+              <h3>لون عروق الرخام</h3>
+              <div class="row">
+                <input type="color" id="marbleColor" value="#d8b7c3" aria-label="لون عروق الرخام" />
+                <span class="hexval" id="marbleHex">#d8b7c3</span>
+              </div>
+            </div>
+            <h3>مقاس الطبقة المختارة</h3>
+            <div class="row">
+              <span class="lbl">القطر</span>
+              <input type="range" id="diaRange" min="12" max="40" value="26" aria-label="قطر الطبقة بالسنتيمتر" />
+              <span class="val" id="diaVal">Ø 26 سم</span>
+            </div>
+            <div class="row">
+              <span class="lbl">الارتفاع</span>
+              <input type="range" id="hRange" min="6" max="16" value="10" aria-label="ارتفاع الطبقة بالسنتيمتر" />
+              <span class="val" id="hVal">10 سم</span>
+            </div>
+            <p class="note">كل طبقة عندها شكلها وملمسها ومقاسها الخاص — كبّر القاعدة وصغّر اللي فوقها كيما الكيكات الحقيقية.</p>
+          </section>
+
+          <!-- COLORS & FINISHES -->
+          <section class="pane" id="pane-cream" role="tabpanel">
+            <h3>لون كريمة الطبقة المختارة — منتقي حر</h3>
+            <div class="row">
+              <input type="color" id="creamPicker" value="#fdfbf6" aria-label="اختر أي لون للكريمة" />
+              <span class="hexval" id="creamHex">#fdfbf6</span>
+              <span class="lbl">أي لون من ملايين الألوان</span>
+            </div>
+            <h3>ألوان جاهزة</h3>
+            <div class="swatches" id="creamSwatches"></div>
+            <div class="sw-name" id="creamName"></div>
+            <h3>ألوان استعملتها مؤخراً</h3>
+            <div class="swatches" id="recentSwatches"></div>
+            <p class="note" id="recentNote">ما زال ما استعملت حتى لون من المنتقي الحر.</p>
+            <h3>التشطيبات</h3>
+            <div class="chips" id="finishChips">
+              <button class="chip" data-finish="powder" aria-pressed="false"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="8" r="1.3"/><circle cx="12" cy="5" r="1.1"/><circle cx="17" cy="9" r="1.3"/><circle cx="9" cy="14" r="1.1"/><circle cx="15" cy="15" r="1.2"/><circle cx="12" cy="19" r="1.1"/><circle cx="19" cy="18" r="1"/></svg></span>سكر بودرة<span class="tick">✓</span></button>
+              <button class="chip" data-finish="gloss" aria-pressed="false"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3c2.5 3.2 6 6.6 6 10a6 6 0 1 1-12 0c0-3.4 3.5-6.8 6-10Z"/><path d="M9.5 13.5a2.8 2.8 0 0 0 2 3"/></svg></span>لمعة زبدة<span class="tick">✓</span></button>
+            </div>
+            <h3>لون الشوكولاتة الذايبة</h3>
+            <div class="row">
+              <input type="color" id="dripPicker" value="#4a2c1c" aria-label="لون الشوكولاتة الذايبة" />
+              <span class="hexval" id="dripHex">#4a2c1c</span>
+            </div>
+            <div class="swatches" id="dripSwatches" style="margin-top:.6rem"></div>
+            <div class="sw-name" id="dripName"></div>
+            <h3>لون الشريط والفيونكات</h3>
+            <div class="row">
+              <input type="color" id="ribbonPicker" value="#e88ca0" aria-label="لون الشريط" />
+              <span class="hexval" id="ribbonHex">#e88ca0</span>
+            </div>
+            <div class="swatches" id="ribbonSwatches" style="margin-top:.6rem"></div>
+            <div class="sw-name" id="ribbonName"></div>
+            <h3>لون الورود والأزهار</h3>
+            <div class="row">
+              <input type="color" id="rosePicker" value="#e88ca0" aria-label="لون الورود" />
+              <span class="hexval" id="roseHex">#e88ca0</span>
+            </div>
+            <div class="swatches" id="roseSwatches" style="margin-top:.6rem"></div>
+            <div class="sw-name" id="roseName"></div>
+          </section>
+
+          <!-- DECORATIONS -->
+          <section class="pane" id="pane-deco" role="tabpanel">
+            <h3>زواق تلقائي</h3>
+            <div class="chips" id="decoChips"></div>
+            <h3>حواف الكريمة (التقليم)</h3>
+            <div class="seg" id="pipingSeg">
+              <button data-piping="shell" aria-pressed="true">أصداف</button>
+              <button data-piping="rosette" aria-pressed="false">وريدات</button>
+              <button data-piping="ruffle" aria-pressed="false">كشكشة</button>
+              <button data-piping="none" aria-pressed="false">بلا حواف</button>
+            </div>
+            <h3>زواق حر — حطّه وين تحب</h3>
+            <p class="note">اختر نوع الزواق، فعّل «وضع الحط»، ومن بعد اضغط على سطح الكيكة باش يتحط تما. اسحب أي زواق حر بإصبعك باش تبدل بلاصتو، واضغط عليه باش تختارو وتكبّرو ولا تمسحو.</p>
+            <div class="seg" id="freeTypeSeg">
+              <button data-ftype="rose" aria-pressed="true">وردة</button>
+              <button data-ftype="flower" aria-pressed="false">زهرة</button>
+              <button data-ftype="ball" aria-pressed="false">كرة لؤلؤ</button>
+              <button data-ftype="bow" aria-pressed="false">فيونكة</button>
+              <button data-ftype="strawberry" aria-pressed="false">فراولة</button>
+              <button data-ftype="blueberry" aria-pressed="false">توت</button>
+              <button data-ftype="macaron" aria-pressed="false">ماكرون</button>
+              <button data-ftype="cherry" aria-pressed="false">كرزة</button>
+            </div>
+            <div class="row" style="margin-top:.6rem">
+              <button class="btn primary" id="btnPlaceMode" aria-pressed="false">تفعيل وضع الحط</button>
+              <button class="btn" id="btnDeleteFree">مسح المختار</button>
+              <button class="btn" id="btnClearFree">مسح الكل</button>
+            </div>
+            <div class="row">
+              <span class="lbl">حجم الزواق</span>
+              <input type="range" id="freeSize" min="2" max="9" value="4" step="0.5" aria-label="حجم الزواق بالسنتيمتر" />
+              <span class="val" id="freeSizeVal">4 سم</span>
+            </div>
+            <p class="note" id="freeInfo">ما كاش زواق حر محطوط دوقا.</p>
+            <h3>أنماط الزواق — رتّبهم دفعة وحدة</h3>
+            <div class="seg" id="patternSeg">
+              <button data-pattern="ring" aria-pressed="true">حلقة</button>
+              <button data-pattern="spiral" aria-pressed="false">حلزون</button>
+              <button data-pattern="zigzag" aria-pressed="false">متعرج</button>
+              <button data-pattern="wreath" aria-pressed="false">إكليل</button>
+              <button data-pattern="arch" aria-pressed="false">قوس</button>
+              <button data-pattern="wave" aria-pressed="false">موجة</button>
+              <button data-pattern="scatter" aria-pressed="false">مبعثر</button>
+            </div>
+            <div class="row">
+              <span class="lbl">عدد النسخ</span>
+              <input type="range" id="patCount" min="4" max="40" value="14" aria-label="عدد نسخ النمط" />
+              <span class="val" id="patCountVal">14</span>
+            </div>
+            <div class="row">
+              <span class="lbl">نصف القطر</span>
+              <input type="range" id="patRadius" min="25" max="95" value="70" aria-label="نصف قطر النمط بالنسبة المئوية" />
+              <span class="val" id="patRadiusVal">70%</span>
+            </div>
+            <div class="row">
+              <button class="btn primary" id="btnApplyPattern" style="flex:1">طبّق النمط بنوع الزواق المختار</button>
+            </div>
+          </section>
+
+          <!-- DRAW -->
+          <section class="pane" id="pane-draw" role="tabpanel">
+            <h3>الرسم على الكيكة</h3>
+            <p class="note">فعّل وضع الرسم، ومن بعد ارسم بإصبعك فوق سطح الكيكة من الأعلى — كيما الرسم بقمع الكريمة.</p>
+            <div class="row">
+              <button class="btn primary" id="btnDrawMode" aria-pressed="false">تفعيل وضع الرسم</button>
+            </div>
+            <h3>لون القمع</h3>
+            <div class="row" id="brushColors"></div>
+            <div class="row">
+              <input type="color" id="brushPicker" value="#6b4232" aria-label="لون قمع حر" />
+              <span class="lbl">ولا اختر أي لون حر</span>
+            </div>
+            <h3>حجم رأس القمع</h3>
+            <div class="row">
+              <input type="range" id="brushSize" min="3" max="26" value="10" aria-label="حجم الفرشاة" />
+            </div>
+            <div class="row">
+              <button class="btn" id="btnUndoDraw">تراجع</button>
+              <button class="btn" id="btnClearDraw">مسح الرسم كامل</button>
+            </div>
+          </section>
+
+          <!-- TEXT -->
+          <section class="pane" id="pane-text" role="tabpanel">
+            <h3>الكتابة فوق الكيكة</h3>
+            <p class="note">اكتب اسم ولا رقم (كيما 22) ويظهر فوق الكيكة.</p>
+            <h3>ستايل الكتابة</h3>
+            <div class="seg" id="textStyleSeg">
+              <button data-tstyle="pearl" aria-pressed="true">حبات لؤلؤ</button>
+              <button data-tstyle="gold" aria-pressed="false">ذهبي لامع</button>
+              <button data-tstyle="choc" aria-pressed="false">شوكولاتة</button>
+            </div>
+            <div class="row" style="margin-top:.8rem">
+              <input type="text" id="cakeText" maxlength="14" placeholder="مثال: 22 أو سارة" />
+              <button class="btn primary" id="btnApplyText">ضع الكتابة</button>
+            </div>
+            <div class="row">
+              <button class="btn" id="btnClearText">مسح الكتابة</button>
+            </div>
+          </section>
+
+          <!-- PRESETS -->
+          <section class="pane" id="pane-ready" role="tabpanel">
+            <h3>قوالب جاهزة</h3>
+            <div class="presets" id="presetGrid"></div>
+          </section>
+        </div>
+
+        <div class="panel-foot">
+          <button class="btn" id="btnRandom">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="15.5" cy="8.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="8.5" cy="15.5" r="1.4" fill="currentColor" stroke="none"/></svg>
+            فاجئني
+          </button>
+          <button class="btn" id="btnReset">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.3"/><path d="M3 4v5h5"/></svg>
+            من الأول
+          </button>
+          <button class="btn primary" id="btnDownload2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4.5-4.5M12 15 7.5 10.5"/><path d="M4 19h16"/></svg>
+            حمّل التصميم
+          </button>
+          <button class="btn primary" id="btnOrder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+            ابعث الطلب
+          </button>
+        </div>
+      </aside>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+
+    <script src="assets/three.min.js"></script>
+    <script src="assets/OrbitControls.js"></script>
+    <script>
+    (function(){
+      "use strict";
+      var $ = function(s){ return document.querySelector(s); };
+      var $$ = function(s){ return Array.prototype.slice.call(document.querySelectorAll(s)); };
+      function toast(msg){
+        var t = $("#toast"); t.textContent = msg; t.classList.add("show");
+        clearTimeout(t._h); t._h = setTimeout(function(){ t.classList.remove("show"); }, 2300);
+      }
+      if (typeof THREE === "undefined" || !THREE.OrbitControls){
+        $("#fallback").style.display = "grid"; return;
+      }
+
+      /* ============ Data ============ */
+      var CREAMS = [
+        {n:"أبيض", c:"#fdfbf6"}, {n:"عاجي", c:"#f5e9d4"}, {n:"وردي فاتح", c:"#f9dee4"},
+        {n:"وردي", c:"#f0a3ba"}, {n:"خوخي", c:"#f9c69b"}, {n:"ليموني", c:"#f6e49c"},
+        {n:"مريمية", c:"#b3c2a4"}, {n:"سماوي", c:"#bcd7ea"}, {n:"لافندر", c:"#d3c4e6"},
+        {n:"كراميل", c:"#c68b4e"}, {n:"شوكولاتة", c:"#6b4232"}, {n:"عنابي", c:"#a63a4a"},
+        {n:"أسود", c:"#3b3633"}, {n:"أحمر", c:"#c23b4e"}, {n:"فيروزي", c:"#7fc4bd"}, {n:"بيج وردي", c:"#e8cdbb"}
+      ];
+      var ROSES = [
+        {n:"وردي", c:"#e88ca0"}, {n:"أحمر", c:"#c23b4e"}, {n:"أبيض", c:"#f7f2ea"},
+        {n:"خوخي", c:"#f2a97e"}, {n:"بنفسجي", c:"#a58fd0"}, {n:"أصفر", c:"#eec95c"}
+      ];
+      var DRIPS = [
+        {n:"شوكولاتة داكنة", c:"#4a2c1c"}, {n:"شوكولاتة بالحليب", c:"#7a4a2c"}, {n:"كراميل", c:"#b5722f"},
+        {n:"وردي", c:"#e88ca0"}, {n:"أبيض", c:"#fdfbf6"}, {n:"ذهبي", c:"#c9973f"}, {n:"عنابي", c:"#8e2f3e"}
+      ];
+      var RIBBONS = [
+        {n:"وردي", c:"#e88ca0"}, {n:"ذهبي", c:"#c9973f"}, {n:"أبيض", c:"#f7f2ea"},
+        {n:"أحمر", c:"#b33040"}, {n:"مريمية", c:"#8aa583"}, {n:"سماوي", c:"#9dbfd8"}
+      ];
+      var DECOS = [
+        {id:"roses", n:"ورود تلقائية"}, {id:"babbreath", n:"أزهار صغيرة بيضاء"},
+        {id:"pearls", n:"لؤلؤ"}, {id:"bows", n:"فيونكات"}, {id:"ribbon", n:"شريط حول الطبقات"},
+        {id:"cherries", n:"كرز"}, {id:"strawberries", n:"فراولة"}, {id:"blueberries", n:"توت أزرق"},
+        {id:"macarons", n:"ماكرون"}, {id:"chocolate", n:"قطع شوكولاتة"},
+        {id:"goldleaf", n:"أوراق ذهبية"}, {id:"candles", n:"شموع مضيئة"},
+        {id:"crown", n:"تاج ذهبي"}, {id:"drip", n:"شوكولاتة ذايبة"}, {id:"sprinkles", n:"رشّات ملونة"}
+      ];
+      var FREE_TYPES = { rose:"وردة", flower:"زهرة", ball:"كرة لؤلؤ", bow:"فيونكة", strawberry:"فراولة", blueberry:"توت", macaron:"ماكرون", cherry:"كرزة" };
+      var CM_R = 0.125, CM_H = 0.09, BASE_Y = 0.66;
+      function mkTier(shape, dia, h, color, tex){
+        return { shape:shape, diaCm:dia, hCm:h, color:color, texture:tex || "butter", marble2:"#d8b7c3" };
+      }
+      var DEFAULTS = {
+        tiers:[ mkTier("round",26,10,"#fdfbf6"), mkTier("round",21,10,"#fdfbf6"), mkTier("round",16,10,"#fdfbf6") ],
+        selTier:0, piping:"shell", roseColor:"#e88ca0", dripColor:"#4a2c1c", ribbonColor:"#e88ca0",
+        finishes:{ powder:false, gloss:false },
+        deco:{ roses:true, babbreath:false, pearls:true, bows:true, ribbon:false, cherries:false, strawberries:false, blueberries:false, macarons:false, chocolate:false, goldleaf:false, candles:false, crown:false, drip:false, sprinkles:false },
+        stand:"silver", sceneName:"studio", text:"", textStyle:"pearl", free:[]
+      };
+      var state = JSON.parse(JSON.stringify(DEFAULTS));
+      var recents = [];
+
+      /* ============ Scene, lights, environment ============ */
+      var stage = $("#stage");
+      var darkUI = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+      var CAM0 = new THREE.Vector3(4.6, 3.6, 5.8), TGT0 = new THREE.Vector3(0, 1.6, 0);
+      camera.position.copy(CAM0);
+      var renderer = new THREE.WebGLRenderer({antialias:true, preserveDrawingBuffer:true});
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.outputEncoding = THREE.sRGBEncoding;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.12;
+      stage.insertBefore(renderer.domElement, stage.firstChild);
+
+      // Procedural studio environment (bright window + warm bounce) for real reflections
+      function envFace(top, mid, bot, win){
+        var c = document.createElement("canvas"); c.width = c.height = 128;
+        var x = c.getContext("2d");
+        var g = x.createLinearGradient(0,0,0,128);
+        g.addColorStop(0, top); g.addColorStop(0.55, mid); g.addColorStop(1, bot);
+        x.fillStyle = g; x.fillRect(0,0,128,128);
+        if (win){ x.fillStyle = "rgba(255,255,255,0.95)"; x.fillRect(28, 14, 52, 62); x.fillStyle = "rgba(255,246,224,0.5)"; x.fillRect(20, 8, 68, 76); }
+        return c;
+      }
+      var envTex = new THREE.CubeTexture([
+        envFace("#fff8ec","#e9dfca","#8a7a5f", true), envFace("#f4ecdc","#ddd2ba","#7d6f57", false),
+        envFace("#fffdf6","#f7efdd","#c9b795", false), envFace("#6b5d49","#57493a","#3a322a", false),
+        envFace("#fdf6e8","#e7dcc4","#97876a", true), envFace("#efe6d2","#d9cbae","#87765c", false)
+      ]);
+      envTex.needsUpdate = true;
+
+      var controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.target.copy(TGT0);
+      controls.enableDamping = true; controls.dampingFactor = 0.06;
+      controls.enablePan = false;
+      controls.minDistance = 3.2; controls.maxDistance = 12;
+      controls.maxPolarAngle = 1.52; controls.minPolarAngle = 0.12;
+      controls.autoRotate = true; controls.autoRotateSpeed = 1.0;
+
+      var hemi = new THREE.HemisphereLight(0xfff6e8, 0x8a7c68, 0.75); scene.add(hemi);
+      var key = new THREE.DirectionalLight(0xfff2df, 1.05);
+      key.position.set(4.5, 8, 4); key.castShadow = true;
+      key.shadow.mapSize.set(2048, 2048);
+      key.shadow.camera.left = -5.5; key.shadow.camera.right = 5.5;
+      key.shadow.camera.top = 7; key.shadow.camera.bottom = -3;
+      key.shadow.radius = 5; key.shadow.bias = -0.0004;
+      scene.add(key);
+      var fill = new THREE.DirectionalLight(0xdfeaf5, 0.32); fill.position.set(-5.5, 3.5, -3); scene.add(fill);
+      var rim = new THREE.DirectionalLight(0xffe3b8, 0.4); rim.position.set(-2, 5, -6); scene.add(rim);
+      var candleLight = new THREE.PointLight(0xffb45e, 0, 4); scene.add(candleLight);
+
+      /* ============ Procedural textures ============ */
+      function noiseCanvas(size, base, amp, streaks){
+        var c = document.createElement("canvas"); c.width = c.height = size;
+        var x = c.getContext("2d");
+        x.fillStyle = "rgb(" + base + "," + base + "," + base + ")"; x.fillRect(0,0,size,size);
+        var i, j;
+        for (i = 0; i < size*size/38; i++){
+          var v = base + (Math.random()*2-1)*amp;
+          x.fillStyle = "rgba(" + (v|0) + "," + (v|0) + "," + (v|0) + ",0.16)";
+          x.beginPath(); x.arc(Math.random()*size, Math.random()*size, 1+Math.random()*5, 0, 7); x.fill();
+        }
+        if (streaks){
+          x.globalAlpha = 0.10;
+          for (j = 0; j < 46; j++){
+            var y0 = Math.random()*size, v2 = base + (Math.random()*2-1)*amp*1.6;
+            x.strokeStyle = "rgb(" + (v2|0) + "," + (v2|0) + "," + (v2|0) + ")";
+            x.lineWidth = 1 + Math.random()*3;
+            x.beginPath(); x.moveTo(-10, y0);
+            x.bezierCurveTo(size*0.3, y0 + (Math.random()*16-8), size*0.7, y0 + (Math.random()*16-8), size+10, y0);
+            x.stroke();
+          }
+          x.globalAlpha = 1;
+        }
+        var t = new THREE.CanvasTexture(c);
+        t.wrapS = t.wrapT = THREE.RepeatWrapping;
+        return t;
+      }
+      var bumpButter = noiseCanvas(512, 128, 27, true);
+      var bumpFondant = noiseCanvas(512, 128, 4, false);
+      var bumpRustic = noiseCanvas(512, 118, 34, true);
+      var bumpComb = (function(){
+        var c = document.createElement("canvas"); c.width = c.height = 256;
+        var x = c.getContext("2d");
+        for (var i = 0; i < 256; i++){
+          var v = 118 + Math.round(52 * (0.5 + 0.5*Math.sin(i/256*Math.PI*2*28)));
+          x.fillStyle = "rgb(" + v + "," + v + "," + v + ")"; x.fillRect(i, 0, 1, 256);
+        }
+        var t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
+      })();
+      function marbleTexture(baseHex, veinHex){
+        var size = 512, c = document.createElement("canvas"); c.width = c.height = size;
+        var x = c.getContext("2d");
+        x.fillStyle = baseHex; x.fillRect(0,0,size,size);
+        var grd = x.createRadialGradient(size*0.3, size*0.3, 40, size*0.5, size*0.5, size*0.85);
+        grd.addColorStop(0, "rgba(255,255,255,0.20)"); grd.addColorStop(1, "rgba(0,0,0,0.08)");
+        x.fillStyle = grd; x.fillRect(0,0,size,size);
+        x.strokeStyle = veinHex; x.lineCap = "round";
+        for (var i = 0; i < 15; i++){
+          x.globalAlpha = 0.16 + Math.random()*0.3;
+          x.lineWidth = 0.8 + Math.random()*2.6;
+          x.shadowColor = veinHex; x.shadowBlur = 5;
+          var sx = Math.random()*size, sy = Math.random()*size;
+          x.beginPath(); x.moveTo(sx, sy);
+          x.bezierCurveTo(sx + (Math.random()*220-110), sy + (Math.random()*160-80), sx + (Math.random()*300-150), sy + (Math.random()*220-110), sx + (Math.random()*380-190), sy + (Math.random()*300-150));
+          x.stroke();
+        }
+        x.globalAlpha = 1; x.shadowBlur = 0;
+        var t = new THREE.CanvasTexture(c);
+        t.wrapS = t.wrapT = THREE.RepeatWrapping; t.encoding = THREE.sRGBEncoding;
+        return t;
+      }
+      function tableTexture(kind){
+        var size = 1024, c = document.createElement("canvas"); c.width = c.height = size;
+        var x = c.getContext("2d");
+        if (kind === "dark"){ x.fillStyle = "#33302c"; x.fillRect(0,0,size,size); }
+        else if (kind === "blush"){ x.fillStyle = "#eedae0"; x.fillRect(0,0,size,size); }
+        else { x.fillStyle = "#efe9dc"; x.fillRect(0,0,size,size); }
+        var vein = kind === "dark" ? "#57534c" : (kind === "blush" ? "#d9bcc4" : "#c9bda6");
+        x.strokeStyle = vein; x.lineCap = "round";
+        for (var i = 0; i < 26; i++){
+          x.globalAlpha = 0.10 + Math.random()*0.16; x.lineWidth = 0.8 + Math.random()*2.2;
+          x.shadowColor = vein; x.shadowBlur = 6;
+          var sx = Math.random()*size, sy = Math.random()*size;
+          x.beginPath(); x.moveTo(sx, sy);
+          x.bezierCurveTo(sx+180, sy+60, sx+340, sy-50, sx+560, sy+90); x.stroke();
+        }
+        x.globalAlpha = 1;
+        var t = new THREE.CanvasTexture(c);
+        t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(2,2); t.encoding = THREE.sRGBEncoding;
+        return t;
+      }
+      var powderTex = (function(){
+        var size = 512, c = document.createElement("canvas"); c.width = c.height = size;
+        var x = c.getContext("2d"); x.clearRect(0,0,size,size);
+        for (var i = 0; i < 5200; i++){
+          x.fillStyle = "rgba(255,255,255," + (0.25 + Math.random()*0.6) + ")";
+          x.beginPath(); x.arc(Math.random()*size, Math.random()*size, 0.6 + Math.random()*1.7, 0, 7); x.fill();
+        }
+        var t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
+      })();
+      var strawberryTex = (function(){
+        var size = 256, c = document.createElement("canvas"); c.width = c.height = size;
+        var x = c.getContext("2d");
+        var g = x.createLinearGradient(0,0,0,size);
+        g.addColorStop(0, "#e53847"); g.addColorStop(1, "#c01f30");
+        x.fillStyle = g; x.fillRect(0,0,size,size);
+        x.fillStyle = "#ffe9a8";
+        for (var r = 0; r < 9; r++) for (var i = 0; i < 10; i++){
+          x.beginPath(); x.ellipse(i*26 + (r%2)*13 + 6, r*28 + 12, 2.1, 3.4, 0, 0, 7); x.fill();
+        }
+        var t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t;
+      })();
+
+      /* ============ Environment (table + backdrop) ============ */
+      var SCENES = {
+        studio:{ bg:0xf3ecdd, fog:[13,26], table:"marble", hemi:0.58, key:1.22 },
+        white:{ bg:0xf6f5f1, fog:[13,26], table:"white", hemi:0.95, key:0.95 },
+        blush:{ bg:0xf6e3e6, fog:[13,26], table:"blush", hemi:0.8, key:1.0 },
+        dark:{ bg:0x23201c, fog:[11,22], table:"dark", hemi:0.38, key:1.25 }
+      };
+      var envGroup = null;
+      function buildEnvironment(){
+        if (envGroup){ envGroup.traverse(function(o){ if (o.geometry) o.geometry.dispose(); }); scene.remove(envGroup); }
+        var sc = SCENES[state.sceneName];
+        scene.background = new THREE.Color(sc.bg);
+        scene.fog = new THREE.Fog(sc.bg, sc.fog[0], sc.fog[1]);
+        hemi.intensity = sc.hemi; key.intensity = sc.key;
+        envGroup = new THREE.Group();
+        var table = new THREE.Mesh(
+          new THREE.CircleGeometry(16, 48),
+          new THREE.MeshStandardMaterial({ map: tableTexture(state.sceneName === "dark" ? "dark" : (state.sceneName === "blush" ? "blush" : "marble")), roughness: state.sceneName === "dark" ? 0.5 : 0.32, metalness: 0.02, envMap: envTex, envMapIntensity: 0.35 })
+        );
+        table.rotation.x = -Math.PI/2; table.receiveShadow = true; envGroup.add(table);
+        // soft contact shadow blob under the stand
+        var sc2 = document.createElement("canvas"); sc2.width = sc2.height = 256;
+        var sx = sc2.getContext("2d");
+        var rg = sx.createRadialGradient(128,128,10,128,128,128);
+        rg.addColorStop(0, "rgba(40,26,12,0.42)"); rg.addColorStop(0.6, "rgba(40,26,12,0.18)"); rg.addColorStop(1, "rgba(40,26,12,0)");
+        sx.fillStyle = rg; sx.fillRect(0,0,256,256);
+        var blob = new THREE.Mesh(new THREE.PlaneGeometry(6.4, 6.4),
+          new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(sc2), transparent:true, depthWrite:false }));
+        blob.rotation.x = -Math.PI/2; blob.position.y = 0.005; envGroup.add(blob);
+        scene.add(envGroup);
+      }
+
+      /* ============ Materials ============ */
+      function frostingMat(tier){
+        var tex = tier.texture;
+        var bump = tex === "fondant" ? bumpFondant : tex === "combed" ? bumpComb : tex === "rustic" ? bumpRustic : bumpButter;
+        var rough = tex === "fondant" ? 0.34 : tex === "marble" ? 0.3 : tex === "rustic" ? 0.62 : 0.48;
+        var opts = { color: new THREE.Color(tier.color), roughness: rough, metalness: 0,
+          clearcoat: state.finishes.gloss ? 0.55 : 0.22, clearcoatRoughness: 0.5,
+          bumpMap: bump, bumpScale: tex === "combed" ? 0.034 : tex === "rustic" ? 0.04 : tex === "fondant" ? 0.006 : 0.024,
+          envMap: envTex, envMapIntensity: 0.45 };
+        if (tex === "marble"){ opts.map = marbleTexture(tier.color, tier.marble2); opts.bumpMap = bumpFondant; opts.bumpScale = 0.004; }
+        var m = new THREE.MeshPhysicalMaterial(opts);
+        return m;
+      }
+      function tintMat(hex, delta){
+        var c = new THREE.Color(hex); if (delta) c.offsetHSL(0, 0, delta);
+        return new THREE.MeshPhysicalMaterial({ color:c, roughness:0.5, clearcoat:0.3, clearcoatRoughness:0.5, envMap: envTex, envMapIntensity: 0.4 });
+      }
+      var pearlMat = new THREE.MeshPhysicalMaterial({ color:0xfdf8ee, roughness:0.08, metalness:0.05, clearcoat:1, clearcoatRoughness:0.1, envMap: envTex, envMapIntensity: 1.5 });
+      var goldMat = new THREE.MeshStandardMaterial({ color:0xd9ab54, roughness:0.27, metalness:1, envMap: envTex, envMapIntensity: 1.5 });
+      var leafMat = new THREE.MeshStandardMaterial({ color:0x5f7d4c, roughness:0.65, envMap: envTex, envMapIntensity: 0.3 });
+      var cherryMat = new THREE.MeshPhysicalMaterial({ color:0xb3232f, roughness:0.14, clearcoat:1, clearcoatRoughness:0.1, envMap: envTex, envMapIntensity: 1.2 });
+      var stemMat = new THREE.MeshStandardMaterial({ color:0x5a4028, roughness:0.8 });
+
+      /* ============ Shape geometry (per tier) ============ */
+      function tierR(i){ return state.tiers[i].diaCm/2 * CM_R; }
+      function tierH(i){ return state.tiers[i].hCm * CM_H; }
+      function tierY(i){ var y = BASE_Y; for (var j = 0; j < i; j++) y += tierH(j); return y; }
+      function topY(){ return tierY(state.tiers.length - 1) + tierH(state.tiers.length - 1); }
+      function polyShape(pts){ var sh = new THREE.Shape(); sh.moveTo(pts[0][0], pts[0][1]); for (var i = 1; i < pts.length; i++) sh.lineTo(pts[i][0], pts[i][1]); sh.closePath(); return sh; }
+      function shapePoints(shape, r, count){
+        var pts = [], i, a;
+        if (shape === "hex"){ for (i = 0; i < 6; i++){ a = i/6*Math.PI*2 + Math.PI/6; pts.push([Math.cos(a)*r, Math.sin(a)*r]); } }
+        else if (shape === "star"){ for (i = 0; i < 10; i++){ a = i/10*Math.PI*2 - Math.PI/2; var rr = i%2 ? r*0.56 : r; pts.push([Math.cos(a)*rr, Math.sin(a)*rr]); } }
+        else if (shape === "heart"){
+          var sh = heartRaw(); var raw = sh.getPoints(count || 64);
+          var k = (r*2)/84; for (i = 0; i < raw.length; i++) pts.push([(raw[i].x-25)*k, (raw[i].y-47)*k]);
+          return pts;
+        }
+        return pts;
+      }
+      function heartRaw(){
+        var sh = new THREE.Shape();
+        sh.moveTo(25, 25);
+        sh.bezierCurveTo(25, 25, 20, 0, 0, 0);
+        sh.bezierCurveTo(-30, 0, -30, 35, -30, 35);
+        sh.bezierCurveTo(-30, 55, -10, 77, 25, 95);
+        sh.bezierCurveTo(60, 77, 80, 55, 80, 35);
+        sh.bezierCurveTo(80, 35, 80, 0, 50, 0);
+        sh.bezierCurveTo(35, 0, 25, 25, 25, 25);
+        return sh;
+      }
+      function roundedRectShape(s){
+        var sh = new THREE.Shape(), x=-s, y=-s, w=2*s, rad=s*0.32;
+        sh.moveTo(x+rad, y);
+        sh.lineTo(x+w-rad, y); sh.quadraticCurveTo(x+w, y, x+w, y+rad);
+        sh.lineTo(x+w, y+w-rad); sh.quadraticCurveTo(x+w, y+w, x+w-rad, y+w);
+        sh.lineTo(x+rad, y+w); sh.quadraticCurveTo(x, y+w, x, y+w-rad);
+        sh.lineTo(x, y+rad); sh.quadraticCurveTo(x, y, x+rad, y);
+        return sh;
+      }
+      function roundTierGeo(r, h){
+        var pts = [];
+        pts.push(new THREE.Vector2(0.001, 0));
+        pts.push(new THREE.Vector2(r*0.97, 0));
+        pts.push(new THREE.Vector2(r, 0.05));
+        pts.push(new THREE.Vector2(r, h-0.12));
+        pts.push(new THREE.Vector2(r*0.985, h-0.035));
+        pts.push(new THREE.Vector2(r*0.93, h));
+        pts.push(new THREE.Vector2(0.001, h));
+        return new THREE.LatheGeometry(pts, 96);
+      }
+      function extrudeTier(shape, h, cx, cy){
+        var geo = new THREE.ExtrudeGeometry(shape, {depth: h-0.09, bevelEnabled:true, bevelThickness:0.045, bevelSize:0.045, bevelSegments:3, steps:1, curveSegments:40});
+        geo.translate(-(cx||0), -(cy||0), 0);
+        geo.rotateX(-Math.PI/2);
+        geo.translate(0, 0.045, 0);
+        return geo;
+      }
+      function tierGeo(i){
+        var t = state.tiers[i], r = tierR(i), h = tierH(i);
+        if (t.shape === "round") return roundTierGeo(r, h);
+        if (t.shape === "oval"){ var g = roundTierGeo(r, h); g.scale(1, 1, 0.78); return g; }
+        if (t.shape === "square") return extrudeTier(roundedRectShape(r*0.82), h, 0, 0);
+        if (t.shape === "heart"){ var sh = heartRaw(), k = (r*2)/84; var g2 = extrudeTier(sh, h, 25, 47); g2.scale(k, 1, k); return g2; }
+        if (t.shape === "hex") return extrudeTier(polyShape(shapePoints("hex", r*0.98)), h, 0, 0);
+        if (t.shape === "star") return extrudeTier(polyShape(shapePoints("star", r*0.98)), h, 0, 0);
+        return roundTierGeo(r, h);
+      }
+      function topOverlayGeo(i){
+        var t = state.tiers[i], r = tierR(i), geo;
+        if (t.shape === "round"){ geo = new THREE.CircleGeometry(r*0.94, 64); geo.rotateX(-Math.PI/2); return geo; }
+        if (t.shape === "oval"){ geo = new THREE.CircleGeometry(r*0.94, 64); geo.rotateX(-Math.PI/2); geo.scale(1, 1, 0.78); return geo; }
+        if (t.shape === "square"){ geo = new THREE.PlaneGeometry(r*1.54, r*1.54); geo.rotateX(-Math.PI/2); return geo; }
+        var sh;
+        if (t.shape === "heart") sh = heartRaw();
+        else sh = polyShape(shapePoints(t.shape, r*0.98));
+        geo = new THREE.ShapeGeometry(sh, 24);
+        if (t.shape === "heart"){ var k = (r*2)/84; geo.translate(-25, -47, 0); geo.scale(k*0.94, k*0.94, 1); }
+        else geo.scale(0.94, 0.94, 1);
+        geo.computeBoundingBox();
+        var bb = geo.boundingBox, sx = bb.max.x-bb.min.x, sy = bb.max.y-bb.min.y;
+        var pos = geo.attributes.position, uv = geo.attributes.uv;
+        for (var j = 0; j < pos.count; j++) uv.setXY(j, (pos.getX(j)-bb.min.x)/sx, (pos.getY(j)-bb.min.y)/sy);
+        geo.rotateX(-Math.PI/2);
+        return geo;
+      }
+      function perimeter(i, f, count){
+        var t = state.tiers[i], r = tierR(i) * f, pts = [], j, a;
+        if (t.shape === "round"){ for (j = 0; j < count; j++){ a = j/count*Math.PI*2; pts.push([Math.cos(a)*r, Math.sin(a)*r]); } }
+        else if (t.shape === "oval"){ for (j = 0; j < count; j++){ a = j/count*Math.PI*2; pts.push([Math.cos(a)*r, Math.sin(a)*r*0.78]); } }
+        else if (t.shape === "square"){
+          var s = r*0.82, per = 8*s;
+          for (j = 0; j < count; j++){
+            var d = j/count*per, x, z;
+            if (d < 2*s){ x = -s + d; z = -s; } else if (d < 4*s){ x = s; z = -s + (d-2*s); }
+            else if (d < 6*s){ x = s - (d-4*s); z = s; } else { x = -s; z = s - (d-6*s); }
+            pts.push([x, z]);
+          }
+        } else {
+          var raw = shapePoints(t.shape, tierR(i), count);
+          for (j = 0; j < raw.length; j++){
+            var px = raw[j][0], pz = t.shape === "heart" ? -raw[j][1] : raw[j][1];
+            pts.push([px*f, pz*f]);
+          }
+          // resample polygon edges to count points
+          if (pts.length !== count && pts.length > 2){
+            var out = [], total = 0, segL = [], k2;
+            for (k2 = 0; k2 < pts.length; k2++){ var n = pts[(k2+1)%pts.length]; var L = Math.hypot(n[0]-pts[k2][0], n[1]-pts[k2][1]); segL.push(L); total += L; }
+            for (j = 0; j < count; j++){
+              var target = j/count*total, acc = 0, s2 = 0;
+              while (s2 < segL.length && acc + segL[s2] < target){ acc += segL[s2]; s2++; }
+              var p0 = pts[s2 % pts.length], p1 = pts[(s2+1) % pts.length], fr = segL[s2 % segL.length] ? (target-acc)/segL[s2 % segL.length] : 0;
+              out.push([p0[0] + (p1[0]-p0[0])*fr, p0[1] + (p1[1]-p0[1])*fr]);
+            }
+            pts = out;
+          }
+        }
+        return pts;
+      }
+      function frontZ(i){
+        var t = state.tiers[i], r = tierR(i);
+        if (t.shape === "round") return r;
+        if (t.shape === "oval") return r*0.78;
+        if (t.shape === "square") return r*0.82;
+        if (t.shape === "heart") return r*0.52;
+        return r*0.9;
+      }
+      function inTop(i, x, z){
+        var t = state.tiers[i], r = tierR(i);
+        if (t.shape === "round") return (x*x + z*z) < Math.pow(r*0.88, 2);
+        if (t.shape === "oval") return (x*x)/(Math.pow(r*0.88,2)) + (z*z)/(Math.pow(r*0.88*0.78,2)) < 1;
+        if (t.shape === "square") return Math.abs(x) < r*0.7 && Math.abs(z) < r*0.7;
+        var pts = perimeter(i, 0.9, 60), inside = false;
+        for (var a = 0, b = pts.length-1; a < pts.length; b = a++){
+          var xi = pts[a][0], zi = pts[a][1], xj = pts[b][0], zj = pts[b][1];
+          if (((zi > z) !== (zj > z)) && (x < (xj-xi)*(z-zi)/(zj-zi)+xi)) inside = !inside;
+        }
+        return inside;
+      }
+      function shadowed(m){ m.castShadow = true; m.receiveShadow = true; return m; }
+
+      /* ============ Decoration builders ============ */
+      function makeRose(colorHex){
+        var g = new THREE.Group();
+        var base = new THREE.Color(colorHex || state.roseColor);
+        var mat = new THREE.MeshPhysicalMaterial({ color: base, roughness:0.55, clearcoat:0.35, clearcoatRoughness:0.5, envMap: envTex, envMapIntensity: 0.4, side: THREE.DoubleSide });
+        var darkMat = mat.clone(); darkMat.color = base.clone().offsetHSL(0, 0.03, -0.1);
+        var lightMat = mat.clone(); lightMat.color = base.clone().offsetHSL(0, -0.02, 0.07);
+        var bud = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.062, 20, 14), darkMat));
+        bud.scale.set(1, 1.1, 1); bud.position.y = 0.06; g.add(bud);
+        var swirl = new THREE.Mesh(new THREE.TorusGeometry(0.03, 0.016, 10, 24), mat);
+        swirl.rotation.x = Math.PI/2; swirl.position.y = 0.128; g.add(swirl);
+        var layer, li, a, p;
+        for (layer = 0; layer < 2; layer++){
+          var n = layer === 0 ? 5 : 7, rad = layer === 0 ? 0.055 : 0.088, tilt = layer === 0 ? 0.5 : 0.95;
+          for (li = 0; li < n; li++){
+            a = (li/n + layer*0.32) * Math.PI*2;
+            p = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.07 - layer*0.008, 14, 10), layer ? lightMat : mat));
+            p.position.set(Math.cos(a)*rad, 0.045 - layer*0.012, Math.sin(a)*rad);
+            p.scale.set(1, 0.38, 0.72);
+            p.rotation.set(Math.sin(a)*tilt, -a, -Math.cos(a)*tilt);
+            g.add(p);
+          }
+        }
+        for (var l = 0; l < 2; l++){
+          var leaf = new THREE.Mesh(new THREE.SphereGeometry(0.075, 10, 8), leafMat);
+          var la = l*2.4 + 0.6;
+          leaf.position.set(Math.cos(la)*0.115, 0.012, Math.sin(la)*0.115);
+          leaf.scale.set(1.3, 0.2, 0.55); leaf.rotation.y = -la;
+          g.add(leaf);
+        }
+        return g;
+      }
+      function makeFlower(colorHex){
+        var g = new THREE.Group();
+        var mat = new THREE.MeshPhysicalMaterial({ color: colorHex || state.roseColor, roughness:0.55, clearcoat:0.3, envMap: envTex, envMapIntensity: 0.35, side: THREE.DoubleSide });
+        for (var i = 0; i < 6; i++){
+          var a = i/6*Math.PI*2;
+          var p = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.055, 12, 8), mat));
+          p.position.set(Math.cos(a)*0.062, 0.02, Math.sin(a)*0.062);
+          p.scale.set(1, 0.3, 0.6); p.rotation.set(Math.sin(a)*0.5, -a, -Math.cos(a)*0.5);
+          g.add(p);
+        }
+        var c = new THREE.Mesh(new THREE.SphereGeometry(0.032, 12, 10), new THREE.MeshStandardMaterial({ color:0xf2c230, roughness:0.5 }));
+        c.position.y = 0.035; g.add(c);
+        return g;
+      }
+      function makeBall(){
+        var g = new THREE.Group();
+        var s = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.075, 20, 14), pearlMat));
+        s.position.y = 0.07; g.add(s);
+        return g;
+      }
+      function makeBow(colorHex){
+        var g = new THREE.Group(), mat = tintMat(colorHex || state.ribbonColor, 0.03);
+        mat.roughness = 0.32; mat.clearcoat = 0.55;
+        var loopGeo = new THREE.TorusGeometry(0.088, 0.037, 12, 24);
+        var l = shadowed(new THREE.Mesh(loopGeo, mat));
+        l.scale.set(1.3, 0.85, 0.55); l.position.set(-0.115, 0.03, 0); l.rotation.set(0.25, 0.35, 0.5); g.add(l);
+        var r = shadowed(new THREE.Mesh(loopGeo, mat));
+        r.scale.set(1.3, 0.85, 0.55); r.position.set(0.115, 0.03, 0); r.rotation.set(0.25, -0.35, -0.5); g.add(r);
+        var tailGeo = new THREE.BoxGeometry(0.085, 0.19, 0.018);
+        var t1 = shadowed(new THREE.Mesh(tailGeo, mat));
+        t1.position.set(-0.06, -0.13, -0.012); t1.rotation.set(0.18, 0, 0.32); g.add(t1);
+        var t2 = shadowed(new THREE.Mesh(tailGeo, mat));
+        t2.position.set(0.06, -0.13, -0.012); t2.rotation.set(0.18, 0, -0.32); g.add(t2);
+        var fold = new THREE.Mesh(new THREE.TorusGeometry(0.045, 0.02, 8, 18), mat);
+        fold.rotation.x = Math.PI/2; fold.position.set(-0.115, 0.03, 0.045); fold.scale.set(1.2, 0.8, 1); g.add(fold);
+        var fold2 = fold.clone(); fold2.position.x = 0.115; g.add(fold2);
+        var c = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.05, 14, 10), mat));
+        c.scale.set(1.05, 1.05, 0.6); g.add(c);
+        return g;
+      }
+      function makeStrawberry(){
+        var g = new THREE.Group();
+        var pts = [ new THREE.Vector2(0.001,0), new THREE.Vector2(0.05,0.02), new THREE.Vector2(0.092,0.07), new THREE.Vector2(0.115,0.13), new THREE.Vector2(0.108,0.18), new THREE.Vector2(0.07,0.21), new THREE.Vector2(0.015,0.215) ];
+        var body = shadowed(new THREE.Mesh(new THREE.LatheGeometry(pts, 28),
+          new THREE.MeshPhysicalMaterial({ map: strawberryTex, roughness:0.24, clearcoat:0.85, clearcoatRoughness:0.25, envMap: envTex, envMapIntensity: 0.9 })));
+        g.add(body);
+        for (var i = 0; i < 6; i++){
+          var a = i/6*Math.PI*2;
+          var leaf = new THREE.Mesh(new THREE.ConeGeometry(0.032, 0.1, 8), leafMat);
+          leaf.position.set(Math.cos(a)*0.055, 0.215, Math.sin(a)*0.055);
+          leaf.scale.set(1, 1, 0.35);
+          leaf.rotation.set(Math.sin(a)*1.15, 0, -Math.cos(a)*1.15);
+          g.add(leaf);
+        }
+        var stem = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.013, 0.09, 6), stemMat);
+        stem.position.y = 0.26; stem.rotation.z = 0.2; g.add(stem);
+        return g;
+      }
+      function makeBlueberry(){
+        var g = new THREE.Group();
+        var mat = new THREE.MeshPhysicalMaterial({ color:0x44548c, roughness:0.32, clearcoat:0.7, clearcoatRoughness:0.3, envMap: envTex, envMapIntensity: 0.7 });
+        var b = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.062, 18, 12), mat));
+        b.scale.y = 0.88; b.position.y = 0.052; g.add(b);
+        var crown = new THREE.Mesh(new THREE.CircleGeometry(0.02, 10), new THREE.MeshStandardMaterial({ color:0x2c3a63, roughness:0.6 }));
+        crown.rotation.x = -Math.PI/2; crown.position.y = 0.106; g.add(crown);
+        var bloom = new THREE.Mesh(new THREE.SphereGeometry(0.063, 18, 12),
+          new THREE.MeshPhysicalMaterial({ color:0xaebadd, roughness:0.9, transparent:true, opacity:0.22 }));
+        bloom.scale.y = 0.88; bloom.position.y = 0.053; g.add(bloom);
+        return g;
+      }
+      var MAC_COLORS = ["#f2a7bb", "#bcd7ea", "#f6e49c", "#b3c2a4", "#d3c4e6", "#f9c69b"];
+      function makeMacaron(idx){
+        var g = new THREE.Group();
+        var col = MAC_COLORS[(idx || 0) % MAC_COLORS.length];
+        var shellMat = new THREE.MeshPhysicalMaterial({ color: col, roughness:0.55, bumpMap: bumpButter, bumpScale:0.01, envMap: envTex, envMapIntensity: 0.3 });
+        var top = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.105, 0.11, 0.045, 22), shellMat)); top.position.y = 0.075; g.add(top);
+        var dome = new THREE.Mesh(new THREE.SphereGeometry(0.105, 22, 10), shellMat); dome.scale.y = 0.32; dome.position.y = 0.096; g.add(dome);
+        var fillM = new THREE.Mesh(new THREE.CylinderGeometry(0.098, 0.098, 0.028, 22), new THREE.MeshStandardMaterial({ color:0xfdf6e8, roughness:0.6 })); fillM.position.y = 0.042; g.add(fillM);
+        var bot = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.105, 0.04, 22), shellMat)); bot.position.y = 0.012; g.add(bot);
+        return g;
+      }
+      function makeCherry(){
+        var g = new THREE.Group();
+        var berry = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.088, 20, 14), cherryMat));
+        berry.position.y = 0.085; g.add(berry);
+        var hl = new THREE.Mesh(new THREE.SphereGeometry(0.02, 8, 8), new THREE.MeshBasicMaterial({ color:0xffffff }));
+        hl.position.set(-0.03, 0.125, 0.055); g.add(hl);
+        var curve = new THREE.QuadraticBezierCurve3(new THREE.Vector3(0, 0.15, 0), new THREE.Vector3(0.05, 0.26, 0), new THREE.Vector3(0.13, 0.3, 0));
+        var stem = new THREE.Mesh(new THREE.TubeGeometry(curve, 10, 0.011, 6), stemMat);
+        g.add(stem);
+        return g;
+      }
+      function makeBabBreath(){
+        var g = new THREE.Group();
+        for (var i = 0; i < 6; i++){
+          var a = i/6*Math.PI*2 + Math.random()*0.5;
+          var stem = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.005, 0.24, 5), leafMat);
+          stem.position.set(Math.cos(a)*0.05, 0.11, Math.sin(a)*0.05);
+          stem.rotation.set(Math.sin(a)*0.45, 0, -Math.cos(a)*0.45);
+          g.add(stem);
+          var tip = new THREE.Mesh(new THREE.SphereGeometry(0.02, 8, 8), new THREE.MeshStandardMaterial({ color:0xffffff, roughness:0.7 }));
+          tip.position.set(Math.cos(a)*0.105, 0.225, Math.sin(a)*0.105);
+          g.add(tip);
+        }
+        return g;
+      }
+      function makeCrown(){
+        var g = new THREE.Group();
+        var band = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.32, 0.16, 28, 1, true), goldMat));
+        band.position.y = 0.08; g.add(band);
+        var rimT = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.02, 8, 36), goldMat);
+        rimT.rotation.x = Math.PI/2; rimT.position.y = 0.16; g.add(rimT);
+        var rimB = rimT.clone(); rimB.position.y = 0.005; g.add(rimB);
+        for (var i = 0; i < 6; i++){
+          var a = i/6*Math.PI*2;
+          var spike = shadowed(new THREE.Mesh(new THREE.ConeGeometry(0.045, 0.17, 10), goldMat));
+          spike.position.set(Math.cos(a)*0.3, 0.24, Math.sin(a)*0.3); g.add(spike);
+          var orb = new THREE.Mesh(new THREE.SphereGeometry(0.028, 10, 8), goldMat);
+          orb.position.set(Math.cos(a)*0.3, 0.34, Math.sin(a)*0.3); g.add(orb);
+          var gem = new THREE.Mesh(new THREE.SphereGeometry(0.024, 10, 8),
+            new THREE.MeshPhysicalMaterial({ color:0xc23b4e, roughness:0.1, clearcoat:1, envMap: envTex, envMapIntensity: 1.4 }));
+          gem.position.set(Math.cos(a+0.52)*0.315, 0.08, Math.sin(a+0.52)*0.315); g.add(gem);
+        }
+        return g;
+      }
+      function makeFreeItem(type, idx){
+        var g;
+        if (type === "rose") g = makeRose();
+        else if (type === "flower") g = makeFlower();
+        else if (type === "ball") g = makeBall();
+        else if (type === "bow") g = makeBow();
+        else if (type === "strawberry") g = makeStrawberry();
+        else if (type === "blueberry") g = makeBlueberry();
+        else if (type === "macaron") g = makeMacaron(idx);
+        else g = makeCherry();
+        return g;
+      }
+
+      /* ============ Stand ============ */
+      function buildStand(){
+        var g = new THREE.Group();
+        if (state.stand === "board"){
+          var board = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.2, 0.05, 56), goldMat));
+          board.position.y = 0.6; g.add(board); return g;
+        }
+        if (state.stand === "plate"){
+          var plate0 = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(2.15, 1.9, 0.07, 56),
+            new THREE.MeshPhysicalMaterial({ color:0xfbf8f1, roughness:0.18, clearcoat:0.8, envMap: envTex, envMapIntensity: 0.8 })));
+          plate0.position.y = 0.62; g.add(plate0); return g;
+        }
+        var mat;
+        if (state.stand === "gold") mat = goldMat;
+        else if (state.stand === "wood") mat = new THREE.MeshStandardMaterial({ color:0x9a6b42, roughness:0.72, bumpMap: bumpRustic, bumpScale:0.02 });
+        else if (state.stand === "glass") mat = new THREE.MeshPhysicalMaterial({ color:0xe8f0ee, roughness:0.06, transparent:true, opacity:0.4, clearcoat:1, envMap: envTex, envMapIntensity: 1.4 });
+        else mat = new THREE.MeshStandardMaterial({ color:0xd8d2c4, roughness:0.3, metalness:0.85, envMap: envTex, envMapIntensity: 1.1 });
+        var base = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.95, 1.08, 0.09, 44), mat)); base.position.y = 0.045; g.add(base);
+        var stem = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.23, 0.5, 26), mat)); stem.position.y = 0.34; g.add(stem);
+        var plate = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(2.14, 2.0, 0.07, 60), mat)); plate.position.y = 0.625; g.add(plate);
+        var rim2 = new THREE.Mesh(new THREE.TorusGeometry(2.12, 0.022, 10, 80), mat);
+        rim2.rotation.x = Math.PI/2; rim2.position.y = 0.66; g.add(rim2);
+        return g;
+      }
+
+      /* ============ Drip band (custom geometry) ============ */
+      function makeDripBand(i, mat){
+        var t = state.tiers[i], r = tierR(i), yTop = tierY(i) + tierH(i);
+        if (t.shape !== "round" && t.shape !== "oval") return null;
+        var zScale = t.shape === "oval" ? 0.78 : 1;
+        var cols = 110, rows = 7, centers = [];
+        var nc = 13 + Math.floor(Math.random()*4), k;
+        for (k = 0; k < nc; k++) centers.push({ a: k/nc*Math.PI*2 + Math.random()*0.25, len: 0.1 + Math.random()*0.24, w: 0.07 + Math.random()*0.09 });
+        function dripLen(a){
+          var m = 0.035;
+          for (var j = 0; j < centers.length; j++){
+            var d = Math.abs(((a - centers[j].a + Math.PI*3) % (Math.PI*2)) - Math.PI);
+            var v = centers[j].len * Math.exp(-(d*d)/(centers[j].w*centers[j].w));
+            if (v > m) m = v;
+          }
+          return m;
+        }
+        var pos = [], uvA = [], idx = [];
+        for (var row = 0; row <= rows; row++){
+          var v = row/rows;
+          for (var col = 0; col <= cols; col++){
+            var a = col/cols*Math.PI*2, dl = dripLen(a);
+            var y = yTop + 0.012 - v*(0.055 + dl);
+            var rr = r + 0.014 + Math.sin(v*Math.PI)*0.006;
+            pos.push(Math.cos(a)*rr, y, Math.sin(a)*rr*zScale);
+            uvA.push(col/cols*6, v);
+          }
+        }
+        for (var q = 0; q < rows; q++) for (var w2 = 0; w2 < cols; w2++){
+          var A = q*(cols+1)+w2, B = A+1, C = A+cols+1, D = C+1;
+          idx.push(A, C, B, B, C, D);
+        }
+        var geo = new THREE.BufferGeometry();
+        geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+        geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvA, 2));
+        geo.setIndex(idx); geo.computeVertexNormals();
+        var band = new THREE.Mesh(geo, mat); band.castShadow = true;
+        var grp = new THREE.Group(); grp.add(band);
+        centers.forEach(function(cn){
+          var bead = new THREE.Mesh(new THREE.SphereGeometry(0.032, 10, 8), mat);
+          bead.position.set(Math.cos(cn.a)*(r+0.016), yTop - 0.045 - cn.len, Math.sin(cn.a)*(r+0.016)*zScale);
+          bead.scale.y = 1.25; grp.add(bead);
+        });
+        var disc = new THREE.Mesh(topOverlayGeo(i), mat);
+        disc.scale.set(1.05, 1, 1.05); disc.position.y = yTop + 0.012;
+        grp.add(disc);
+        return grp;
+      }
+
+      /* ============ Drawing / text canvases ============ */
+      var drawCanvas = document.createElement("canvas"); drawCanvas.width = drawCanvas.height = 1024;
+      var textCanvas = document.createElement("canvas"); textCanvas.width = textCanvas.height = 1024;
+      var drawTex = null, textTex = null, drawMesh = null;
+      var undoStack = [];
+      function renderTextTexture(){
+        var ctx = textCanvas.getContext("2d");
+        ctx.clearRect(0,0,1024,1024);
+        if (!state.text){ if (textTex) textTex.needsUpdate = true; return; }
+        var size = state.text.length <= 2 ? 400 : (state.text.length <= 5 ? 300 : 205);
+        if (state.textStyle === "pearl"){
+          var off = document.createElement("canvas"); off.width = off.height = 1024;
+          var o = off.getContext("2d");
+          o.fillStyle = "#fff"; o.textAlign = "center"; o.textBaseline = "middle";
+          o.font = "900 " + size + "px Tajawal, sans-serif";
+          o.fillText(state.text, 512, 530);
+          var img = o.getImageData(0,0,1024,1024).data, step = 26;
+          for (var y = step/2; y < 1024; y += step){
+            for (var x = step/2; x < 1024; x += step){
+              if (img[((y|0)*1024 + (x|0))*4 + 3] > 120){
+                var jx = x + Math.sin(y*12.9898)*5, jy = y + Math.cos(x*78.233)*5;
+                var g = ctx.createRadialGradient(jx-4, jy-4, 1, jx, jy, 11);
+                g.addColorStop(0, "#ffffff"); g.addColorStop(0.55, "#f3ead9"); g.addColorStop(1, "#cbbfa5");
+                ctx.fillStyle = g;
+                ctx.beginPath(); ctx.arc(jx, jy, 10.5, 0, Math.PI*2); ctx.fill();
+              }
+            }
+          }
+        } else {
+          ctx.textAlign = "center"; ctx.textBaseline = "middle";
+          ctx.font = "900 " + size + "px Tajawal, sans-serif";
+          var grad = ctx.createLinearGradient(0, 300, 0, 720);
+          if (state.textStyle === "gold"){ grad.addColorStop(0, "#f6dc8f"); grad.addColorStop(0.5, "#c9973f"); grad.addColorStop(1, "#9a7023"); }
+          else { grad.addColorStop(0, "#7a4a2c"); grad.addColorStop(1, "#3d2113"); }
+          ctx.shadowColor = "rgba(60,35,10,0.45)"; ctx.shadowBlur = 10; ctx.shadowOffsetY = 5;
+          ctx.fillStyle = grad;
+          ctx.fillText(state.text, 512, 520);
+          ctx.shadowColor = "transparent";
+          ctx.strokeStyle = state.textStyle === "gold" ? "rgba(255,244,200,0.65)" : "rgba(255,220,180,0.35)";
+          ctx.lineWidth = 2; ctx.strokeText(state.text, 512, 520);
+        }
+        if (textTex) textTex.needsUpdate = true;
+      }
+
+      /* ============ Build cake ============ */
+      var cakeGroup = null, flames = [], freeGroup = null, selRing = null;
+      function buildCake(){
+        if (cakeGroup){
+          cakeGroup.traverse(function(o){ if (o.geometry) o.geometry.dispose(); });
+          scene.remove(cakeGroup);
+        }
+        flames = [];
+        cakeGroup = new THREE.Group();
+        cakeGroup.add(buildStand());
+        var topI = state.tiers.length - 1;
+        var shellMats = [], shellXforms = [], rosetteXforms = [];
+        var dummy = new THREE.Object3D();
+
+        for (var i = 0; i < state.tiers.length; i++){
+          var tier = state.tiers[i], y0 = tierY(i), h = tierH(i), yTop = y0 + h, r = tierR(i);
+          var mat = frostingMat(tier);
+          var mesh = shadowed(new THREE.Mesh(tierGeo(i), mat));
+          mesh.position.y = y0; cakeGroup.add(mesh);
+
+          // powder dusting on top
+          if (state.finishes.powder){
+            var pd = new THREE.Mesh(topOverlayGeo(i),
+              new THREE.MeshBasicMaterial({ map: powderTex, transparent:true, opacity:0.85, depthWrite:false }));
+            pd.position.y = yTop + 0.004; pd.renderOrder = 1; cakeGroup.add(pd);
+          }
+          // piping borders
+          if (state.piping !== "none"){
+            var rowsY = [yTop - 0.02, y0 + 0.05];
+            rowsY.forEach(function(yy){
+              if (state.piping === "ruffle" && (tier.shape === "round" || tier.shape === "oval")){
+                var tube = 0.055, ring = new THREE.Mesh(new THREE.TorusGeometry(r*0.985, tube, 12, 110), tintMat(tier.color, 0.045));
+                var posA = ring.geometry.attributes.position;
+                for (var vi = 0; vi < posA.count; vi++){
+                  var vx = posA.getX(vi), vy = posA.getY(vi);
+                  var ang = Math.atan2(vy, vx);
+                  posA.setZ(vi, posA.getZ(vi) + Math.sin(ang*36)*0.02);
+                }
+                ring.geometry.computeVertexNormals();
+                ring.rotation.x = Math.PI/2;
+                if (tier.shape === "oval") ring.scale.set(1, 0.78, 1);
+                ring.position.y = yy; ring.castShadow = true;
+                cakeGroup.add(ring);
+              } else {
+                var pts = perimeter(i, 0.985, Math.round(30 - i*2.2));
+                shellMats.push(tintMat(tier.color, 0.045));
+                pts.forEach(function(p){
+                  var ang = Math.atan2(p[1], p[0]);
+                  if (state.piping === "rosette") rosetteXforms.push({ x:p[0], y:yy, z:p[1], a:ang, s:1 - i*0.08, m:shellMats.length-1 });
+                  else shellXforms.push({ x:p[0], y:yy, z:p[1], a:ang, s:1 - i*0.08, m:shellMats.length-1 });
+                });
+              }
+            });
+          }
+          // drip
+          if (state.deco.drip){
+            var dmat = new THREE.MeshPhysicalMaterial({ color: state.dripColor, roughness:0.22, clearcoat:0.75, clearcoatRoughness:0.28, envMap: envTex, envMapIntensity: 0.8 });
+            var band = makeDripBand(i, dmat);
+            if (band) cakeGroup.add(band);
+            else {
+              var disc2 = new THREE.Mesh(topOverlayGeo(i), dmat);
+              disc2.scale.set(1.03, 1, 1.03); disc2.position.y = yTop + 0.006; cakeGroup.add(disc2);
+            }
+          }
+          // ribbon around base
+          if (state.deco.ribbon && (tier.shape === "round" || tier.shape === "oval")){
+            var rmat = tintMat(state.ribbonColor, 0); rmat.roughness = 0.34;
+            var bandR = new THREE.Mesh(new THREE.CylinderGeometry(r + 0.012, r + 0.012, 0.15, 72, 1, true), rmat);
+            if (tier.shape === "oval") bandR.scale.set(1, 1, 0.78);
+            bandR.position.y = y0 + 0.1; bandR.castShadow = true; cakeGroup.add(bandR);
+          }
+          // bows on front
+          if (state.deco.bows){
+            var bow = makeBow(tier.color === "#fdfbf6" ? state.ribbonColor : tier.color);
+            bow.position.set(0, y0 + h*0.52, frontZ(i) + 0.03);
+            bow.scale.setScalar(1.15 - i*0.1);
+            cakeGroup.add(bow);
+          }
+          // roses + baby's breath on ledges
+          if (i < topI){
+            var ledgeY = yTop + 0.01, lr = tierR(i+1);
+            if (state.deco.roses){
+              [[-lr*0.55, 0.8, 3], [lr*0.75, 0.62, 2]].forEach(function(cl){
+                for (var ci = 0; ci < cl[2]; ci++){
+                  var rose = makeRose();
+                  var aa = (ci/(cl[2]-1 || 1) - 0.5) * 0.9;
+                  rose.position.set(cl[0] + Math.sin(aa)*0.3, ledgeY, cl[1]*tierR(i)*0.86 + Math.cos(aa)*0.08);
+                  rose.rotation.y = Math.random()*3;
+                  var rs = 1.1 + Math.random()*0.25; rose.scale.set(rs, rs, rs);
+                  cakeGroup.add(rose);
+                }
+              });
+            }
+            if (state.deco.babbreath){
+              var bb = makeBabBreath();
+              bb.position.set(lr*0.15, ledgeY, tierR(i)*0.8); cakeGroup.add(bb);
+              var bb2 = makeBabBreath();
+              bb2.position.set(-lr*0.95, ledgeY, tierR(i)*0.62); cakeGroup.add(bb2);
+            }
+          }
+        }
+
+        // instanced piping shells (grooved)
+        if (shellXforms.length){
+          var shellGeo = new THREE.SphereGeometry(0.082, 16, 12);
+          var sp = shellGeo.attributes.position, v3 = new THREE.Vector3();
+          for (var si = 0; si < sp.count; si++){
+            v3.fromBufferAttribute(sp, si);
+            var sang = Math.atan2(v3.z, v3.x);
+            var groove = 1 + Math.sin(sang*7)*0.17*Math.max(0, v3.y/0.082);
+            sp.setXYZ(si, v3.x*groove, v3.y, v3.z*groove);
+          }
+          shellGeo.computeVertexNormals();
+          var byMat = {};
+          shellXforms.forEach(function(xf){ (byMat[xf.m] = byMat[xf.m] || []).push(xf); });
+          Object.keys(byMat).forEach(function(mk){
+            var list = byMat[mk];
+            var inst = new THREE.InstancedMesh(shellGeo, shellMats[+mk], list.length);
+            list.forEach(function(xf, xi){
+              dummy.position.set(xf.x, xf.y, xf.z);
+              dummy.rotation.set(0, -xf.a, 0);
+              dummy.scale.set(xf.s*1.0, xf.s*0.82, xf.s*1.38);
+              dummy.updateMatrix();
+              inst.setMatrixAt(xi, dummy.matrix);
+            });
+            inst.castShadow = true;
+            cakeGroup.add(inst);
+          });
+        }
+        if (rosetteXforms.length){
+          var rosGeo = new THREE.TorusGeometry(0.05, 0.03, 10, 22);
+          var byMat2 = {};
+          rosetteXforms.forEach(function(xf){ (byMat2[xf.m] = byMat2[xf.m] || []).push(xf); });
+          Object.keys(byMat2).forEach(function(mk){
+            var list = byMat2[mk];
+            var inst2 = new THREE.InstancedMesh(rosGeo, shellMats[+mk], list.length);
+            list.forEach(function(xf, xi){
+              dummy.position.set(xf.x, xf.y + 0.02, xf.z);
+              dummy.rotation.set(0.5, -xf.a, 0);
+              dummy.scale.setScalar(xf.s);
+              dummy.updateMatrix();
+              inst2.setMatrixAt(xi, dummy.matrix);
+              var ctr = new THREE.Mesh(new THREE.SphereGeometry(0.026, 8, 8), shellMats[+mk]);
+              ctr.position.set(xf.x, xf.y + 0.045, xf.z);
+              cakeGroup.add(ctr);
+            });
+            inst2.castShadow = true;
+            cakeGroup.add(inst2);
+          });
+        }
+
+        /* ---- top surface automatic decorations ---- */
+        var ti = topI, tr = tierR(ti), tY = topY();
+        if (state.deco.roses){
+          for (var rc = 0; rc < 3; rc++){
+            var rose2 = makeRose();
+            rose2.position.set(-tr*0.42 + rc*0.17, tY + 0.01, tr*0.4 - Math.abs(rc-1)*0.05);
+            var rs2 = 1.2 + Math.random()*0.25; rose2.scale.set(rs2, rs2, rs2);
+            cakeGroup.add(rose2);
+          }
+        }
+        if (state.deco.babbreath){
+          var bb3 = makeBabBreath(); bb3.position.set(-tr*0.15, tY + 0.01, tr*0.48); cakeGroup.add(bb3);
+          var bb4 = makeBabBreath(); bb4.position.set(tr*0.3, tY + 0.01, tr*0.5); cakeGroup.add(bb4);
+        }
+        if (state.deco.pearls){
+          var pp = perimeter(ti, 0.8, 26);
+          var pearlInst = new THREE.InstancedMesh(new THREE.SphereGeometry(0.03, 12, 10), pearlMat, pp.length + 6);
+          pp.forEach(function(p, pi2){
+            dummy.position.set(p[0], tY + 0.026, p[1]); dummy.rotation.set(0,0,0); dummy.scale.setScalar(1);
+            dummy.updateMatrix(); pearlInst.setMatrixAt(pi2, dummy.matrix);
+          });
+          for (var q = 0; q < 6; q++){
+            var a2 = Math.random()*Math.PI*2, d2 = Math.random()*tr*0.45;
+            dummy.position.set(Math.cos(a2)*d2, tY + 0.026, Math.sin(a2)*d2);
+            dummy.rotation.set(0,0,0); dummy.scale.setScalar(0.9);
+            dummy.updateMatrix(); pearlInst.setMatrixAt(pp.length + q, dummy.matrix);
+          }
+          cakeGroup.add(pearlInst);
+        }
+        if (state.deco.cherries){
+          for (var c = 0; c < 7; c++){
+            var ca = c/7*Math.PI*2, cr = tr*0.64;
+            var ch = makeCherry();
+            ch.position.set(Math.cos(ca)*cr, tY, Math.sin(ca)*cr);
+            cakeGroup.add(ch);
+          }
+        }
+        if (state.deco.strawberries){
+          for (var s = 0; s < 6; s++){
+            var sa = s/6*Math.PI*2 + 0.3, sr = tr*0.68;
+            var st = makeStrawberry();
+            st.position.set(Math.cos(sa)*sr, tY, Math.sin(sa)*sr);
+            st.rotation.y = Math.random()*3; st.rotation.z = (Math.random()-0.5)*0.25;
+            cakeGroup.add(st);
+          }
+        }
+        if (state.deco.blueberries){
+          for (var b = 0; b < 12; b++){
+            var ba = Math.random()*Math.PI*2, br = tr*(0.3 + Math.random()*0.5);
+            var bl = makeBlueberry();
+            bl.position.set(Math.cos(ba)*br, tY, Math.sin(ba)*br);
+            cakeGroup.add(bl);
+          }
+        }
+        if (state.deco.macarons){
+          for (var m = 0; m < 6; m++){
+            var ma = m/6*Math.PI*2 + 0.15, mr = tr*0.6;
+            var mc = makeMacaron(m);
+            mc.position.set(Math.cos(ma)*mr, tY, Math.sin(ma)*mr);
+            mc.rotation.set((Math.random()-0.5)*0.5, Math.random()*3, (Math.random()-0.5)*0.5);
+            cakeGroup.add(mc);
+          }
+        }
+        if (state.deco.chocolate){
+          var chocMat2 = new THREE.MeshPhysicalMaterial({ color:0x4a2c1c, roughness:0.24, clearcoat:0.7, clearcoatRoughness:0.3, envMap: envTex, envMapIntensity: 0.8 });
+          for (var k2 = 0; k2 < 5; k2++){
+            var piece = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.22, 0.045), chocMat2));
+            var ka = k2/5*Math.PI*2;
+            piece.position.set(Math.cos(ka)*tr*0.4, tY + 0.1, Math.sin(ka)*tr*0.4);
+            piece.rotation.set(-0.5 + Math.random()*0.3, ka, 0.15);
+            cakeGroup.add(piece);
+          }
+        }
+        if (state.deco.goldleaf){
+          for (var gi = 0; gi < 16; gi++){
+            var gt = Math.floor(Math.random()*state.tiers.length);
+            var ga = Math.random()*Math.PI*2, gr2 = tierR(gt);
+            if (state.tiers[gt].shape !== "round" && state.tiers[gt].shape !== "oval") continue;
+            var flake = new THREE.Mesh(new THREE.PlaneGeometry(0.06 + Math.random()*0.06, 0.05 + Math.random()*0.05), goldMat);
+            flake.material = goldMat;
+            var gz = state.tiers[gt].shape === "oval" ? 0.78 : 1;
+            flake.position.set(Math.cos(ga)*(gr2 + 0.008), tierY(gt) + Math.random()*tierH(gt)*0.85 + 0.06, Math.sin(ga)*(gr2 + 0.008)*gz);
+            flake.lookAt(Math.cos(ga)*3, flake.position.y, Math.sin(ga)*3*gz);
+            flake.rotation.z = Math.random()*3;
+            cakeGroup.add(flake);
+          }
+          for (var gj = 0; gj < 7; gj++){
+            var fl2 = new THREE.Mesh(new THREE.PlaneGeometry(0.06, 0.05), goldMat);
+            var fa = Math.random()*Math.PI*2, fd = Math.random()*tr*0.6;
+            fl2.position.set(Math.cos(fa)*fd, tY + 0.006, Math.sin(fa)*fd);
+            fl2.rotation.x = -Math.PI/2; fl2.rotation.z = Math.random()*3;
+            cakeGroup.add(fl2);
+          }
+        }
+        if (state.deco.candles){
+          var candleCols = [0xf2a7bb, 0xbcd7ea, 0xf6e49c, 0xb3c2a4, 0xd3c4e6];
+          var stripeC = document.createElement("canvas"); stripeC.width = 64; stripeC.height = 64;
+          var sctx = stripeC.getContext("2d");
+          for (var cd = 0; cd < 5; cd++){
+            var cda = cd/5*Math.PI*2 + 0.4, cdr = tr*0.42;
+            var cg = new THREE.Group();
+            sctx.fillStyle = "#" + new THREE.Color(candleCols[cd]).getHexString(); sctx.fillRect(0,0,64,64);
+            sctx.strokeStyle = "rgba(255,255,255,0.55)"; sctx.lineWidth = 5;
+            for (var sl = -64; sl < 128; sl += 16){ sctx.beginPath(); sctx.moveTo(sl, 66); sctx.lineTo(sl + 30, -2); sctx.stroke(); }
+            var cTex = new THREE.CanvasTexture(stripeC); cTex.encoding = THREE.sRGBEncoding;
+            var bodyC = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.046, 0.048, 0.46, 16),
+              new THREE.MeshPhysicalMaterial({ map: cTex, roughness:0.42, clearcoat:0.3, envMap: envTex, envMapIntensity: 0.4 })));
+            bodyC.position.y = 0.23; cg.add(bodyC);
+            var flame = new THREE.Mesh(new THREE.SphereGeometry(0.036, 12, 12),
+              new THREE.MeshBasicMaterial({ color: 0xffc94d }));
+            flame.scale.set(0.62, 1.5, 0.62); flame.position.y = 0.55;
+            cg.add(flame); flames.push(flame);
+            var glow = new THREE.Mesh(new THREE.SphereGeometry(0.08, 12, 12),
+              new THREE.MeshBasicMaterial({ color: 0xffdf8a, transparent:true, opacity:0.32 }));
+            glow.scale.set(0.85, 1.5, 0.85); glow.position.y = 0.55; cg.add(glow);
+            cg.position.set(Math.cos(cda)*cdr, tY, Math.sin(cda)*cdr);
+            cakeGroup.add(cg);
+          }
+          candleLight.position.set(0, tY + 0.75, 0);
+          candleLight.intensity = 0.55;
+        } else candleLight.intensity = 0;
+        if (state.deco.crown){
+          var crown = makeCrown();
+          crown.position.set(0, tY + 0.01, 0);
+          cakeGroup.add(crown);
+        }
+        if (state.deco.sprinkles){
+          var sprCols = [0xe35d7c, 0x4f9dd8, 0xf2c230, 0x62b25e, 0x9a6fd0, 0xffffff];
+          var sprGeo = new THREE.CylinderGeometry(0.012, 0.012, 0.07, 6);
+          var sprInst = new THREE.InstancedMesh(sprGeo, new THREE.MeshStandardMaterial({ roughness:0.35, envMap: envTex, envMapIntensity: 0.5 }), 90);
+          var placed = 0;
+          for (var sp = 0; sp < 90; sp++){
+            var sx2 = (Math.random()*2-1)*tr*0.85, sz2 = (Math.random()*2-1)*tr*0.85;
+            if (!inTop(ti, sx2, sz2)) continue;
+            dummy.position.set(sx2, tY + 0.016, sz2);
+            dummy.rotation.set(Math.PI/2, 0, Math.random()*Math.PI);
+            dummy.scale.setScalar(1);
+            dummy.updateMatrix();
+            sprInst.setMatrixAt(placed, dummy.matrix);
+            sprInst.setColorAt(placed, new THREE.Color(sprCols[sp % sprCols.length]));
+            placed++;
+          }
+          sprInst.count = placed;
+          if (sprInst.instanceColor) sprInst.instanceColor.needsUpdate = true;
+          cakeGroup.add(sprInst);
+        }
+
+        /* ---- free decorations (drag & drop) ---- */
+        freeGroup = new THREE.Group();
+        state.free.forEach(function(item, ix){
+          var obj = makeFreeItem(item.type, ix);
+          var sc3 = item.sizeCm * 0.055;
+          obj.scale.setScalar(sc3);
+          obj.position.set(item.x, tY + 0.005, item.z);
+          obj.rotation.y = item.rot || 0;
+          obj.userData.freeIndex = ix;
+          freeGroup.add(obj);
+        });
+        cakeGroup.add(freeGroup);
+        // selection ring
+        selRing = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.012, 8, 40),
+          new THREE.MeshBasicMaterial({ color: 0x5f7f57 }));
+        selRing.rotation.x = Math.PI/2; selRing.visible = false;
+        cakeGroup.add(selRing);
+        updateSelRing();
+
+        /* ---- drawing + text overlays ---- */
+        drawTex = new THREE.CanvasTexture(drawCanvas);
+        textTex = new THREE.CanvasTexture(textCanvas);
+        var mkOverlay = function(tex, lift){
+          var m = new THREE.Mesh(topOverlayGeo(ti),
+            new THREE.MeshBasicMaterial({ map: tex, transparent:true, depthWrite:false }));
+          m.position.y = tY + lift; m.renderOrder = 3;
+          cakeGroup.add(m); return m;
+        };
+        mkOverlay(textTex, 0.006);
+        drawMesh = mkOverlay(drawTex, 0.012);
+        renderTextTexture();
+
+        scene.add(cakeGroup);
+      }
+
+      /* ============ Free items: select / drag / place ============ */
+      var placeMode = false, freeType = "rose", freeSizeCm = 4, selectedFree = -1;
+      var ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+      var dragPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+      var dragging = null;
+      function setRay(e){
+        var rect = renderer.domElement.getBoundingClientRect();
+        ptr.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        ptr.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        ray.setFromCamera(ptr, camera);
+      }
+      function updateSelRing(){
+        if (!selRing) return;
+        if (selectedFree < 0 || selectedFree >= state.free.length){ selRing.visible = false; return; }
+        var item = state.free[selectedFree];
+        selRing.visible = true;
+        selRing.position.set(item.x, topY() + 0.02, item.z);
+        var s = item.sizeCm * 0.055 * 2.4;
+        selRing.scale.set(s, s, s);
+      }
+      function freeInfoUpdate(){
+        var el = $("#freeInfo");
+        if (!state.free.length) el.textContent = "ما كاش زواق حر محطوط دوقا.";
+        else if (selectedFree >= 0 && state.free[selectedFree])
+          el.textContent = "المختار: " + FREE_TYPES[state.free[selectedFree].type] + " · الحجم " + state.free[selectedFree].sizeCm + " سم · اسحبوه باش تبدلو بلاصتو.";
+        else el.textContent = state.free.length + " زواق حر محطوط. اضغط على واحد باش تختاروه.";
+      }
+      function addFree(type, x, z, sizeCm){
+        if (state.free.length >= 120){ toast("وصلت للحد الأقصى تاع الزواق الحر"); return -1; }
+        state.free.push({ type:type, x:x, z:z, sizeCm:sizeCm || freeSizeCm, rot: Math.random()*Math.PI*2 });
+        return state.free.length - 1;
+      }
+      function findFreeAncestor(obj){
+        while (obj){ if (obj.userData && typeof obj.userData.freeIndex === "number") return obj; obj = obj.parent; }
+        return null;
+      }
+
+      /* ============ Patterns ============ */
+      var pattern = "ring";
+      function patternPositions(kind, count, radFrac){
+        var ti = state.tiers.length - 1, R = tierR(ti) * 0.88 * radFrac, pts = [], i, a, t;
+        if (kind === "ring"){ for (i = 0; i < count; i++){ a = i/count*Math.PI*2; pts.push([Math.cos(a)*R, Math.sin(a)*R]); } }
+        else if (kind === "spiral"){ for (i = 0; i < count; i++){ t = i/Math.max(1, count-1); a = t*Math.PI*4.2; var rr = 0.12 + t*R; pts.push([Math.cos(a)*rr, Math.sin(a)*rr]); } }
+        else if (kind === "zigzag"){ for (i = 0; i < count; i++){ a = i/count*Math.PI*2; var rz = i%2 ? R : R*0.6; pts.push([Math.cos(a)*rz, Math.sin(a)*rz]); } }
+        else if (kind === "wreath"){ for (i = 0; i < count; i++){ a = i/count*Math.PI*2; pts.push([Math.cos(a)*R, Math.sin(a)*R]); } }
+        else if (kind === "arch"){ for (i = 0; i < count; i++){ a = Math.PI - i/Math.max(1, count-1)*Math.PI; pts.push([Math.cos(a)*R, -Math.sin(a)*R*0.9]); } }
+        else if (kind === "wave"){ for (i = 0; i < count; i++){ t = count === 1 ? 0 : i/(count-1); var wx = -R + t*2*R; pts.push([wx, Math.sin(t*Math.PI*2.2)*R*0.3]); } }
+        else { for (i = 0; i < count; i++){ var tries = 0, px, pz; do { var aa = Math.random()*Math.PI*2, dd = Math.sqrt(Math.random())*R; px = Math.cos(aa)*dd; pz = Math.sin(aa)*dd; tries++; } while (!inTop(ti, px, pz) && tries < 8); pts.push([px, pz]); } }
+        return pts;
+      }
+      function applyPattern(){
+        var count = +$("#patCount").value, radFrac = +$("#patRadius").value/100;
+        var pts = patternPositions(pattern, count, radFrac);
+        var ti = state.tiers.length - 1, added = 0;
+        pts.forEach(function(p){
+          if (!inTop(ti, p[0], p[1])) return;
+          if (addFree(freeType, p[0], p[1], freeSizeCm) >= 0) added++;
+        });
+        if (pattern === "wreath"){
+          var pts2 = patternPositions("ring", count, radFrac);
+          var filler = freeType === "flower" ? "ball" : "flower";
+          pts2.forEach(function(p, ix){
+            var a = (ix + 0.5)/count*Math.PI*2, R = tierR(ti)*0.88*radFrac;
+            var x = Math.cos(a)*R, z = Math.sin(a)*R;
+            if (inTop(ti, x, z)) addFree(filler, x, z, Math.max(2, freeSizeCm*0.65));
+          });
+        }
+        selectedFree = -1;
+        buildCake(); freeInfoUpdate();
+        toast("تطبق النمط: " + added + " " + FREE_TYPES[freeType]);
+      }
+
+      /* ============ Pointer handling (draw / place / drag) ============ */
+      var drawMode = false, brushColor = "#6b4232", brushSize = 10, drawing = false, lastPt = null;
+      function canvasPoint(e){
+        if (!drawMesh) return null;
+        setRay(e);
+        var hit = ray.intersectObject(drawMesh);
+        if (!hit.length || !hit[0].uv) return null;
+        return { x: hit[0].uv.x * 1024, y: (1 - hit[0].uv.y) * 1024 };
+      }
+      function stamp(p, from){
+        var ctx = drawCanvas.getContext("2d");
+        ctx.fillStyle = brushColor; ctx.strokeStyle = brushColor;
+        ctx.lineWidth = brushSize * 2; ctx.lineCap = "round"; ctx.lineJoin = "round";
+        if (from){ ctx.beginPath(); ctx.moveTo(from.x, from.y); ctx.lineTo(p.x, p.y); ctx.stroke(); }
+        ctx.beginPath(); ctx.arc(p.x, p.y, brushSize, 0, Math.PI*2); ctx.fill();
+        if (drawTex) drawTex.needsUpdate = true;
+      }
+      function pushUndo(){
+        undoStack.push(drawCanvas.getContext("2d").getImageData(0, 0, 1024, 1024));
+        if (undoStack.length > 12) undoStack.shift();
+      }
+      renderer.domElement.addEventListener("pointerdown", function(e){
+        if (drawMode){
+          var p = canvasPoint(e); if (!p) return;
+          pushUndo(); drawing = true; lastPt = p; stamp(p, null);
+          renderer.domElement.setPointerCapture(e.pointerId);
+          return;
+        }
+        if (placeMode){
+          if (!drawMesh) return;
+          setRay(e);
+          var hit = ray.intersectObject(drawMesh);
+          if (hit.length){
+            var ix = addFree(freeType, hit[0].point.x, hit[0].point.z, freeSizeCm);
+            if (ix >= 0){ selectedFree = ix; buildCake(); freeInfoUpdate(); }
+          }
+          return;
+        }
+        // try grabbing a free item
+        if (freeGroup && state.free.length){
+          setRay(e);
+          var hits = ray.intersectObjects(freeGroup.children, true);
+          if (hits.length){
+            var anc = findFreeAncestor(hits[0].object);
+            if (anc){
+              selectedFree = anc.userData.freeIndex;
+              dragging = anc;
+              controls.enabled = false;
+              dragPlane.constant = -topY();
+              updateSelRing(); freeInfoUpdate();
+              renderer.domElement.setPointerCapture(e.pointerId);
+            }
+          } else { selectedFree = -1; updateSelRing(); freeInfoUpdate(); }
+        }
+      });
+      renderer.domElement.addEventListener("pointermove", function(e){
+        if (drawMode){
+          if (!drawing) return;
+          var p = canvasPoint(e); if (!p) return;
+          stamp(p, lastPt); lastPt = p;
+          return;
+        }
+        if (dragging){
+          setRay(e);
+          var pt3 = new THREE.Vector3();
+          if (ray.ray.intersectPlane(dragPlane, pt3)){
+            var ti = state.tiers.length - 1, item = state.free[selectedFree];
+            if (item){
+              var rr = Math.hypot(pt3.x, pt3.z), maxR = tierR(ti)*0.92;
+              if (rr > maxR){ pt3.x *= maxR/rr; pt3.z *= maxR/rr; }
+              item.x = pt3.x; item.z = pt3.z;
+              dragging.position.x = pt3.x; dragging.position.z = pt3.z;
+              updateSelRing();
+            }
+          }
+        }
+      });
+      ["pointerup", "pointercancel"].forEach(function(ev){
+        renderer.domElement.addEventListener(ev, function(){
+          drawing = false; lastPt = null;
+          if (dragging){ dragging = null; controls.enabled = true; }
+        });
+      });
+
+      /* ============ UI helpers ============ */
+      function syncSeg(el, val, attr){
+        Array.prototype.forEach.call(el.children, function(b){
+          if (b.dataset && b.dataset[attr] !== undefined) b.setAttribute("aria-pressed", b.dataset[attr] == val ? "true" : "false");
+        });
+      }
+      function segWire(id, attr, cb){
+        var el = document.getElementById(id);
+        el.addEventListener("click", function(e){
+          var b = e.target.closest("button"); if (!b) return;
+          syncSeg(el, b.dataset[attr], attr); cb(b.dataset[attr]);
+        });
+      }
+      function buildSwatches(el, list, curHex, nameEl, cb){
+        el.innerHTML = "";
+        list.forEach(function(item){
+          var b = document.createElement("button");
+          b.className = "sw"; b.style.background = item.c;
+          b.setAttribute("aria-label", item.n);
+          b.setAttribute("aria-pressed", item.c.toLowerCase() === (curHex || "").toLowerCase() ? "true" : "false");
+          b.addEventListener("click", function(){ cb(item); });
+          el.appendChild(b);
+        });
+        if (nameEl){
+          var found = null;
+          list.forEach(function(it){ if (it.c.toLowerCase() === (curHex || "").toLowerCase()) found = it; });
+          nameEl.textContent = found ? found.n : "لون حر";
+        }
+      }
+      function pushRecent(hex){
+        hex = hex.toLowerCase();
+        recents = recents.filter(function(h){ return h !== hex; });
+        recents.unshift(hex); if (recents.length > 12) recents.pop();
+        renderRecents();
+      }
+      function renderRecents(){
+        var el = $("#recentSwatches"); el.innerHTML = "";
+        recents.forEach(function(h){
+          var b = document.createElement("button");
+          b.className = "sw"; b.style.background = h; b.setAttribute("aria-label", h);
+          b.addEventListener("click", function(){ setTierColor(h); });
+          el.appendChild(b);
+        });
+        $("#recentNote").style.display = recents.length ? "none" : "block";
+      }
+      var rebuildTimer = null;
+      function rebuildSoon(){ clearTimeout(rebuildTimer); rebuildTimer = setTimeout(buildCake, 110); }
+
+      /* ============ Tabs ============ */
+      function activateTab(name){
+        $$(".tab").forEach(function(t){ t.setAttribute("aria-selected", t.dataset.tab === name ? "true" : "false"); });
+        $$(".pane").forEach(function(p){ p.classList.toggle("on", p.id === "pane-" + name); });
+        if (name !== "draw" && drawMode) setDrawMode(false);
+        if (name !== "deco" && placeMode) setPlaceMode(false);
+      }
+      $$(".tab").forEach(function(tab){ tab.addEventListener("click", function(){ activateTab(tab.dataset.tab); }); });
+
+      /* ============ Tier editor ============ */
+      function renderTierPick(){
+        var el = $("#tierPick"); el.innerHTML = "";
+        state.tiers.forEach(function(t, ix){
+          var b = document.createElement("button");
+          b.textContent = ix === 0 ? "القاعدة (1)" : "طبقة " + (ix + 1) + (ix === state.tiers.length - 1 ? " — الفوق" : "");
+          b.setAttribute("aria-pressed", ix === state.selTier ? "true" : "false");
+          b.addEventListener("click", function(){ state.selTier = ix; syncTierEditor(); });
+          el.appendChild(b);
+        });
+        var names = ["", "طبقة وحدة", "طبقتان", "3 طبقات", "4 طبقات", "5 طبقات", "6 طبقات"];
+        $("#tierCountLbl").textContent = names[state.tiers.length] || state.tiers.length + " طبقات";
+      }
+      function syncTierEditor(){
+        renderTierPick();
+        var t = state.tiers[state.selTier];
+        syncSeg($("#shapeSeg"), t.shape, "shape");
+        syncSeg($("#textureSeg"), t.texture, "texture");
+        $("#marbleRow").style.display = t.texture === "marble" ? "block" : "none";
+        $("#marbleColor").value = t.marble2; $("#marbleHex").textContent = t.marble2;
+        $("#diaRange").value = t.diaCm; $("#diaVal").textContent = "Ø " + t.diaCm + " سم";
+        $("#hRange").value = t.hCm; $("#hVal").textContent = t.hCm + " سم";
+        $("#creamPicker").value = t.color; $("#creamHex").textContent = t.color;
+        buildSwatches($("#creamSwatches"), CREAMS, t.color, $("#creamName"), function(it){ setTierColor(it.c); });
+      }
+      function setTierColor(hex){
+        state.tiers[state.selTier].color = hex;
+        $("#creamPicker").value = hex; $("#creamHex").textContent = hex;
+        buildSwatches($("#creamSwatches"), CREAMS, hex, $("#creamName"), function(it){ setTierColor(it.c); });
+        buildCake();
+      }
+      $("#btnTierPlus").addEventListener("click", function(){
+        if (state.tiers.length >= 6){ toast("الحد الأقصى 6 طبقات"); return; }
+        var top = state.tiers[state.tiers.length - 1];
+        state.tiers.push(mkTier(top.shape, Math.max(12, top.diaCm - 4), top.hCm, top.color, top.texture));
+        state.selTier = state.tiers.length - 1;
+        syncTierEditor(); buildCake();
+      });
+      $("#btnTierMinus").addEventListener("click", function(){
+        if (state.tiers.length <= 1){ toast("لازم تبقى طبقة وحدة على الأقل"); return; }
+        state.tiers.splice(state.selTier, 1);
+        state.selTier = Math.min(state.selTier, state.tiers.length - 1);
+        syncTierEditor(); buildCake();
+      });
+      segWire("shapeSeg", "shape", function(v){ state.tiers[state.selTier].shape = v; buildCake(); });
+      segWire("textureSeg", "texture", function(v){
+        state.tiers[state.selTier].texture = v;
+        $("#marbleRow").style.display = v === "marble" ? "block" : "none";
+        buildCake();
+      });
+      $("#marbleColor").addEventListener("input", function(e){
+        state.tiers[state.selTier].marble2 = e.target.value;
+        $("#marbleHex").textContent = e.target.value;
+        rebuildSoon();
+      });
+      $("#diaRange").addEventListener("input", function(e){
+        state.tiers[state.selTier].diaCm = +e.target.value;
+        $("#diaVal").textContent = "Ø " + e.target.value + " سم";
+        rebuildSoon();
+      });
+      $("#hRange").addEventListener("input", function(e){
+        state.tiers[state.selTier].hCm = +e.target.value;
+        $("#hVal").textContent = e.target.value + " سم";
+        rebuildSoon();
+      });
+
+      /* ============ Colors & finishes ============ */
+      $("#creamPicker").addEventListener("input", function(e){
+        state.tiers[state.selTier].color = e.target.value;
+        $("#creamHex").textContent = e.target.value;
+        rebuildSoon();
+      });
+      $("#creamPicker").addEventListener("change", function(e){
+        pushRecent(e.target.value);
+        buildSwatches($("#creamSwatches"), CREAMS, e.target.value, $("#creamName"), function(it){ setTierColor(it.c); });
+      });
+      function colorWire(pickerId, hexId, swId, nameId, list, apply){
+        var pk = document.getElementById(pickerId);
+        pk.addEventListener("input", function(e){ apply(e.target.value); document.getElementById(hexId).textContent = e.target.value; rebuildSoon(); });
+        pk.addEventListener("change", function(e){ pushRecent(e.target.value); refreshColorUI(); });
+        buildSwatches(document.getElementById(swId), list, pk.value, document.getElementById(nameId), function(it){ apply(it.c); pk.value = it.c; document.getElementById(hexId).textContent = it.c; buildCake(); refreshColorUI(); });
+      }
+      function refreshColorUI(){
+        buildSwatches($("#dripSwatches"), DRIPS, state.dripColor, $("#dripName"), function(it){ state.dripColor = it.c; $("#dripPicker").value = it.c; $("#dripHex").textContent = it.c; buildCake(); });
+        buildSwatches($("#ribbonSwatches"), RIBBONS, state.ribbonColor, $("#ribbonName"), function(it){ state.ribbonColor = it.c; $("#ribbonPicker").value = it.c; $("#ribbonHex").textContent = it.c; buildCake(); });
+        buildSwatches($("#roseSwatches"), ROSES, state.roseColor, $("#roseName"), function(it){ state.roseColor = it.c; $("#rosePicker").value = it.c; $("#roseHex").textContent = it.c; buildCake(); });
+      }
+      colorWire("dripPicker", "dripHex", "dripSwatches", "dripName", DRIPS, function(v){ state.dripColor = v; });
+      colorWire("ribbonPicker", "ribbonHex", "ribbonSwatches", "ribbonName", RIBBONS, function(v){ state.ribbonColor = v; });
+      colorWire("rosePicker", "roseHex", "roseSwatches", "roseName", ROSES, function(v){ state.roseColor = v; });
+      $$("#finishChips .chip").forEach(function(ch){
+        ch.addEventListener("click", function(){
+          var f = ch.dataset.finish;
+          state.finishes[f] = !state.finishes[f];
+          ch.setAttribute("aria-pressed", state.finishes[f] ? "true" : "false");
+          buildCake();
+        });
+      });
+
+      /* ============ Decorations UI ============ */
+      var DECO_ICONS = {
+        roses:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="10" r="5.5"/><path d="M12 7.5a2.5 2.5 0 1 1-2.5 2.5"/><path d="M12 15.5c0 2-1 3.5-2.5 4.5M12 15.5c.5 2 2 3.5 4 4"/></svg>',
+        babbreath:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="7" r="1.6"/><circle cx="16" cy="6" r="1.6"/><circle cx="12" cy="11" r="1.6"/><path d="M12 21v-8M12 13l-4-4M12 13l4-5"/></svg>',
+        pearls:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="14" r="2.4"/><circle cx="12" cy="10" r="2.4"/><circle cx="18" cy="14" r="2.4"/></svg>',
+        bows:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 12 4 6.5v11L12 12ZM12 12l8-5.5v11L12 12Z"/><circle cx="12" cy="12" r="1.8"/></svg>',
+        ribbon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9h16M4 15h16"/><path d="M4 9c3 2 13 2 16 0M4 15c3 2 13 2 16 0" opacity=".4"/></svg>',
+        cherries:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="16.5" r="3.5"/><circle cx="16.5" cy="14.5" r="3"/><path d="M8 13c1-4 4-7 8-8.5M16.5 11.5C16 8 15 6 13.5 4.5"/></svg>',
+        strawberries:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 21C7 17 5 13.5 5 10.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 7 3.5C19 13.5 17 17 12 21Z"/><path d="M12 7c0-2 1-3 3-3.5M12 7c-1-1.5-2.5-2-4.5-1.5"/></svg>',
+        blueberries:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="13" r="5"/><circle cx="17" cy="10" r="3.6"/><circle cx="9" cy="13" r="1.2"/></svg>',
+        macarons:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="8" rx="7" ry="3"/><path d="M5 12h14M5 16c1.5 2.5 12.5 2.5 14 0"/></svg>',
+        chocolate:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="4" width="14" height="16" rx="1.5"/><path d="M12 4v16M5 12h14"/></svg>',
+        goldleaf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/></svg>',
+        candles:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3c1 1.6 1.6 2.7 1.6 3.8a1.6 1.6 0 1 1-3.2 0C10.4 5.7 11 4.6 12 3Z"/><path d="M9 11h6v9H9z"/></svg>',
+        crown:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 18h16M4 18l-1-9 5 4 4-7 4 7 5-4-1 9H4Z"/></svg>',
+        drip:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 5h16v3c-2 0-2 3-4 3s-2-4-4-4-2 5-4 5-2-4-4-4V5Z"/><path d="M4 19h16" opacity=".45"/></svg>',
+        sprinkles:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 7l3 1M11 5l1 3M17 6l2 2M7 13l3 1M14 12l1 3M19 14l-2 2M10 18l3 1"/></svg>'
+      };
+      var chipsEl = $("#decoChips");
+      DECOS.forEach(function(d){
+        var b = document.createElement("button");
+        b.className = "chip"; b.dataset.deco = d.id;
+        b.setAttribute("aria-pressed", state.deco[d.id] ? "true" : "false");
+        b.innerHTML = '<span class="dot">' + (DECO_ICONS[d.id] || "") + '</span>' + d.n + '<span class="tick">✓</span>';
+        b.addEventListener("click", function(){
+          state.deco[d.id] = !state.deco[d.id];
+          b.setAttribute("aria-pressed", state.deco[d.id] ? "true" : "false");
+          buildCake();
+        });
+        chipsEl.appendChild(b);
+      });
+      function syncDecoChips(){ $$("#decoChips .chip").forEach(function(b){ b.setAttribute("aria-pressed", state.deco[b.dataset.deco] ? "true" : "false"); }); }
+      segWire("pipingSeg", "piping", function(v){ state.piping = v; buildCake(); });
+      segWire("freeTypeSeg", "ftype", function(v){ freeType = v; });
+      segWire("patternSeg", "pattern", function(v){ pattern = v; });
+      function setPlaceMode(on){
+        placeMode = on;
+        controls.enabled = !on;
+        $("#btnPlaceMode").setAttribute("aria-pressed", on ? "true" : "false");
+        $("#btnPlaceMode").textContent = on ? "إيقاف وضع الحط" : "تفعيل وضع الحط";
+        $("#stageHint").textContent = on ? "اضغط على سطح الكيكة باش تحط " + FREE_TYPES[freeType] : "اسحب بيدك لتدوير الكيكة · قرّب بإصبعين للتكبير";
+        if (on) toast("وضع الحط مفعّل — اضغط فوق الكيكة");
+      }
+      $("#btnPlaceMode").addEventListener("click", function(){ setPlaceMode(!placeMode); });
+      $("#btnDeleteFree").addEventListener("click", function(){
+        if (selectedFree < 0 || !state.free[selectedFree]){ toast("اختار زواق حر قبل ما تمسحو"); return; }
+        state.free.splice(selectedFree, 1); selectedFree = -1;
+        buildCake(); freeInfoUpdate(); toast("تمسح الزواق المختار");
+      });
+      $("#btnClearFree").addEventListener("click", function(){
+        state.free = []; selectedFree = -1; buildCake(); freeInfoUpdate(); toast("تمسح الزواق الحر كامل");
+      });
+      $("#freeSize").addEventListener("input", function(e){
+        freeSizeCm = +e.target.value;
+        $("#freeSizeVal").textContent = freeSizeCm + " سم";
+        if (selectedFree >= 0 && state.free[selectedFree]){
+          state.free[selectedFree].sizeCm = freeSizeCm;
+          buildCake(); freeInfoUpdate();
+        }
+      });
+      $("#patCount").addEventListener("input", function(e){ $("#patCountVal").textContent = e.target.value; });
+      $("#patRadius").addEventListener("input", function(e){ $("#patRadiusVal").textContent = e.target.value + "%"; });
+      $("#btnApplyPattern").addEventListener("click", applyPattern);
+
+      /* ============ Draw UI ============ */
+      var BRUSHES = ["#6b4232", "#c23b4e", "#e88ca0", "#2e2a24", "#ffffff", "#c9973f", "#5f7d4c", "#4f9dd8"];
+      var bcEl = $("#brushColors");
+      BRUSHES.forEach(function(c, i){
+        var b = document.createElement("button");
+        b.className = "brush-sw"; b.style.background = c;
+        b.setAttribute("aria-label", "لون " + c);
+        b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+        b.addEventListener("click", function(){
+          brushColor = c; $("#brushPicker").value = c;
+          $$("#brushColors .brush-sw").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+        });
+        bcEl.appendChild(b);
+      });
+      $("#brushPicker").addEventListener("input", function(e){ brushColor = e.target.value; });
+      $("#brushSize").addEventListener("input", function(e){ brushSize = +e.target.value; });
+      function setDrawMode(on){
+        drawMode = on;
+        controls.enabled = !on;
+        $("#btnDrawMode").setAttribute("aria-pressed", on ? "true" : "false");
+        $("#btnDrawMode").textContent = on ? "إيقاف وضع الرسم" : "تفعيل وضع الرسم";
+        $("#stageHint").textContent = on ? "ارسم بإصبعك فوق سطح الكيكة" : "اسحب بيدك لتدوير الكيكة · قرّب بإصبعين للتكبير";
+        if (on) toast("وضع الرسم مفعّل — ارسم فوق الكيكة");
+      }
+      $("#btnDrawMode").addEventListener("click", function(){ setDrawMode(!drawMode); });
+      $("#btnUndoDraw").addEventListener("click", function(){
+        var img = undoStack.pop(); if (!img) return;
+        drawCanvas.getContext("2d").putImageData(img, 0, 0);
+        if (drawTex) drawTex.needsUpdate = true;
+      });
+      $("#btnClearDraw").addEventListener("click", function(){
+        pushUndo();
+        drawCanvas.getContext("2d").clearRect(0, 0, 1024, 1024);
+        if (drawTex) drawTex.needsUpdate = true;
+      });
+
+      /* ============ Text UI ============ */
+      segWire("textStyleSeg", "tstyle", function(v){ state.textStyle = v; renderTextTexture(); });
+      $("#btnApplyText").addEventListener("click", function(){
+        state.text = $("#cakeText").value.trim();
+        renderTextTexture();
+        if (state.text) toast("تزادت الكتابة فوق الكيكة");
+      });
+      $("#btnClearText").addEventListener("click", function(){
+        state.text = ""; $("#cakeText").value = ""; renderTextTexture();
+      });
+
+      /* ============ Bake mode ============ */
+      var flavor = "vanilla", mixed = false, baked = false, bakeBusy = false;
+      var filling = "butter", servings = "10-12", sweetness = "normal", allergies = [], customerNotes = "";
+      segWire("flavorSeg", "flavor", function(v){
+        flavor = v;
+        var b = $("#batter");
+        b.className = "batter" + (v === "vanilla" ? "" : " " + v);
+        $("#bstep1").classList.add("done");
+      });
+      $("#bstep1").classList.add("done");
+      $("#btnMix").addEventListener("click", function(){
+        if (bakeBusy) return; bakeBusy = true;
+        $("#btnMix").disabled = true; $("#mixLbl").textContent = "الخلط راه يدور...";
+        var p = 0;
+        var iv = setInterval(function(){
+          p += 4 + Math.random()*5;
+          if (p >= 100){ p = 100; clearInterval(iv); bakeBusy = false; mixed = true;
+            $("#mixLbl").textContent = "العجينة واجدة وناعمة";
+            $("#bstep2").classList.add("done");
+            $("#btnBake").disabled = false; $("#bakeLbl").textContent = "الفرن يسخن — اضغط باش تخبز";
+            toast("العجينة تخليطت مليح");
+          }
+          $("#mixBar").style.width = p + "%";
+        }, 90);
+      });
+      $("#btnBake").addEventListener("click", function(){
+        if (!mixed || bakeBusy) return; bakeBusy = true;
+        $("#btnBake").disabled = true;
+        $("#oven").classList.add("baking");
+        $("#bakeLbl").textContent = "الكيكة راهي تخبز...";
+        var p = 0;
+        var iv = setInterval(function(){
+          p += 2.4 + Math.random()*2;
+          if (p > 100) p = 100;
+          $("#bakeBar").style.width = p + "%";
+          $("#ovenTemp").textContent = Math.round(24 + (180-24) * Math.min(1, p/55)) + "°C";
+          if (p >= 100){
+            clearInterval(iv); bakeBusy = false; baked = true;
+            $("#bakeLbl").textContent = "خبزت وطلعت ريحتها — خليها تبرد شوية";
+            $("#bstep3").classList.add("done"); $("#bstep4").classList.add("done");
+            $("#btnGoDecorate").disabled = false;
+            toast("الكيكة خبزت — واجدة للتزيين");
+          }
+        }, 120);
+      });
+      $("#btnGoDecorate").addEventListener("click", function(){
+        activateTab("layers");
+        toast("ابدأ التزيين: بدّل الأشكال والألوان والزواق");
+      });
+      segWire("fillingSeg", "filling", function(v){ filling = v; });
+      segWire("servingsSeg", "servings", function(v){ servings = v; });
+      segWire("sweetnessSeg", "sweetness", function(v){ sweetness = v; });
+      $$("#allergyChips .chip").forEach(function(ch){
+        ch.addEventListener("click", function(){
+          var v = ch.dataset.allergy, ix = allergies.indexOf(v);
+          if (ix >= 0) allergies.splice(ix, 1); else allergies.push(v);
+          ch.setAttribute("aria-pressed", ix >= 0 ? "false" : "true");
+        });
+      });
+      $("#orderNotes").addEventListener("input", function(e){ customerNotes = e.target.value; });
+
+      /* ============ Presets ============ */
+      function T(shape, dia, h, color, tex){ return mkTier(shape, dia, h, color, tex); }
+      function ringFree(type, count, radFrac, sizeCm, topDiaCm){
+        var R = topDiaCm/2 * CM_R * 0.88 * radFrac, out = [];
+        for (var i = 0; i < count; i++){
+          var a = i/count*Math.PI*2;
+          out.push({ type:type, x:Math.cos(a)*R, z:Math.sin(a)*R, sizeCm:sizeCm, rot:Math.random()*3 });
+        }
+        return out;
+      }
+      function decoAll(on){
+        var d = {}; DECOS.forEach(function(x){ d[x.id] = !!on[x.id]; }); return d;
+      }
+      var PRESETS = [
+        { n:"توقيع جيجي", d:"بيضاء بطابقين · ورود وردية ولؤلؤ — زيد اسمك ورقمك من تبويب الكتابة", tiers:[T("round",24,10,"#fdfbf6"),T("round",18,10,"#fdfbf6")], piping:"shell", deco:decoAll({roses:1,pearls:1,bows:1}), rose:"#e88ca0", free:ringFree("rose", 8, 0.7, 4.5, 18) },
+        { n:"ماتيلدا", d:"شوكولاتة · شوكولاتة ذايبة ذهبية", tiers:[T("round",25,11,"#5a3a28"),T("round",19,10,"#5a3a28")], piping:"none", deco:decoAll({drip:1,chocolate:1}), drip:"#c9973f", free:[] },
+        { n:"ليوبارد", d:"كريمي فاتح · أوراق ذهب ولؤلؤ", tiers:[T("round",25,11,"#f5e9d4","marble"),T("round",19,10,"#f5e9d4","marble")], piping:"none", deco:decoAll({goldleaf:1,pearls:1}), free:[] },
+        { n:"فراولة", d:"بيضاء · فراولة وتوت وورود", tiers:[T("round",25,10,"#fdfbf6"),T("round",19,10,"#fdfbf6")], piping:"shell", deco:decoAll({strawberries:1,roses:1}), rose:"#e88ca0", free:ringFree("strawberry", 7, 0.6, 4, 19) },
+        { n:"سبايدرمان", d:"رمادي رخامي وأحمر", tiers:[T("round",25,11,"#9aa0a8","marble"),T("round",19,10,"#a63a4a")], piping:"shell", deco:decoAll({sprinkles:1}), free:[] },
+        { n:"بيضاء كلاسيكية", d:"3 طبقات · ورود ولؤلؤ وفيونكات", tiers:[T("round",26,10,"#fdfbf6"),T("round",21,10,"#fdfbf6"),T("round",16,10,"#fdfbf6")], piping:"shell", deco:decoAll({roses:1,pearls:1,bows:1}), free:[] },
+        { n:"وردية رومانسية", d:"قلب فوق دائرية · إكليل ورود حر", tiers:[T("round",24,10,"#f9dee4"),T("heart",17,9,"#f9dee4")], piping:"rosette", deco:decoAll({pearls:1,babbreath:1}), rose:"#e88ca0", free:ringFree("rose", 9, 0.72, 4.5, 17) },
+        { n:"شوكولاتة وكرز فاخرة", d:"شوكولاتة ذايبة وقطع شوكولاتة وكرز", tiers:[T("round",25,11,"#f5e9d4"),T("round",19,10,"#f5e9d4")], piping:"none", deco:decoAll({drip:1,cherries:1,chocolate:1}), drip:"#4a2c1c", free:[] },
+        { n:"فراولة وتوت", d:"فواكه حمراء وزرقاء فوق كريمة بيضاء", tiers:[T("round",25,10,"#fdfbf6"),T("round",19,10,"#fdfbf6")], piping:"shell", deco:decoAll({strawberries:1,blueberries:1}), free:ringFree("strawberry", 7, 0.6, 4, 19) },
+        { n:"عيد ميلاد مبهج", d:"شموع ورشّات وماكرون ملون", tiers:[T("round",26,10,"#f5e9d4"),T("round",20,10,"#f9dee4"),T("round",15,9,"#bcd7ea")], piping:"shell", deco:decoAll({candles:1,sprinkles:1,macarons:1}), free:[] },
+        { n:"رخامية ذهبية", d:"رخامي وردي · أوراق ذهب وتاج", tiers:[T("round",26,11,"#fdfbf6","marble"),T("round",20,10,"#fdfbf6","marble")], piping:"none", deco:decoAll({goldleaf:1,crown:1,pearls:1}), free:[] },
+        { n:"زفاف سداسي", d:"سداسية فوق دائرية · شريط وورود", tiers:[T("round",28,10,"#fdfbf6","fondant"),T("hex",21,10,"#fdfbf6","fondant"),T("hex",15,9,"#fdfbf6","fondant")], piping:"none", deco:decoAll({ribbon:1,roses:1,babbreath:1}), ribbon:"#c9973f", free:[] },
+        { n:"نجمة الأطفال", d:"نجمة سماوية · كرات لؤلؤ حرة", tiers:[T("round",24,10,"#bcd7ea"),T("star",18,10,"#f6e49c")], piping:"rosette", deco:decoAll({sprinkles:1}), free:ringFree("ball", 10, 0.62, 3.5, 18) },
+        { n:"ريد فيلفت مخملية", d:"عنابية مخططة بالمشط · سكر بودرة", tiers:[T("round",25,11,"#a63a4a","combed"),T("round",19,10,"#a63a4a","combed")], piping:"none", deco:decoAll({cherries:1}), finishes:{powder:1,gloss:0}, free:[] },
+        { n:"باستيل ريفية", d:"ملمس ريفي · ماكرون وأزهار حرة مبعثرة", tiers:[T("oval",27,10,"#f9c69b","rustic"),T("oval",20,9,"#f9dee4","rustic")], piping:"ruffle", deco:decoAll({macarons:1}), free:[{type:"flower",x:0.4,z:0.3,sizeCm:4,rot:1},{type:"flower",x:-0.5,z:0.45,sizeCm:3.5,rot:2},{type:"macaron",x:0.05,z:-0.5,sizeCm:4.5,rot:0.4},{type:"rose",x:-0.35,z:-0.3,sizeCm:4.5,rot:2.6}] },
+        { n:"مربعة أنيقة", d:"مربعة عاجية · فيونكات وورود", tiers:[T("square",25,10,"#f5e9d4"),T("square",19,10,"#f5e9d4")], piping:"shell", deco:decoAll({bows:1,roses:1,pearls:1}), free:[] },
+        { n:"ليمون ومريمية", d:"ألوان طبيعية هادئة · أزهار بيضاء", tiers:[T("round",26,10,"#f6e49c"),T("round",20,10,"#b3c2a4"),T("round",15,9,"#fdfbf6")], piping:"ruffle", deco:decoAll({babbreath:1,pearls:1}), free:ringFree("flower", 8, 0.7, 3.5, 15) }
+      ];
+      var pg = $("#presetGrid");
+      PRESETS.forEach(function(p){
+        var b = document.createElement("button");
+        b.className = "preset";
+        b.innerHTML = "<b>" + p.n + "</b><span>" + p.d + "</span>";
+        b.addEventListener("click", function(){ applyPreset(p); toast("تطبق قالب «" + p.n + "»"); });
+        pg.appendChild(b);
+      });
+      function applyPreset(p){
+        state.tiers = JSON.parse(JSON.stringify(p.tiers));
+        state.selTier = 0;
+        state.piping = p.piping || "shell";
+        state.deco = JSON.parse(JSON.stringify(p.deco));
+        state.free = JSON.parse(JSON.stringify(p.free || []));
+        state.finishes = p.finishes ? JSON.parse(JSON.stringify(p.finishes)) : { powder:false, gloss:false };
+        if (p.rose) state.roseColor = p.rose;
+        if (p.drip) state.dripColor = p.drip;
+        if (p.ribbon) state.ribbonColor = p.ribbon;
+        selectedFree = -1;
+        syncAllUI(); buildCake(); freeInfoUpdate();
+      }
+      function syncAllUI(){
+        syncTierEditor();
+        syncSeg($("#pipingSeg"), state.piping, "piping");
+        syncSeg($("#textStyleSeg"), state.textStyle, "tstyle");
+        syncDecoChips();
+        $$("#finishChips .chip").forEach(function(ch){ ch.setAttribute("aria-pressed", state.finishes[ch.dataset.finish] ? "true" : "false"); });
+        $("#dripPicker").value = state.dripColor; $("#dripHex").textContent = state.dripColor;
+        $("#ribbonPicker").value = state.ribbonColor; $("#ribbonHex").textContent = state.ribbonColor;
+        $("#rosePicker").value = state.roseColor; $("#roseHex").textContent = state.roseColor;
+        refreshColorUI();
+      }
+
+      /* ============ Actions ============ */
+      $("#btnRandom").addEventListener("click", function(){
+        var ri = function(n){ return Math.floor(Math.random()*n); };
+        var shapes = ["round","round","round","square","heart","hex","oval","star"];
+        var texs = ["butter","butter","fondant","combed","rustic","marble"];
+        var nt = 1 + ri(4), tiers = [], dia = 22 + ri(8);
+        for (var i = 0; i < nt; i++){ tiers.push(mkTier(shapes[ri(shapes.length)], dia, 9 + ri(4), CREAMS[ri(CREAMS.length)].c, texs[ri(texs.length)])); dia = Math.max(13, dia - 4 - ri(3)); }
+        state.tiers = tiers; state.selTier = 0;
+        DECOS.forEach(function(d){ state.deco[d.id] = Math.random() < 0.35; });
+        state.piping = ["shell","rosette","ruffle","none"][ri(4)];
+        state.free = [];
+        var ft = ["rose","flower","ball","strawberry","macaron","cherry"][ri(6)];
+        var pts = patternPositions(["ring","spiral","scatter","wreath"][ri(4)], 8 + ri(10), 0.55 + Math.random()*0.35);
+        var ti2 = tiers.length - 1;
+        pts.forEach(function(p){ if (inTop(ti2, p[0], p[1])) state.free.push({ type:ft, x:p[0], z:p[1], sizeCm:3 + Math.random()*2.5, rot:Math.random()*3 }); });
+        selectedFree = -1;
+        syncAllUI(); buildCake(); freeInfoUpdate();
+        toast("تصميم جديد عشوائي");
+      });
+      $("#btnReset").addEventListener("click", function(){
+        state = JSON.parse(JSON.stringify(DEFAULTS));
+        selectedFree = -1;
+        $("#cakeText").value = "";
+        drawCanvas.getContext("2d").clearRect(0, 0, 1024, 1024);
+        syncAllUI(); buildEnvironment(); buildCake(); freeInfoUpdate();
+        toast("رجعنا للتصميم الأول");
+      });
+      $("#btnSpin").addEventListener("click", function(){
+        controls.autoRotate = !controls.autoRotate;
+        this.setAttribute("aria-pressed", controls.autoRotate ? "true" : "false");
+        this.classList.toggle("active", controls.autoRotate);
+      });
+      $("#btnCam").addEventListener("click", function(){
+        camera.position.copy(CAM0); controls.target.copy(TGT0);
+      });
+      function downloadPNG(){
+        renderer.render(scene, camera);
+        var a = document.createElement("a");
+        a.href = renderer.domElement.toDataURL("image/png");
+        a.download = "layer-cake-jiji.png";
+        document.body.appendChild(a); a.click(); a.remove();
+        toast("تحمّلات تصويرة الكيكة");
+      }
+      $("#btnDownload").addEventListener("click", downloadPNG);
+      $("#btnDownload2").addEventListener("click", downloadPNG);
+
+      /* ============ Send the order to Jiji on Instagram ============ */
+      function orderText(){
+        var FL = {vanilla:"Vanille", choc:"Chocolat", strawberry:"Fraise", lemon:"Citron", caramel:"Caramel", red:"Red Velvet", pistachio:"Pistache", coffee:"Café"};
+        var FI = {butter:"Crème au beurre", ganache:"Ganache chocolat", caramel:"Caramel", fruits:"Fruits", jam:"Confiture", nutella:"Nutella"};
+        var SW = {normal:"Normale", less:"Moins sucrée", none:"Sans sucre"};
+        var AL = {gluten:"sans gluten", nuts:"sans noix", lactose:"sans lactose"};
+        var SH = {round:"ronde", square:"carrée", heart:"cœur", star:"étoile", hex:"hexagonale", oval:"ovale"};
+        var DE = {roses:"Roses", babbreath:"Gypsophile", pearls:"Perles", bows:"Nœuds", ribbon:"Ruban", cherries:"Cerises", strawberries:"Fraises", blueberries:"Myrtilles", macarons:"Macarons", chocolate:"Morceaux de chocolat", goldleaf:"Feuille d'or", candles:"Bougies", crown:"Couronne", drip:"Chocolat fondu", sprinkles:"Vermicelles colorés"};
+        var lines = [];
+        lines.push("Bonjour Layer Cake by Jiji, je veux commander un layer cake personnalisé :");
+        lines.push("— Saveur : " + (FL[flavor] || flavor));
+        lines.push("— Garniture : " + (FI[filling] || filling));
+        lines.push("— Parts : " + servings + " personnes");
+        lines.push("— Sucré : " + (SW[sweetness] || sweetness));
+        if (allergies.length) lines.push("— Allergies : " + allergies.map(function(a){ return AL[a] || a; }).join(", "));
+        var tiersTxt = state.tiers.map(function(t, i){
+          return "étage " + (i+1) + " : " + (SH[t.shape] || t.shape) + " Ø " + t.diaCm + " cm x " + t.hCm + " cm, " + t.color;
+        }).join(" ; ");
+        lines.push("— Design : " + state.tiers.length + " étage(s) — " + tiersTxt);
+        var decoOn = DECOS.filter(function(x){ return state.deco[x.id]; }).map(function(x){ return DE[x.id] || x.id; });
+        if (decoOn.length) lines.push("— Décor : " + decoOn.join(", "));
+        if (state.free && state.free.length) lines.push("— Décor libre : " + state.free.length + " élément(s)");
+        var txt = ($("#cakeText").value || "").trim();
+        if (txt) lines.push("— Texte sur le gâteau : « " + txt + " » (" + (state.textStyle === "pearl" ? "perles" : state.textStyle === "gold" ? "doré" : "chocolat") + ")");
+        if (customerNotes.trim()) lines.push("— Notes : " + customerNotes.trim());
+        lines.push("Merci !");
+        return lines.join("\n");
+      }
+      function fallbackCopyOrder(t){
+        var ta = document.createElement("textarea"); ta.value = t;
+        ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); } catch(e){}
+        ta.remove();
+      }
+      function sendOrder(){
+        var m = orderText();
+        function show(){ toast("الطلب راه منسوخ — الصقو في رسالة إنستغرام"); window.open("https://ig.me/m/layercake_by_jiji_", "_blank"); }
+        if (navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(m).then(show, function(){ fallbackCopyOrder(m); show(); });
+        } else { fallbackCopyOrder(m); show(); }
+      }
+      $("#btnOrder").addEventListener("click", sendOrder);
+
+      $("#btnShare").addEventListener("click", function(){
+        renderer.render(scene, camera);
+        var url = renderer.domElement.toDataURL("image/png");
+        if (navigator.share){
+          fetch(url).then(function(r){ return r.blob(); }).then(function(blob){
+            var file = new File([blob], "layer-cake-jiji.png", {type:"image/png"});
+            if (navigator.canShare && navigator.canShare({files:[file]})){
+              navigator.share({files:[file], title:"Layer Cake by Jiji — تصميم كيكتي"}).catch(function(){});
+            } else {
+              navigator.share({title:"Layer Cake by Jiji — تصميم كيكتي"}).catch(function(){});
+            }
+          }).catch(downloadPNG);
+        } else downloadPNG();
+      });
+
+      /* ============ Resize & loop ============ */
+      function resize(){
+        var w = stage.clientWidth, h = stage.clientHeight;
+        if (!w || !h) return;
+        renderer.setSize(w, h); camera.aspect = w/h; camera.updateProjectionMatrix();
+      }
+      window.addEventListener("resize", resize);
+      var clock = new THREE.Clock();
+      function animate(){
+        requestAnimationFrame(animate);
+        var t = clock.getElapsedTime();
+        for (var i = 0; i < flames.length; i++){
+          var f = flames[i], s = 1 + Math.sin(t*11 + i*1.7)*0.13 + Math.sin(t*23 + i)*0.05;
+          f.scale.set(0.62*s, 1.5*(1 + Math.sin(t*9 + i*2.1)*0.12), 0.62*s);
+        }
+        if (candleLight.intensity > 0) candleLight.intensity = 0.5 + Math.sin(t*13)*0.08 + Math.sin(t*29)*0.05;
+        controls.update();
+        renderer.render(scene, camera);
+      }
+      buildEnvironment();
+      syncAllUI();
+      buildCake();
+      freeInfoUpdate();
+      resize();
+      animate();
+      setTimeout(resize, 60);
+    })();
+    </script>
+  </body>
+</html>
