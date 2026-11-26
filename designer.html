@@ -318,19 +318,6 @@
               <button data-shape="hex" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l7.8 4.5v9L12 21l-7.8-4.5v-9L12 3Z"/></svg><span data-fr="Hexagonale" data-ar="سداسية">Hexagonale</span></button>
               <button data-shape="oval" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="12" rx="9" ry="6"/></svg><span data-fr="Ovale" data-ar="بيضاوية">Ovale</span></button>
             </div>
-            <div class="seg" id="textureSeg">
-              <button data-texture="butter" aria-pressed="true" data-fr="Crème au beurre" data-ar="كريمة زبدة">Crème au beurre</button>
-              <button data-texture="fondant" aria-pressed="false" data-fr="Fondant lisse" data-ar="فوندان ناعم">Fondant lisse</button>
-              <button data-texture="combed" aria-pressed="false" data-fr="Rayée au peigne" data-ar="مخططة بالمشط">Rayée au peigne</button>
-              <button data-texture="rustic" aria-pressed="false" data-fr="Rustique à la cuillère" data-ar="ريفية بالملعقة">Rustique à la cuillère</button>
-              <button data-texture="marble" aria-pressed="false" data-fr="Marbré" data-ar="رخامي">Marbré</button>
-            </div>
-            <div id="marbleRow" style="display:none">
-                <div class="row">
-                <input type="color" id="marbleColor" value="#d8b7c3" aria-label="Couleur des veines du marbre" data-fr-label="Couleur des veines du marbre" data-ar-label="لون عروق الرخام" />
-                <span class="hexval" id="marbleHex">#d8b7c3</span>
-              </div>
-            </div>
           </section>
 
         </div>
@@ -441,7 +428,7 @@
       ];
       var CM_R = 0.125, CM_H = 0.09, BASE_Y = 0.66;
       function mkTier(shape, dia, h, color, tex){
-        return { shape:shape, diaCm:dia, hCm:h, color:color, texture:tex || "butter", marble2:"#d8b7c3" };
+        return { shape:shape, diaCm:dia, hCm:h, color:color, texture:"marble" /* v12.4: marble always */, marble2:"#d8b7c3" };
       }
       var DEFAULTS = {
         tiers:[ mkTier("round",26,10,"#fdfbf6"), mkTier("round",21,10,"#fdfbf6"), mkTier("round",16,10,"#fdfbf6") ],
@@ -642,7 +629,7 @@
 
       /* ============ Materials ============ */
       function frostingMat(tier){
-        var tex = tier.texture;
+        var tex = "marble"; /* v12.4: marble always, no texture choice */
         var bump = tex === "fondant" ? bumpFondant : tex === "combed" ? bumpComb : tex === "rustic" ? bumpRustic : bumpButter;
         var rough = tex === "fondant" ? 0.34 : tex === "marble" ? 0.3 : tex === "rustic" ? 0.62 : 0.48;
         var opts = { color: new THREE.Color(tier.color), roughness: rough, metalness: 0,
@@ -2016,9 +2003,6 @@
         $("#tsH").value = t.hCm; $("#tsHVal").textContent = t.hCm + (isAr() ? " سم" : " cm");
         syncSeg($("#shapeSeg"), t.shape, "shape");
         syncTsShape(t.shape);
-        syncSeg($("#textureSeg"), t.texture, "texture");
-        $("#marbleRow").style.display = t.texture === "marble" ? "block" : "none";
-        $("#marbleColor").value = t.marble2; $("#marbleHex").textContent = t.marble2;
         $("#diaRange").value = t.diaCm; $("#diaVal").textContent = "Ø " + t.diaCm + (isAr() ? " سم" : " cm");
         $("#hRange").value = t.hCm; $("#hVal").textContent = t.hCm + (isAr() ? " سم" : " cm");
         $("#tierColorMini").value = t.color;
@@ -2046,16 +2030,6 @@
       segWire("shapeSeg", "shape", function(v){ state.tiers[state.selTier].shape = v; syncTsShape(v); buildCake(); });
       $$("#tierShapes button").forEach(function(b){ b.addEventListener("click", function(){ setTierShape(b.dataset.tsShape); }); });
       $("#tierColorMini").addEventListener("input", function(e){ setTierColor(e.target.value); });
-      segWire("textureSeg", "texture", function(v){
-        state.tiers[state.selTier].texture = v;
-        $("#marbleRow").style.display = v === "marble" ? "block" : "none";
-        buildCake();
-      });
-      $("#marbleColor").addEventListener("input", function(e){
-        state.tiers[state.selTier].marble2 = e.target.value;
-        $("#marbleHex").textContent = e.target.value;
-        rebuildSoon();
-      });
       $("#diaRange").addEventListener("input", function(e){ setTierDia(e.target.value); });
       $("#hRange").addEventListener("input", function(e){ setTierH(e.target.value); });
       $("#tsDia").addEventListener("input", function(e){ setTierDia(e.target.value); });
