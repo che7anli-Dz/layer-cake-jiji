@@ -57,18 +57,8 @@
       .tslider input[type="range"]{position:absolute; left:50%; top:50%; width:160px; transform:translate(-50%,-50%) rotate(-90deg)}
       .ts-val{font-size:.72rem; font-weight:800; color:#fff; background:rgba(30,26,20,.55); border-radius:99px; padding:.15rem .5rem; white-space:nowrap; z-index:1}
       .ts-lbl{position:absolute; bottom:0; font-size:.72rem; font-weight:800; color:#fff; background:rgba(30,26,20,.55); border-radius:99px; padding:.15rem .5rem; z-index:1}
-      .stage-deco{position:absolute; top:50%; inset-inline-end:.7rem; transform:translateY(-50%); display:flex; flex-direction:column; gap:.45rem; z-index:4; max-height:76%; overflow-y:auto; scrollbar-width:none}
-      .stage-deco::-webkit-scrollbar{display:none}
-      .stage-deco[hidden]{display:none}
-      .deco-chip{background:#e9e9e9; border:1px solid #d8d8d8; border-radius:16px; padding:4px; width:54px; height:54px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.12); touch-action:none; flex:none}
-      .deco-chip img{width:100%; height:100%; object-fit:contain; display:block; pointer-events:none}
-      .deco-chip[aria-pressed="true"]{border-color:#e8a317; box-shadow:0 0 0 2px #e8a317}
-      .drag-ghost{position:fixed; z-index:50; pointer-events:none; background:rgba(24,20,16,.92); color:#fff; padding:.4rem .7rem; border-radius:99px; font-weight:800; font-size:.85rem; transform:translate(12px,-14px); white-space:nowrap}
-      .seg button.deco-item{touch-action:none}
       .fallback{position:absolute; inset:0; display:none; place-items:center; text-align:center; padding:2rem; color:var(--ink-soft); font-weight:700; pointer-events:none; z-index:1}
       .panel{width:420px; flex:none; background:var(--panel); border-inline-start:1px solid var(--line); display:grid; grid-template-columns:96px minmax(0,1fr); grid-template-rows:auto minmax(0,1fr) auto; min-height:0}
-      .panel-search{grid-column:1 / -1; grid-row:1; padding:.6rem .6rem 0}
-      .panel-search input{width:100%; border:1px solid var(--line); border-radius:99px; background:#fff; color:var(--ink); padding:.5rem .9rem; font:inherit; font-size:.9rem; font-weight:700}
       .tabs{grid-column:1; grid-row:2; display:flex; flex-direction:column; gap:.35rem; padding:.6rem .4rem; overflow-y:auto; overflow-x:hidden; min-height:0; border-inline-end:1px solid var(--line); scrollbar-width:none; background-image:url(assets/floral-sidebar.jpg); background-size:220px auto; background-repeat:repeat-y; background-position:center top}
       .tabs::-webkit-scrollbar{display:none}
       .tab{flex:none; width:100%; min-width:0; border:1px solid var(--line); background:#fff; color:var(--ink-soft); border-radius:12px; padding:.5rem .1rem; font-weight:800; font-size:.71rem; display:flex; flex-direction:column; align-items:center; gap:.2rem}
@@ -108,8 +98,6 @@
       @media (prefers-color-scheme: dark){ .btn.primary{color:#16210f} }
       .btn:active{transform:scale(.97)}
       .btn:disabled{opacity:.45; cursor:default; transform:none}
-      .brush-sw{width:38px; height:38px; min-height:38px; border-radius:50%; border:2px solid var(--line); padding:0}
-      .brush-sw[aria-pressed="true"]{border-color:var(--sage-deep); outline:2px solid var(--sage); outline-offset:2px}
       .tier-pick{display:flex; gap:.4rem; flex-wrap:wrap}
       .tier-pick button{flex:1 1 30%; border:1px solid var(--line); background:var(--panel-2); color:var(--ink); border-radius:10px; padding:.45rem .2rem; font-weight:800; font-size:.82rem}
       .tier-pick button[aria-pressed="true"]{background:var(--sage); border-color:var(--sage); color:#fff}
@@ -138,14 +126,6 @@
       .app-modal-msg{background:#f3eee3; border:1px solid #e4dccb; border-radius:14px; padding:.8rem; text-align:left; white-space:pre-wrap; font-size:.85rem; max-height:220px; overflow-y:auto; margin-bottom:.9rem; direction:ltr; color:#2e2a24}
       .app-modal-actions{display:flex; gap:.5rem; justify-content:center}
       .app-modal-actions .btn{flex:1}
-      .stage-colors{position:absolute; top:3.8rem; inset-inline-start:.7rem; z-index:4; background:rgba(255,255,255,.96); border:1px solid #e0e0e0; border-radius:16px; padding:.6rem; box-shadow:0 8px 24px rgba(0,0,0,.15); display:flex; flex-direction:column; gap:.5rem; max-width:190px}
-      .stage-colors[hidden]{display:none}
-      .stage-colors input[type="color"]{width:100%; height:44px}
-      .stage-swatches{display:flex; flex-wrap:wrap; gap:.35rem}
-      .stage-swatches .sw{width:26px; height:26px}
-      .stage-item-tools{position:absolute; top:50%; inset-inline-start:.7rem; transform:translateY(-50%); display:flex; flex-direction:column; gap:.5rem; z-index:4}
-      .stage-item-tools[hidden]{display:none}
-      .stage-item-tools .icon-btn{background:rgba(255,255,255,.95); box-shadow:0 4px 14px rgba(0,0,0,.18)}
       /* Bake mode */
       .bake-steps{list-style:none; margin:0 0 .8rem; padding:0; display:grid; gap:.45rem}
       .bake-steps li{display:flex; gap:.6rem; align-items:center; background:var(--panel-2); border:1px solid var(--line); border-radius:12px; padding:.55rem .7rem; font-weight:800; font-size:.86rem}
@@ -229,21 +209,10 @@
             <div class="ts-swatches" id="tierSwatches"></div>
           </div>
         </div>
-        <div class="stage-deco" id="stageDeco" hidden></div>
-        <div class="stage-colors" id="stageColors" hidden>
-          <input type="color" id="stageColorPicker" value="#ffffff" aria-label="لون الطبقة" />
-          <div class="stage-swatches" id="stageSwatches"></div>
-        </div>
-        <div class="stage-item-tools" id="stageItemTools" hidden>
-          <button class="icon-btn" id="btnItemRotate" aria-label="دوّر الزواق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button>
-          <button class="icon-btn" id="btnItemDup" aria-label="نسخ الزواق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
-          <button class="icon-btn" id="btnItemDel" aria-label="مسح الزواق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
-        </div>
         <div class="fallback" id="fallback">تعذّر تحميل عارض ثلاثي الأبعاد.<br/>تحقق من الاتصال ثم أعد فتح الصفحة.</div>
       </section>
 
       <aside class="panel" aria-label="أدوات تصميم الكيكة">
-        <div class="panel-search"><input type="search" id="panelSearch" placeholder="ابحث عن زواق…" aria-label="ابحث عن زواق" /></div>
         <nav class="tabs" role="tablist" aria-label="أقسام التصميم">
           <button class="tab" role="tab" data-tab="bake" aria-selected="false">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h16v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19v-9Z"/><path d="M8 10V7a4 4 0 0 1 8 0v3M2 10h20"/></svg>
@@ -252,22 +221,6 @@
           <button class="tab" role="tab" data-tab="layers" aria-selected="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg>
             الطبقات
-          </button>
-          <button class="tab" role="tab" data-tab="cream" aria-selected="false">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c2.5 3.2 6 6.6 6 10a6 6 0 1 1-12 0c0-3.4 3.5-6.8 6-10Z"/></svg>
-            الألوان
-          </button>
-          <button class="tab" role="tab" data-tab="deco" aria-selected="false">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15Z"/></svg>
-            الزواق
-          </button>
-          <button class="tab" role="tab" data-tab="draw" aria-selected="false">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3Z"/></svg>
-            الرسم
-          </button>
-          <button class="tab" role="tab" data-tab="text" aria-selected="false">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14M12 5v14"/></svg>
-            الكتابة
           </button>
         </nav>
 
@@ -360,104 +313,9 @@
             </div>
           </section>
 
-          <!-- COLORS & FINISHES -->
-          <section class="pane" id="pane-cream" role="tabpanel">
-            <div class="row">
-              <input type="color" id="creamPicker" value="#fdfbf6" aria-label="اختر أي لون للكريمة" />
-              <span class="hexval" id="creamHex">#fdfbf6</span>
-            </div>
-            <div class="swatches" id="creamSwatches"></div>
-            <div class="sw-name" id="creamName"></div>
-            <div class="swatches" id="recentSwatches"></div>
-            <p class="note" id="recentNote"></p>
-            <div class="chips" id="finishChips">
-              <button class="chip" data-finish="powder" aria-pressed="false"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="8" r="1.3"/><circle cx="12" cy="5" r="1.1"/><circle cx="17" cy="9" r="1.3"/><circle cx="9" cy="14" r="1.1"/><circle cx="15" cy="15" r="1.2"/><circle cx="12" cy="19" r="1.1"/><circle cx="19" cy="18" r="1"/></svg></span>سكر بودرة<span class="tick">✓</span></button>
-              <button class="chip" data-finish="gloss" aria-pressed="false"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3c2.5 3.2 6 6.6 6 10a6 6 0 1 1-12 0c0-3.4 3.5-6.8 6-10Z"/><path d="M9.5 13.5a2.8 2.8 0 0 0 2 3"/></svg></span>لمعة زبدة<span class="tick">✓</span></button>
-            </div>
-          </section>
-
-          <!-- DECORATIONS -->
-          <section class="pane" id="pane-deco" role="tabpanel">
-            <div class="seg" id="pipingSeg">
-              <button data-piping="shell" aria-pressed="false">أصداف</button>
-              <button data-piping="rosette" aria-pressed="false">وريدات</button>
-              <button data-piping="ruffle" aria-pressed="false">كشكشة</button>
-              <button data-piping="none" aria-pressed="true">بلا حواف</button>
-            </div>
-            <div class="seg" id="decoGroupSeg">
-              <button data-dgroup="0" aria-pressed="true">نباتات</button>
-              <button data-dgroup="1" aria-pressed="false">مأكولات</button>
-              <button data-dgroup="2" aria-pressed="false">فواكه وخضار</button>
-              <button data-dgroup="3" aria-pressed="false">أخرى</button>
-              <button data-dgroup="4" aria-pressed="false">تماثيل</button>
-              <button data-dgroup="5" aria-pressed="false">رموز</button>
-              <button data-dgroup="6" aria-pressed="false">توبّر ذهبي</button>
-            </div>
-            <div class="row">
-              <input type="color" id="freeColor" value="#e88ca0" aria-label="لون الزواق" />
-              <span class="hexval" id="freeColorHex">#e88ca0</span>
-            </div>
-            <div class="row" style="margin-top:.6rem">
-              <button class="btn primary" id="btnPlaceMode" aria-pressed="false">تفعيل وضع الحط</button>
-              <button class="btn" id="btnDeleteFree">مسح المختار</button>
-              <button class="btn" id="btnClearFree">مسح الكل</button>
-            </div>
-            <div class="row">
-              <input type="range" id="freeSize" min="2" max="9" value="4" step="0.5" aria-label="حجم الزواق بالسنتيمتر" />
-              <span class="val" id="freeSizeVal">4 سم</span>
-            </div>
-            <div class="row" id="letterRow" hidden>
-              <span class="lbl">الحرف الذهبي</span>
-              <input type="text" id="letterChar" maxlength="1" value="A" aria-label="الحرف الذهبي" style="width:3.4rem; text-align:center; font-size:1.25rem; font-weight:900; border:1px solid var(--line); border-radius:12px; background:#fff; color:var(--ink); padding:.4rem .2rem" />
-            </div>
-            <p class="note" id="freeInfo">ما كاش زواق حر محطوط دوقا.</p>
-            <div class="row">
-              <button class="btn" id="btnThemeWedding">عرس</button>
-              <button class="btn" id="btnThemeBirthday">عيد ميلاد</button>
-            </div>
-          </section>
-
-          <!-- DRAW -->
-          <section class="pane" id="pane-draw" role="tabpanel">
-            <div class="row">
-              <button class="btn primary" id="btnDrawMode" aria-pressed="false">تفعيل وضع الرسم</button>
-            </div>
-            <div class="row" id="brushColors"></div>
-            <div class="row">
-              <input type="color" id="brushPicker" value="#6b4232" aria-label="لون قمع حر" />
-            </div>
-            <div class="row">
-              <input type="range" id="brushSize" min="3" max="26" value="10" aria-label="حجم الفرشاة" />
-            </div>
-            <div class="row">
-              <button class="btn" id="btnUndoDraw">تراجع</button>
-              <button class="btn" id="btnClearDraw">مسح الرسم كامل</button>
-            </div>
-          </section>
-
-          <!-- TEXT -->
-          <section class="pane" id="pane-text" role="tabpanel">
-            <div class="seg" id="textStyleSeg">
-              <button data-tstyle="pearl" aria-pressed="true">حبات لؤلؤ</button>
-              <button data-tstyle="gold" aria-pressed="false">ذهبي لامع</button>
-              <button data-tstyle="choc" aria-pressed="false">شوكولاتة</button>
-            </div>
-            <div class="row" style="margin-top:.8rem">
-              <input type="text" id="cakeText" maxlength="14" placeholder="مثال: 22 أو سارة" />
-              <button class="btn primary" id="btnApplyText">ضع الكتابة</button>
-            </div>
-            <div class="row">
-              <button class="btn" id="btnClearText">مسح الكتابة</button>
-            </div>
-          </section>
-
         </div>
 
         <div class="panel-foot">
-          <button class="btn" id="btnRandom">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="15.5" cy="8.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="8.5" cy="15.5" r="1.4" fill="currentColor" stroke="none"/></svg>
-            فاجئني
-          </button>
           <button class="btn" id="btnReset">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.3"/><path d="M3 4v5h5"/></svg>
             من الأول
@@ -548,7 +406,6 @@
         {id:"goldleaf", n:"أوراق ذهبية"}, {id:"candles", n:"شموع مضيئة"},
         {id:"crown", n:"تاج ذهبي"}, {id:"drip", n:"شوكولاتة ذايبة"}, {id:"sprinkles", n:"رشّات ملونة"}
       ];
-      var FREE_TYPES = { rose:"وردة", flower:"زهرة", babys:"جيبسوفيلا", ball:"كرة لؤلؤ", bow:"فيونكة", strawberry:"فراولة", blueberry:"توت", macaron:"ماكرون", cherry:"كرزة", candle:"شمعة", balloon:"بالون", bride:"عروسان", teddy:"دبدوب", bunny:"أرنب", butterfly:"فراشة", heart:"قلب", star:"نجمة", crown:"تاج", donut:"دونات", popsicle:"مثلجة", cookie:"كوكيز", meringue:"ميرانغ", pineapple:"أناناس", dove:"حمامة", gradcap:"قبعة تخرج", lipstick:"أحمر شفاه", hb:"عيد ميلاد", love:"حب", xmas:"ميلاد مجيد", n0:"0", n1:"1", n2:"2", n3:"3", n4:"4", n5:"5", n6:"6", n7:"7", n8:"8", n9:"9", amp:"&", excl:"!", letter:"حرف" };
       var CM_R = 0.125, CM_H = 0.09, BASE_Y = 0.66;
       function mkTier(shape, dia, h, color, tex){
         return { shape:shape, diaCm:dia, hCm:h, color:color, texture:tex || "butter", marble2:"#d8b7c3" };
@@ -561,7 +418,6 @@
         stand:"gold", sceneName:"studio", text:"", textStyle:"pearl", free:[]
       };
       var state = JSON.parse(JSON.stringify(DEFAULTS));
-      var recents = [];
 
       /* ============ Scene, lights, environment ============ */
       var stage = $("#stage");
@@ -1918,15 +1774,6 @@
         var s = item.sizeCm * 0.055 * 2.4;
         selRing.scale.set(s, s, s);
       }
-      function freeInfoUpdate(){
-        var tools = $("#stageItemTools");
-        if (tools) tools.hidden = !(selectedFree >= 0 && state.free[selectedFree]);
-        var el = $("#freeInfo");
-        if (!state.free.length) el.textContent = "";
-        else if (selectedFree >= 0 && state.free[selectedFree])
-          el.textContent = "المختار: " + FREE_TYPES[state.free[selectedFree].type] + " · الحجم " + state.free[selectedFree].sizeCm + " سم";
-        else el.textContent = state.free.length + " زواق حر";
-      }
       function addFree(type, x, z, sizeCm){
         if (state.free.length >= 120){ showModal("وصلت للحد الأقصى", "ما تقدرش تزيد أكثر من 120 زواق في الكيكة. مسح واحد باش تزيد واحد جديد."); return -1; }
         state.free.push({ type:type, x:x, z:z, sizeCm:sizeCm || freeSizeCm, rot: Math.random()*Math.PI*2, color: freeColor, ch: type === "letter" ? letterChar : null });
@@ -1985,7 +1832,7 @@
           var hit = ray.intersectObject(drawMesh);
           if (hit.length){
             var ix = addFree(freeType, hit[0].point.x, hit[0].point.z, freeSizeCm);
-            if (ix >= 0){ selectedFree = ix; buildCake(); freeInfoUpdate(); }
+            if (ix >= 0){ selectedFree = ix; buildCake(); }
           }
           return;
         }
@@ -2000,10 +1847,10 @@
               dragging = anc;
               controls.enabled = false;
               dragPlane.constant = -topY();
-              updateSelRing(); freeInfoUpdate();
+              updateSelRing();
               renderer.domElement.setPointerCapture(e.pointerId);
             }
-          } else { selectedFree = -1; updateSelRing(); freeInfoUpdate(); }
+          } else { selectedFree = -1; updateSelRing(); }
         }
         // v11: tap a tier on the cake to edit it right there (no tab switch)
         if (!drawMode && !placeMode && !dragging){
@@ -2046,50 +1893,6 @@
         });
       });
 
-      /* v11: pinch a selected decoration to resize it (like zooming) — no + / − buttons.
-         Capture-phase listeners on #stage: while a pinch is active we stop the
-         events before OrbitControls sees them, so it never starts a dolly and
-         its own pointer bookkeeping stays clean (controls.enabled is untouched). */
-      var pinchPointers = {}, pinchStart = null;
-      function pinchDist(){
-        var ids = Object.keys(pinchPointers);
-        if (ids.length < 2) return 0;
-        var a = pinchPointers[ids[0]], b = pinchPointers[ids[1]];
-        return Math.hypot(a.x - b.x, a.y - b.y);
-      }
-      function applyPinchSize(sz){
-        var it = state.free[selectedFree]; if (!it) return;
-        sz = Math.min(9, Math.max(2, Math.round(sz * 2) / 2));
-        it.sizeCm = sz; freeSizeCm = sz;
-        $("#freeSize").value = sz; $("#freeSizeVal").textContent = sz + " سم";
-        var obj = null;
-        if (freeGroup) freeGroup.children.forEach(function(o){ if (o.userData.freeIndex === selectedFree) obj = o; });
-        if (obj) obj.scale.setScalar(sz * 0.055);
-        updateSelRing(); freeInfoUpdate();
-      }
-      var stageEl = document.getElementById("stage");
-      stageEl.addEventListener("pointerdown", function(e){
-        pinchPointers[e.pointerId] = { x: e.clientX, y: e.clientY };
-        if (Object.keys(pinchPointers).length === 2 && selectedFree >= 0 && state.free[selectedFree] && !drawMode && !placeMode){
-          e.stopPropagation();
-          dragging = null; controls.enabled = true;
-          pinchStart = { dist: pinchDist(), size: state.free[selectedFree].sizeCm };
-        }
-      }, true);
-      stageEl.addEventListener("pointermove", function(e){
-        if (pinchPointers[e.pointerId]) pinchPointers[e.pointerId] = { x: e.clientX, y: e.clientY };
-        if (pinchStart){
-          e.stopPropagation();
-          var d = pinchDist();
-          if (d > 0) applyPinchSize(pinchStart.size * d / pinchStart.dist);
-        }
-      }, true);
-      function pinchEnd(e){
-        delete pinchPointers[e.pointerId];
-        if (Object.keys(pinchPointers).length < 2) pinchStart = null;
-      }
-      stageEl.addEventListener("pointerup", pinchEnd, true);
-      stageEl.addEventListener("pointercancel", pinchEnd, true);
 
       /* ============ UI helpers ============ */
       function syncSeg(el, val, attr){
@@ -2120,41 +1923,21 @@
           nameEl.textContent = found ? found.n : "لون حر";
         }
       }
-      function pushRecent(hex){
-        hex = hex.toLowerCase();
-        recents = recents.filter(function(h){ return h !== hex; });
-        recents.unshift(hex); if (recents.length > 12) recents.pop();
-        renderRecents();
-      }
-      function renderRecents(){
-        var el = $("#recentSwatches"); el.innerHTML = "";
-        recents.forEach(function(h){
-          var b = document.createElement("button");
-          b.className = "sw"; b.style.background = h; b.setAttribute("aria-label", h);
-          b.addEventListener("click", function(){ setTierColor(h); });
-          el.appendChild(b);
-        });
-        $("#recentNote").style.display = recents.length ? "none" : "block";
-      }
       var rebuildTimer = null;
       function rebuildSoon(){ clearTimeout(rebuildTimer); rebuildTimer = setTimeout(buildCake, 110); }
 
       /* ============ Tabs ============ */
       function syncTierTools(){
         var ts = $("#tierSliders"); if (!ts) return;
-        if (curTab === "layers"){ ts.hidden = false; ts.classList.remove("card"); }
-        else if (tierPicked){ ts.hidden = false; ts.classList.add("card"); }
+        if (tierPicked){ ts.hidden = false; ts.classList.add("card"); }
+        else if (curTab === "layers"){ ts.hidden = false; ts.classList.remove("card"); }
         else { ts.hidden = true; ts.classList.remove("card"); }
       }
       function activateTab(name){
         $$(".tab").forEach(function(t){ t.setAttribute("aria-selected", t.dataset.tab === name ? "true" : "false"); });
         $$(".pane").forEach(function(p){ p.classList.toggle("on", p.id === "pane-" + name); });
-        if (name !== "draw" && drawMode) setDrawMode(false);
-        if (name !== "deco" && placeMode) setPlaceMode(false);
         curTab = name; if (name !== "layers") tierPicked = false;
         syncTierTools();
-        var sd = $("#stageDeco"); if (sd) sd.hidden = (name !== "deco");
-        var scol = $("#stageColors"); if (scol) scol.hidden = (name !== "cream");
       }
       $$(".tab").forEach(function(tab){ tab.addEventListener("click", function(){ activateTab(tab.dataset.tab); }); });
       syncTierTools();
@@ -2205,19 +1988,11 @@
         $("#marbleColor").value = t.marble2; $("#marbleHex").textContent = t.marble2;
         $("#diaRange").value = t.diaCm; $("#diaVal").textContent = "Ø " + t.diaCm + " سم";
         $("#hRange").value = t.hCm; $("#hVal").textContent = t.hCm + " سم";
-        $("#creamPicker").value = t.color; $("#creamHex").textContent = t.color;
-        buildSwatches($("#creamSwatches"), CREAMS, t.color, $("#creamName"), function(it){ setTierColor(it.c); });
-        $("#stageColorPicker").value = t.color;
-        buildSwatches($("#stageSwatches"), CREAMS, t.color, null, function(it){ setTierColor(it.c); });
         $("#tierColorMini").value = t.color;
         buildSwatches($("#tierSwatches"), CREAMS.slice(0, 6), t.color, null, function(it){ setTierColor(it.c); });
       }
       function setTierColor(hex){
         state.tiers[state.selTier].color = hex;
-        $("#creamPicker").value = hex; $("#creamHex").textContent = hex;
-        buildSwatches($("#creamSwatches"), CREAMS, hex, $("#creamName"), function(it){ setTierColor(it.c); });
-        $("#stageColorPicker").value = hex;
-        buildSwatches($("#stageSwatches"), CREAMS, hex, null, function(it){ setTierColor(it.c); });
         $("#tierColorMini").value = hex;
         buildSwatches($("#tierSwatches"), CREAMS.slice(0, 6), hex, null, function(it){ setTierColor(it.c); });
         buildCake();
@@ -2253,273 +2028,6 @@
       $("#tsDia").addEventListener("input", function(e){ setTierDia(e.target.value); });
       $("#tsH").addEventListener("input", function(e){ setTierH(e.target.value); });
 
-      /* ============ Colors & finishes ============ */
-      $("#creamPicker").addEventListener("input", function(e){
-        state.tiers[state.selTier].color = e.target.value;
-        $("#creamHex").textContent = e.target.value;
-        $("#stageColorPicker").value = e.target.value;
-        rebuildSoon();
-      });
-      $("#stageColorPicker").addEventListener("input", function(e){
-        state.tiers[state.selTier].color = e.target.value;
-        $("#creamPicker").value = e.target.value;
-        $("#creamHex").textContent = e.target.value;
-        rebuildSoon();
-      });
-      $("#stageColorPicker").addEventListener("change", function(e){ setTierColor(e.target.value); });
-      $("#creamPicker").addEventListener("change", function(e){
-        pushRecent(e.target.value);
-        buildSwatches($("#creamSwatches"), CREAMS, e.target.value, $("#creamName"), function(it){ setTierColor(it.c); });
-      });
-      function colorWire(pickerId, hexId, swId, nameId, list, apply){
-        var pk = document.getElementById(pickerId);
-        pk.addEventListener("input", function(e){ apply(e.target.value); document.getElementById(hexId).textContent = e.target.value; rebuildSoon(); });
-        pk.addEventListener("change", function(e){ pushRecent(e.target.value); refreshColorUI(); });
-        buildSwatches(document.getElementById(swId), list, pk.value, document.getElementById(nameId), function(it){ apply(it.c); pk.value = it.c; document.getElementById(hexId).textContent = it.c; buildCake(); refreshColorUI(); });
-      }
-      function refreshColorUI(){
-      }
-      $$("#finishChips .chip").forEach(function(ch){
-        ch.addEventListener("click", function(){
-          var f = ch.dataset.finish;
-          state.finishes[f] = !state.finishes[f];
-          ch.setAttribute("aria-pressed", state.finishes[f] ? "true" : "false");
-          buildCake();
-        });
-      });
-
-      /* ============ Decorations UI ============ */
-      segWire("pipingSeg", "piping", function(v){ state.piping = v; buildCake(); });
-      var DECO_CATS = [
-        { n:"نباتات", items:["rose", "flower", "babys"] },
-        { n:"مأكولات", items:["macaron", "donut", "popsicle", "cookie", "meringue"] },
-        { n:"فواكه وخضار", items:["strawberry", "blueberry", "cherry", "pineapple"] },
-        { n:"أخرى", items:["ball", "bow", "candle", "balloon", "gradcap", "lipstick"] },
-        { n:"تماثيل", items:["bride", "teddy", "bunny", "butterfly", "dove"] },
-        { n:"رموز", items:["heart", "star", "crown"] },
-        { n:"توبّر ذهبي", items:["hb", "love", "xmas", "n0", "n1", "n2", "n3", "n4", "n5", "n6", "n7", "n8", "n9", "amp", "excl", "letter"] }
-      ];
-      var FREE_COLORS = { rose:"#d42b4d", flower:"#e88ca0", babys:"#ffffff", strawberry:"#d42b2b", blueberry:"#5a4a8a", macaron:"#e88ca0", cherry:"#a4133c", ball:"#f2ead8", bow:"#e88ca0", candle:"#e88ca0", balloon:"#d42b4d", bride:"#ffffff", teddy:"#b08968", bunny:"#f5f0e8", butterfly:"#e88ca0", heart:"#d42b4d", star:"#e8a317", crown:"#e8a317", donut:"#f2a0b5", popsicle:"#f2a0b5", cookie:"#3a2415", meringue:"#ffffff", pineapple:"#f2c230", dove:"#ffffff", gradcap:"#1a1a1a", lipstick:"#d42b4d", hb:"#e8a317", love:"#e8a317", xmas:"#e8a317", n0:"#e8a317", n1:"#e8a317", n2:"#e8a317", n3:"#e8a317", n4:"#e8a317", n5:"#e8a317", n6:"#e8a317", n7:"#e8a317", n8:"#e8a317", n9:"#e8a317", amp:"#e8a317", excl:"#e8a317", letter:"#e8a317" };
-
-      /* v11: deco chips show the actual decoration (thumbnail), no text — like the app.
-         A tiny second renderer draws each maker once (bbox-fitted), cached per type. */
-      var thumbCache = {}, thumbRenderer = null, thumbScene = null, thumbCam = null;
-      function getThumb(type){
-        if (thumbCache[type]) return thumbCache[type];
-        if (!thumbRenderer){
-          thumbRenderer = new THREE.WebGLRenderer({ antialias:true, alpha:true, preserveDrawingBuffer:true });
-          thumbRenderer.setSize(96, 96);
-          thumbScene = new THREE.Scene();
-          thumbScene.add(new THREE.AmbientLight(0xffffff, 0.85));
-          var dl = new THREE.DirectionalLight(0xffffff, 0.9); dl.position.set(1, 2, 3); thumbScene.add(dl);
-          var dl2 = new THREE.DirectionalLight(0xffffff, 0.35); dl2.position.set(-2, 1, -1); thumbScene.add(dl2);
-          thumbCam = new THREE.PerspectiveCamera(38, 1, 0.1, 20);
-        }
-        var obj = makeFreeItem(type, 0, FREE_COLORS[type], type === "letter" ? "A" : null);
-        thumbScene.add(obj);
-        var bb = new THREE.Box3().setFromObject(obj);
-        var c = bb.getCenter(new THREE.Vector3()), sz = bb.getSize(new THREE.Vector3());
-        var m = Math.max(sz.x, sz.y, sz.z);
-        thumbCam.position.set(c.x, c.y + m * 0.25, c.z + m * 2.4);
-        thumbCam.lookAt(c.x, c.y, c.z);
-        thumbRenderer.render(thumbScene, thumbCam);
-        var url = thumbRenderer.domElement.toDataURL("image/png");
-        thumbScene.remove(obj);
-        thumbCache[type] = url;
-        return url;
-      }
-      /* app-style: the group's items float beside the cake on the stage */
-      var curDecoCat = 0;
-      function buildStageDeco(filter){
-        var box = $("#stageDeco"); box.innerHTML = "";
-        var q = (filter || "").trim();
-        DECO_CATS[curDecoCat].items.forEach(function(k){
-          if (q && FREE_TYPES[k].indexOf(q) === -1) return;
-          var b = document.createElement("button");
-          b.className = "deco-chip"; b.dataset.ftype = k; b.setAttribute("aria-label", FREE_TYPES[k]); b.innerHTML = '<img src="' + getThumb(k) + '" alt="">';
-          b.setAttribute("aria-pressed", k === freeType ? "true" : "false");
-          b.addEventListener("click", function(){
-            freeType = k;
-            var lr = $("#letterRow"); if (lr) lr.hidden = (k !== "letter");
-            $$("#stageDeco .deco-chip").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
-            setPlaceMode(true);
-          });
-          b.addEventListener("pointerdown", function(e){ startItemDrag(e, k); });
-          box.appendChild(b);
-        });
-      }
-      buildStageDeco();
-      $$("#decoGroupSeg button").forEach(function(b){
-        b.addEventListener("click", function(){
-          curDecoCat = +b.dataset.dgroup;
-          $$("#decoGroupSeg button").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
-          var lr2 = $("#letterRow"); if (lr2) lr2.hidden = (freeType !== "letter");
-          buildStageDeco($("#panelSearch").value);
-        });
-      });
-      $("#panelSearch").addEventListener("input", function(e){
-        var q = e.target.value;
-        if (q.trim() && document.querySelector('.tab[data-tab="deco"]').getAttribute("aria-selected") !== "true"){ activateTab("deco"); }
-        buildStageDeco(q);
-      });
-      /* drag an item from the list straight onto the cake (like the app) */
-      function startItemDrag(e, type){
-        var sx = e.clientX, sy = e.clientY, ghost = null;
-        function onMove(ev){
-          if (!ghost && Math.hypot(ev.clientX - sx, ev.clientY - sy) > 8){
-            ghost = document.createElement("div");
-            ghost.className = "drag-ghost"; ghost.textContent = FREE_TYPES[type];
-            document.body.appendChild(ghost);
-          }
-          if (ghost){ ghost.style.left = ev.clientX + "px"; ghost.style.top = ev.clientY + "px"; }
-        }
-        function onUp(ev){
-          window.removeEventListener("pointermove", onMove);
-          window.removeEventListener("pointerup", onUp);
-          if (ghost){
-            ghost.remove();
-            var r = renderer.domElement.getBoundingClientRect();
-            if (ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom && drawMesh){
-              setRay(ev);
-              var hit = ray.intersectObject(drawMesh);
-              if (hit.length){
-                var ix = addFree(type, hit[0].point.x, hit[0].point.z, freeSizeCm);
-                if (ix >= 0){ selectedFree = ix; buildCake(); freeInfoUpdate(); }
-              }
-            }
-          }
-        }
-        window.addEventListener("pointermove", onMove);
-        window.addEventListener("pointerup", onUp);
-      }
-      $("#freeColor").addEventListener("input", function(e){
-        freeColor = e.target.value;
-        $("#freeColorHex").textContent = freeColor;
-        if (selectedFree >= 0 && state.free[selectedFree] && {rose:1, flower:1, ball:1, bow:1, macaron:1, butterfly:1, balloon:1}[state.free[selectedFree].type]){
-          state.free[selectedFree].color = freeColor;
-          buildCake(); freeInfoUpdate();
-        }
-      });
-      function setPlaceMode(on){
-        placeMode = on;
-        controls.enabled = !on;
-        $("#btnPlaceMode").setAttribute("aria-pressed", on ? "true" : "false");
-        $("#btnPlaceMode").textContent = on ? "إيقاف وضع الحط" : "تفعيل وضع الحط";
-      }
-      $("#btnPlaceMode").addEventListener("click", function(){ setPlaceMode(!placeMode); });
-      $("#btnItemRotate").addEventListener("click", function(){
-        if (selectedFree < 0 || !state.free[selectedFree]) return;
-        state.free[selectedFree].rot = (state.free[selectedFree].rot || 0) + Math.PI / 4;
-        buildCake();
-      });
-      $("#btnItemDup").addEventListener("click", function(){
-        if (selectedFree < 0 || !state.free[selectedFree]) return;
-        var it = state.free[selectedFree];
-        var ix = addFree(it.type, it.x + 1, it.z + 1, it.sizeCm);
-        if (ix >= 0){ state.free[ix].color = it.color; state.free[ix].rot = it.rot; state.free[ix].ch = it.ch; selectedFree = ix; buildCake(); freeInfoUpdate(); }
-      });
-      $("#btnItemDel").addEventListener("click", function(){
-        if (selectedFree < 0 || !state.free[selectedFree]){ toast("اختار زواق حر قبل ما تمسحو"); return; }
-        state.free.splice(selectedFree, 1); selectedFree = -1;
-        buildCake(); freeInfoUpdate(); toast("تمسح الزواق المختار");
-      });
-      $("#btnDeleteFree").addEventListener("click", function(){
-        if (selectedFree < 0 || !state.free[selectedFree]){ toast("اختار زواق حر قبل ما تمسحو"); return; }
-        state.free.splice(selectedFree, 1); selectedFree = -1;
-        buildCake(); freeInfoUpdate(); toast("تمسح الزواق المختار");
-      });
-      $("#btnClearFree").addEventListener("click", function(){
-        state.free = []; selectedFree = -1; buildCake(); freeInfoUpdate(); toast("تمسح الزواق الحر كامل");
-      });
-      $("#letterChar").addEventListener("input", function(e){
-        var v = (e.target.value || "").replace(/[^A-Za-zÀ-ÿ]/g, "");
-        letterChar = v.slice(-1) || "A";
-        e.target.value = letterChar;
-      });
-      $("#freeSize").addEventListener("input", function(e){
-        freeSizeCm = +e.target.value;
-        $("#freeSizeVal").textContent = freeSizeCm + " سم";
-        if (selectedFree >= 0 && state.free[selectedFree]){
-          state.free[selectedFree].sizeCm = freeSizeCm;
-          buildCake(); freeInfoUpdate();
-        }
-      });
-
-      /* ============ Themes (مناسبات جاهزة) ============ */
-      function applyTheme(kind){
-        state.free = []; selectedFree = -1;
-        var ti = state.tiers.length - 1, r = tierR(ti);
-        function put(type, fx, fz, sizeCm){
-          var x = fx * r, z = fz * r;
-          if (inTop(ti, x, z)) addFree(type, x, z, sizeCm);
-        }
-        if (kind === "wedding"){
-          put("bride", 0, 0, 7);
-          put("rose", -0.5, 0.25, 4); put("rose", 0.5, 0.25, 4);
-          put("ball", -0.45, -0.3, 3); put("ball", 0.45, -0.3, 3);
-          state.text = ""; $("#cakeText").value = ""; renderTextTexture();
-          toast("تحطت مناسبة العرس");
-        } else {
-          put("candle", 0, -0.15, 6);
-          put("balloon", -0.5, 0.3, 6); put("balloon", 0.5, 0.3, 6);
-          put("star", 0, 0.45, 4);
-          state.text = "Happy Birthday"; state.textStyle = "gold";
-          $("#cakeText").value = "Happy Birthday";
-          syncSeg($("#textStyleSeg"), "gold", "tstyle");
-          renderTextTexture();
-          toast("تحطت مناسبة عيد الميلاد");
-        }
-        buildCake(); freeInfoUpdate();
-      }
-      $("#btnThemeWedding").addEventListener("click", function(){ applyTheme("wedding"); });
-      $("#btnThemeBirthday").addEventListener("click", function(){ applyTheme("birthday"); });
-
-      /* ============ Draw UI ============ */
-      var BRUSHES = ["#6b4232", "#c23b4e", "#e88ca0", "#2e2a24", "#ffffff", "#c9973f", "#5f7d4c", "#4f9dd8"];
-      var bcEl = $("#brushColors");
-      BRUSHES.forEach(function(c, i){
-        var b = document.createElement("button");
-        b.className = "brush-sw"; b.style.background = c;
-        b.setAttribute("aria-label", "لون " + c);
-        b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
-        b.addEventListener("click", function(){
-          brushColor = c; $("#brushPicker").value = c;
-          $$("#brushColors .brush-sw").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
-        });
-        bcEl.appendChild(b);
-      });
-      $("#brushPicker").addEventListener("input", function(e){ brushColor = e.target.value; });
-      $("#brushSize").addEventListener("input", function(e){ brushSize = +e.target.value; });
-      function setDrawMode(on){
-        drawMode = on;
-        controls.enabled = !on;
-        $("#btnDrawMode").setAttribute("aria-pressed", on ? "true" : "false");
-        $("#btnDrawMode").textContent = on ? "إيقاف وضع الرسم" : "تفعيل وضع الرسم";
-        if (on) toast("وضع الرسم مفعّل — ارسم فوق الكيكة");
-      }
-      $("#btnDrawMode").addEventListener("click", function(){ setDrawMode(!drawMode); });
-      $("#btnUndoDraw").addEventListener("click", function(){
-        var img = undoStack.pop(); if (!img) return;
-        drawCanvas.getContext("2d").putImageData(img, 0, 0);
-        if (drawTex) drawTex.needsUpdate = true;
-      });
-      $("#btnClearDraw").addEventListener("click", function(){
-        pushUndo();
-        drawCanvas.getContext("2d").clearRect(0, 0, 1024, 1024);
-        if (drawTex) drawTex.needsUpdate = true;
-      });
-
-      /* ============ Text UI ============ */
-      segWire("textStyleSeg", "tstyle", function(v){ state.textStyle = v; renderTextTexture(); });
-      $("#btnApplyText").addEventListener("click", function(){
-        state.text = $("#cakeText").value.trim();
-        renderTextTexture();
-        if (state.text) toast("تزادت الكتابة فوق الكيكة");
-      });
-      $("#btnClearText").addEventListener("click", function(){
-        state.text = ""; $("#cakeText").value = ""; renderTextTexture();
-      });
-
       /* ============ Bake mode ============ */
       var flavor = "vanilla";
       var filling = "butter", servings = "10-12", sweetness = "normal", allergies = [], customerNotes = "";
@@ -2541,37 +2049,15 @@
 
       function syncAllUI(){
         syncTierEditor();
-        syncSeg($("#pipingSeg"), state.piping, "piping");
-        syncSeg($("#textStyleSeg"), state.textStyle, "tstyle");
-        $$("#finishChips .chip").forEach(function(ch){ ch.setAttribute("aria-pressed", state.finishes[ch.dataset.finish] ? "true" : "false"); });
-        refreshColorUI();
       }
 
       /* ============ Actions ============ */
-      $("#btnRandom").addEventListener("click", function(){
-        var ri = function(n){ return Math.floor(Math.random()*n); };
-        var shapes = ["round","round","round","square","heart","hex","oval","star"];
-        var texs = ["butter","butter","fondant","combed","rustic","marble"];
-        var nt = 1 + ri(4), tiers = [], dia = 22 + ri(8);
-        for (var i = 0; i < nt; i++){ tiers.push(mkTier(shapes[ri(shapes.length)], dia, 9 + ri(4), CREAMS[ri(CREAMS.length)].c, texs[ri(texs.length)])); dia = Math.max(13, dia - 4 - ri(3)); }
-        state.tiers = tiers; state.selTier = 0;
-        Object.keys(state.deco).forEach(function(k){ state.deco[k] = false; });
-        state.piping = ["shell","rosette","ruffle","none"][ri(4)];
-        state.free = [];
-        var ft = ["rose","flower","ball","strawberry","macaron","cherry"][ri(6)];
-        var pts = patternPositions(["ring","spiral","scatter","wreath"][ri(4)], 8 + ri(10), 0.55 + Math.random()*0.35);
-        var ti2 = tiers.length - 1;
-        pts.forEach(function(p){ if (inTop(ti2, p[0], p[1])) state.free.push({ type:ft, x:p[0], z:p[1], sizeCm:3 + Math.random()*2.5, rot:Math.random()*3 }); });
-        selectedFree = -1;
-        syncAllUI(); buildCake(); freeInfoUpdate();
-        toast("تصميم جديد عشوائي");
-      });
+
       $("#btnReset").addEventListener("click", function(){
         state = JSON.parse(JSON.stringify(DEFAULTS));
         selectedFree = -1;
-        $("#cakeText").value = "";
         drawCanvas.getContext("2d").clearRect(0, 0, 1024, 1024);
-        syncAllUI(); buildEnvironment(); buildCake(); freeInfoUpdate();
+        syncAllUI(); buildEnvironment(); buildCake();
         toast("رجعنا للتصميم الأول");
       });
       $("#btnSpin").addEventListener("click", function(){
@@ -2614,14 +2100,6 @@
         lines.push("— Design : " + state.tiers.length + " étage(s) — " + tiersTxt);
         var decoOn = DECOS.filter(function(x){ return state.deco[x.id]; }).map(function(x){ return DE[x.id] || x.id; });
         if (decoOn.length) lines.push("— Décor : " + decoOn.join(", "));
-        if (state.free && state.free.length){
-          var FT = {rose:"Rose", flower:"Fleur", babys:"Gypsophile", ball:"Perle", bow:"Nœud", strawberry:"Fraise", blueberry:"Myrtille", macaron:"Macaron", cherry:"Cerise", candle:"Bougie", balloon:"Ballon", bride:"Mariés", teddy:"Ourson", bunny:"Lapin", butterfly:"Papillon", heart:"Cœur", star:"Étoile", crown:"Couronne", donut:"Donut", popsicle:"Glace", cookie:"Cookie", meringue:"Meringue", pineapple:"Ananas", dove:"Colombe", gradcap:"Chapeau", lipstick:"Rouge à lèvres", hb:"Happy Birthday", love:"Love", xmas:"Merry Christmas", n0:"0", n1:"1", n2:"2", n3:"3", n4:"4", n5:"5", n6:"6", n7:"7", n8:"8", n9:"9", amp:"&", excl:"!"};
-          var TINT = {rose:1, flower:1, ball:1, bow:1, macaron:1, butterfly:1, balloon:1};
-          var freeTxt = state.free.map(function(it){ var nm = it.type === "letter" ? ("Lettre " + (it.ch || "A")) : (FT[it.type] || it.type); return nm + (TINT[it.type] && it.color ? " " + it.color : ""); }).join(", ");
-          lines.push("— Décor libre : " + state.free.length + " élément(s) — " + freeTxt);
-        }
-        var txt = ($("#cakeText").value || "").trim();
-        if (txt) lines.push("— Texte sur le gâteau : « " + txt + " » (" + (state.textStyle === "pearl" ? "perles" : state.textStyle === "gold" ? "doré" : "chocolat") + ")");
         if (customerNotes.trim()) lines.push("— Notes : " + customerNotes.trim());
         lines.push("Merci !");
         return lines.join("\n");
@@ -2686,7 +2164,6 @@
       buildEnvironment();
       syncAllUI();
       buildCake();
-      freeInfoUpdate();
       resize();
       animate();
       setTimeout(resize, 60);
