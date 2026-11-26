@@ -1278,7 +1278,10 @@
         else if (type === "star") g = makeStarTopper();
         else if (type === "crown") g = makeCrown();
         else g = makeCherry();
-        return g;
+        /* v9.1: wrap so the placement scale multiplies (not replaces) the
+           maker's own normalisation scale (figurines/toppers would otherwise
+           render at full local size and tower over the cake) */
+        var outer = new THREE.Group(); outer.add(g); return outer;
       }
 
       /* ============ Stand ============ */
